@@ -16,6 +16,8 @@ public class RPlayer {
 	
 	private boolean isKing;
 	
+	private int points;
+	
 	public RPlayer(UUID Player) {
 		
 	}

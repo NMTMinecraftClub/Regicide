@@ -251,4 +251,12 @@ public class RegicideGame {
 		return players.get(player);
 	}
 	
+	public void scorePoint() {
+		//TODO
+	}
+	
+	public void endGame() {
+		//TODO
+	}
+	
 }
