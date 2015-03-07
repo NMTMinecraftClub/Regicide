@@ -26,8 +26,12 @@ public class RPlayer {
 		World world = player.getWorld();
 		Location location = player.getLocation();
 		villager = (LivingEntity) world.spawnEntity(location,EntityType.VILLAGER);
+		//TODO: Find some way to make the villager invisible to the player
 	}
 	
+	public void syncVillager(){
+		villager.teleport(player.getLocation());
+	}
 	
 }
 
