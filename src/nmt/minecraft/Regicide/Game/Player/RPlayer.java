@@ -18,6 +18,11 @@ public class RPlayer {
 		
 	}
 	
+	public void teleport(Location loc) {
+		player.teleport(loc);
+		villager.teleport(loc);
+	}
+	
 	public Player getPlayer() {
 		return this.player;
 	}
