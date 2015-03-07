@@ -198,8 +198,8 @@ public class RegicideGame {
 	private void makePlayersInvisible(){
 		for(RPlayer player : players.values()){
 			Player tmp = player.getPlayer();
-			for (RPlayer players : players.values()) {
-			    players.getPlayer().hidePlayer(tmp);
+			for (RPlayer bob : players.values()) {
+			    bob.getPlayer().hidePlayer(tmp);
 			}
 		}
 	}
@@ -210,8 +210,8 @@ public class RegicideGame {
 	private void makePlayersVisable(){
 		for(RPlayer player : players.values()){
 			Player tmp = player.getPlayer();
-			for (RPlayer players : players.values()) {
-			    players.getPlayer().showPlayer(tmp);
+			for (RPlayer bob : players.values()) {
+			    bob.getPlayer().showPlayer(tmp);
 			}
 		}
 	}

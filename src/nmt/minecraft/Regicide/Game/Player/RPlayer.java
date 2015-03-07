@@ -29,10 +29,21 @@ public class RPlayer {
 		return this.player;
 	}
 	
+	/**
+	 * Spawns a villager at the player's position
+	 */
 	private void spawnVillager(){
 		World world = player.getWorld();
 		Location location = player.getLocation();
 		villager = (LivingEntity) world.spawnEntity(location,EntityType.VILLAGER);
+		//TODO: Find some way to make the villager invisible to the player
+	}
+	
+	/**
+	 * moves the villager to sync with the controlling player
+	 */
+	public void syncVillager(){
+		villager.teleport(player.getLocation());
 	}
 	
 	public void setIsKing(boolean isKing) {
