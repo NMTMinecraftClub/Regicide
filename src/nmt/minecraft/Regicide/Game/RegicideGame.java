@@ -1,6 +1,7 @@
 package nmt.minecraft.Regicide.Game;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -42,6 +43,16 @@ public class RegicideGame {
 	 */
 	private Location lobbyLocation;
 	
+	
+	/**
+	 * Create a blank regicide game.
+	 */
+	public RegicideGame() {
+		this.isRunning = false;
+		players = new HashMap<UUID, RPlayer>();
+		spawnLocations = new LinkedList<Location>();
+		lobbyLocation = null;
+	}
 	
 	
 	
