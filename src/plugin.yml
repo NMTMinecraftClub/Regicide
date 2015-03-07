@@ -1,0 +1,14 @@
+name: Regicide Game 
+main: nmt.minecraft.Regicide.RegicidePlugin
+version: 0.65
+softdepend: 
+permissions:
+    RegicideAdmin:
+        default: op
+    RegicidePlayer:
+        default: true
+commands:
+    lteams:
+        permission: RegicidePlayer
+        usage: /lteams <session>
+        description: lists the teams in the specified session. If no session is passed, it returns all teams in all sessions
