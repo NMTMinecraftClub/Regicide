@@ -14,6 +14,8 @@ public class RPlayer {
 	
 	private LivingEntity villager;
 	
+	private boolean isKing;
+	
 	public RPlayer(UUID Player) {
 		
 	}
