@@ -123,12 +123,36 @@ public class RegicideGame {
 		players.put(player, new RPlayer(player));
 	}
 	
+	/**
+	 * Makes all the players invisible
+	 */
+	private void makePlayersInvisible(){
+		for(RPlayer player : players.values()){
+			Player tmp = player.getPlayer();
+			for (RPlayer players : players.values()) {
+			    players.getPlayer().hidePlayer(tmp);
+			}
+		}
+	}
+	
+	/**
+	 * Makes all the players visable
+	 */
+	private void makePlayersVisable(){
+		for(RPlayer player : players.values()){
+			Player tmp = player.getPlayer();
+			for (RPlayer players : players.values()) {
+			    players.getPlayer().showPlayer(tmp);
+			}
+		}
+	}
+	
 	public boolean removePlayer(Player player) {
 		return removePlayer(player.getUniqueId());
 	}
 	
 	/**
-	 * Attempts to remove the passed player and retursn whether successfull
+	 * Attempts to remove the passed player and return whether successfull
 	 * @param player
 	 * @return
 	 */
