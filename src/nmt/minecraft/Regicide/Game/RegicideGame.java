@@ -110,16 +110,27 @@ public class RegicideGame {
 		players.put(player, new RPlayer(player));
 	}
 	
-	private void makePlayerInvisable(UUID player){
-		RPlayer tmp = this.players.get(player);
-		for (RPlayer players : players.values()) {
-		    RPlayer.hidePlayer(tmp);
+	/**
+	 * Makes all the players invisible
+	 */
+	private void makePlayersInvisible(){
+		for(RPlayer player : players.values()){
+			Player tmp = player.getPlayer();
+			for (RPlayer players : players.values()) {
+			    players.getPlayer().hidePlayer(tmp);
+			}
 		}
 	}
-	private void makePlayerVisable(UUID player){
-		RPlayer tmp = this.players.get(player);
-		for (RPlayer players : players.values()) {
-		    RPlayer.showPlayer(tmp);
+	
+	/**
+	 * Makes all the players visable
+	 */
+	private void makePlayersVisable(){
+		for(RPlayer player : players.values()){
+			Player tmp = player.getPlayer();
+			for (RPlayer players : players.values()) {
+			    players.getPlayer().showPlayer(tmp);
+			}
 		}
 	}
 	
@@ -128,7 +139,7 @@ public class RegicideGame {
 	}
 	
 	/**
-	 * Attempts to remove the passed player and retursn whether successfull
+	 * Attempts to remove the passed player and return whether successfull
 	 * @param player
 	 * @return
 	 */
