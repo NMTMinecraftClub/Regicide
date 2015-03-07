@@ -54,8 +54,21 @@ public class RegicideGame {
 		lobbyLocation = null;
 	}
 	
+	public void setLobbyLocation(Location loc) {
+		this.lobbyLocation = loc;
+	}
 	
+	public void addSpawnLocation(Location spawnLocation) {
+		this.spawnLocations.add(spawnLocation);
+	}
 	
+	/**
+	 * Return a list of involved RPlayers
+	 * @return
+	 */
+	public List<RPlayer> getPlayers() {
+		return new LinkedList<RPlayer>(players.values());
+	}
 	
 	/**
 	 * picks a RANDOM spawn location from the current list of spawn locations.
