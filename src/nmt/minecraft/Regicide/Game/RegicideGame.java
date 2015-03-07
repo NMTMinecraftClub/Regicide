@@ -38,6 +38,15 @@ public class RegicideGame {
 	private boolean isRunning;
 	
 	/**
+	 * Each game has a lobby. This is the spawning location for this games lobby
+	 */
+	private Location lobbyLocation;
+	
+	
+	
+	
+	
+	/**
 	 * picks a RANDOM spawn location from the current list of spawn locations.
 	 * @return A random spawn location
 	 */
@@ -52,6 +61,10 @@ public class RegicideGame {
 		return spawnLocations.get(rando);
 	}
 	
+	/**
+	 * Simply returns the whole list of spawn locatiosn associated with this game instance
+	 * @return The list of spawn locations
+	 */
 	public List<Location> getSpawnLocations() {
 		return this.spawnLocations;
 	}
@@ -64,10 +77,18 @@ public class RegicideGame {
 		return this.isRunning;
 	}
 	
+	/**
+	 * Adds the passed {@link org.bukkit.Player.Player Player} passed to the game as an active participant
+	 * @param player
+	 */
 	public void addPlayer(Player player) {
 		addPlayer(player.getUniqueId());
 	}
 	
+	/**
+	 * Adds the player to the game as an active participant
+	 * @param player
+	 */
 	public void addPlayer(UUID player) {
 		
 		players.put(player, new RPlayer(player));
