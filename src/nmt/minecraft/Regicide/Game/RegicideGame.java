@@ -1,6 +1,7 @@
 package nmt.minecraft.Regicide.Game;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -31,9 +32,9 @@ public class RegicideGame {
 	private List<Location> spawnLocations;
 	
 	/**
-	 * Is this game running? findout by querying the isRunning variable!<br /.
+	 * Is this game running? find out by querying the isRunning variable!<br /.
 	 * A running game is one that is open to players joining -- it hasn't started yet.<br />
-	 * TODO includle option for players to join after a match has started?
+	 * TODO include option for players to join after a match has started?
 	 */
 	private boolean isRunning;
 	
@@ -42,6 +43,16 @@ public class RegicideGame {
 	 */
 	private Location lobbyLocation;
 	
+	
+	/**
+	 * Create a blank regicide game.
+	 */
+	public RegicideGame() {
+		this.isRunning = false;
+		players = new HashMap<UUID, RPlayer>();
+		spawnLocations = new LinkedList<Location>();
+		lobbyLocation = null;
+	}
 	
 	
 	
@@ -69,6 +80,11 @@ public class RegicideGame {
 		return this.spawnLocations;
 	}
 	
+	
+	public Location getLobbyLocation() {
+		return this.lobbyLocation;
+	}
+	
 	/**
 	 * Returns whether or not this regicide game is currently running, or is open for players to join
 	 * @return whether it is running.
@@ -90,7 +106,7 @@ public class RegicideGame {
 	 * @param player
 	 */
 	public void addPlayer(UUID player) {
-		
+		//TODO add check against already existing player
 		players.put(player, new RPlayer(player));
 	}
 	
@@ -106,4 +122,40 @@ public class RegicideGame {
 		    RPlayer.showPlayer(tmp);
 		}
 	}
+	
+	public boolean removePlayer(Player player) {
+		return removePlayer(player.getUniqueId());
+	}
+	
+	/**
+	 * Attempts to remove the passed player and retursn whether successfull
+	 * @param player
+	 * @return
+	 */
+	public boolean removePlayer(UUID player) {
+		return removePlayer(getPlayer(player));
+	}
+	
+	public boolean removePlayer(RPlayer player) {
+		return (players.remove(player) != null);
+	}
+	
+	/**
+	 * Looks up the player in cache and returns the associated RPlayer
+	 * @param player
+	 * @return
+	 */
+	public RPlayer getPlayer(Player player) {
+		return getPlayer(player.getUniqueId());
+	}
+	
+	/**
+	 * Looks up the player and returns the corresponding RPlayer
+	 * @param player
+	 * @return
+	 */
+	public RPlayer getPlayer(UUID player) {
+		return players.get(player);
+	}
+	
 }
