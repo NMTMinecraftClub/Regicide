@@ -14,6 +14,8 @@ public class RPlayer {
 	
 	private LivingEntity villager;
 	
+	private boolean isKing;
+	
 	public RPlayer(UUID Player) {
 		
 	}
@@ -36,6 +38,9 @@ public class RPlayer {
 	
 	public void syncVillager(){
 		villager.teleport(player.getLocation());
+	}
+		public void setIsKing(boolean isKing) {
+		this.isKing = isKing;
 	}
 	
 }

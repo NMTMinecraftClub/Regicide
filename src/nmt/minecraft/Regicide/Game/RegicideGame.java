@@ -70,6 +70,40 @@ public class RegicideGame {
 		this.spawnLocations.add(spawnLocation);
 	}
 	
+	
+	public void startGame() {
+		if (isRunning) {
+			return;
+			//can't start a game that's already running
+		}
+		
+		isRunning = true;
+		
+		//make players invis 
+		makePlayersInvisible();
+		
+		//get all players and teleport them to a spawn location
+		for (RPlayer player : players.values()) {
+			player.teleport(getSpawnLocation());
+		}
+		
+		int kingIndex;
+		Random rand = new Random();;
+		kingIndex = rand.nextInt(players.size());
+		
+		new LinkedList<RPlayer>(players.values()).get(kingIndex).setIsKing(true);
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Removes all added spawn locations and works with none.
 	 */
