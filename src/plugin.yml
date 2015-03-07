@@ -8,7 +8,7 @@ permissions:
     RegicidePlayer:
         default: true
 commands:
-    lteams:
-        permission: RegicidePlayer
-        usage: /lteams <session>
-        description: lists the teams in the specified session. If no session is passed, it returns all teams in all sessions
+    regicide:
+        permission: RegicideAdmin
+        usage: /regicide <Command> <Args>
+        description: This command is used to interact with the various commands within Regicide.

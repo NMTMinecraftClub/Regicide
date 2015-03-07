@@ -25,12 +25,13 @@ public class ButtonListener{
 	}
 	
 	/**
-	 * If the registered button is pressed
-	 * @param e
+	 * If the registered button is pressed, throw event.
+	 * @param e The Interact event.
 	 */
 	@EventHandler
 	public void blockActivated(PlayerInteractEvent e) {
 		if (e.getClickedBlock().getLocation() == buttonLocation) {
+			//Throw event
 			Bukkit.getPluginManager().callEvent(new PlayerJoinRegicide(e.getPlayer(), this.gameInstance));
 		}
 	
