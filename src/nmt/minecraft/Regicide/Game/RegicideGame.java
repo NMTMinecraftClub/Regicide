@@ -94,4 +94,16 @@ public class RegicideGame {
 		players.put(player, new RPlayer(player));
 	}
 	
+	private void makePlayerInvisable(UUID player){
+		RPlayer tmp = this.players.get(player);
+		for (RPlayer players : players.values()) {
+		    RPlayer.hidePlayer(tmp);
+		}
+	}
+	private void makePlayerVisable(UUID player){
+		RPlayer tmp = this.players.get(player);
+		for (RPlayer players : players.values()) {
+		    RPlayer.showPlayer(tmp);
+		}
+	}
 }
