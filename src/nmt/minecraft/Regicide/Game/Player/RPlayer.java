@@ -35,6 +35,9 @@ public class RPlayer {
 		villager = (LivingEntity) world.spawnEntity(location,EntityType.VILLAGER);
 	}
 	
+	public void setIsKing(boolean isKing) {
+		this.isKing = isKing;
+	}
 	
 }
 
