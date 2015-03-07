@@ -43,11 +43,17 @@ public class RegicideGame {
 	 */
 	private Location lobbyLocation;
 	
+	/**
+	 * Name of the match
+	 */
+	private String name;
+	
 	
 	/**
 	 * Create a blank regicide game.
 	 */
-	public RegicideGame() {
+	public RegicideGame(String name) {
+		this.name = name;
 		this.isRunning = false;
 		players = new HashMap<UUID, RPlayer>();
 		spawnLocations = new LinkedList<Location>();
@@ -96,7 +102,9 @@ public class RegicideGame {
 		
 	}
 	
-	
+	public String getName() {
+		return name;
+	}
 	
 	
 	
@@ -177,7 +185,10 @@ public class RegicideGame {
 	 * @param player
 	 */
 	public void addPlayer(UUID player) {
-		//TODO add check against already existing player
+		if (players.containsKey(player)) {
+			return;
+		}
+		
 		players.put(player, new RPlayer(player));
 	}
 	
