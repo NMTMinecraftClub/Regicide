@@ -19,7 +19,8 @@ public class RPlayer {
 	private int points;
 	
 	public RPlayer(UUID Player) {
-		
+		points = 0;
+		isKing = false;
 	}
 	
 	public void teleport(Location loc) {
@@ -50,6 +51,14 @@ public class RPlayer {
 	
 	public void setIsKing(boolean isKing) {
 		this.isKing = isKing;
+	}
+	
+	public void addPoint() {
+		this.points++;
+	}
+	
+	public int getPoints() {
+		return this.points;
 	}
 	
 }
