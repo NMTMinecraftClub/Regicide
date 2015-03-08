@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
@@ -92,6 +93,10 @@ public class RegicideGame {
 		if (isRunning) {
 			return;
 			//can't start a game that's already running
+		}
+		if (players.size() <= 0) {
+			RegicidePlugin.regicidePlugin.getLogger().severe("Unable to start game because there are no registered players!");
+			return;
 		}
 		
 		isRunning = true;
