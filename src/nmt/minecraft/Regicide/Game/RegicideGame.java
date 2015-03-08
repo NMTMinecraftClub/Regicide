@@ -259,7 +259,7 @@ public class RegicideGame {
 	 * Score a point for the current king
 	 */
 	public void scorePoint() {
-		//TODO
+		king.addPoint();
 	}
 	
 	public void endGame() {
