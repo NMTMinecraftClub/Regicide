@@ -109,6 +109,10 @@ public class RegicideGame implements Listener{
 			return;
 			//can't start a game that's already running
 		}
+		if (players.size() <= 0) {
+			RegicidePlugin.regicidePlugin.getLogger().severe("Unable to start game because there are no registered players!");
+			return;
+		}
 		
 		isRunning = true;
 		
