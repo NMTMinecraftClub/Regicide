@@ -101,11 +101,6 @@ public class RegicideCommands implements CommandExecutor{
 	}
 	
 	public boolean setSpawn(CommandSender sender, String[] args) {
-		if (args.length < 2) {
-			sender.sendMessage("Please supply the name of the instance to add this spawn point to!");
-			return false;
-		}
-		
 		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
 		
 		for (RegicideGame game : games) {
@@ -121,5 +116,28 @@ public class RegicideCommands implements CommandExecutor{
 		
 		sender.sendMessage("Unable to locate instance: " + args[1]);		
 		return true;
+	}
+	
+	public boolean setLobby(CommandSender sender, String[] args) {
+		if (args.length < 2) {
+			sender.sendMessage("Please supply the name of the instance to add this spawn point to!");
+			return false;
+		}
+		
+
+		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
+			if (game.getName().equalsIgnoreCase(args[1])) {
+				//do the stuff
+				Location loc = ((Player) sender).getLocation();
+				game.setLobbyLocation(loc);
+				
+				sender.sendMessage("Successfully registered starting position!");
+				return true;
+			}
+		}
+		
+		sender.sendMessage("Unable to locate instance: " + args[1]);		
+		return true;
+		
 	}
 }
