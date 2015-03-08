@@ -80,14 +80,14 @@ public class RegicideCommands implements CommandExecutor{
 		String gameName = args[1];
 		List<RegicideGame> Games = RegicidePlugin.regicidePlugin.getGames();
 		for (RegicideGame g : Games) {
-			if (g.getName() == gameName) {
+			if (g.getName().equals(gameName)) {
 				sender.sendMessage("Started Game Instance: " + g.getName());
 				g.startGame();
 				return true;
 			}
 		}
 		RegicidePlugin.regicidePlugin.getLogger().info("Warning! Could not find: \"" + gameName + "\" in registered games!");
-		sender.sendMessage("That game is not registered! Make sure you register with /regicide register <game name>");
+		sender.sendMessage("That game is not registered! Make sure you register with /regicide register <game name>g");
 		return true;
 	}
 }
