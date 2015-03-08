@@ -50,6 +50,10 @@ public class RegicideGame {
 	
 	private RPlayer king;
 	
+	private GameTimer timer;
+	
+	private long endTime = 600;
+	
 	
 	/**
 	 * Create a blank regicide game.
@@ -102,7 +106,7 @@ public class RegicideGame {
 		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
 		king.setIsKing(true);
 		
-		
+		timer = new GameTimer(this, endTime);
 		
 	}
 	
