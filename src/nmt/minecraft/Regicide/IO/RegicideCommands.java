@@ -136,7 +136,7 @@ public class RegicideCommands implements CommandExecutor{
 				Location loc = ((Player) sender).getLocation();
 				game.setLobbyLocation(loc);
 				
-				sender.sendMessage("Successfully registered starting position!");
+				sender.sendMessage("Successfully registered lobby position!");
 				return true;
 			}
 		}

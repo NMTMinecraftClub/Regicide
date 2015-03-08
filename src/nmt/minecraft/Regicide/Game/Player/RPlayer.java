@@ -2,6 +2,7 @@ package nmt.minecraft.Regicide.Game.Player;
 
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -18,9 +19,11 @@ public class RPlayer{
 	
 	private int points;
 	
-	public RPlayer(UUID Player) {
+	public RPlayer(UUID player) {
 		points = 0;
 		isKing = false;
+		this.player = Bukkit.getPlayer(player);
+		spawnVillager();
 	}
 	
 	public void teleport(Location loc) {
