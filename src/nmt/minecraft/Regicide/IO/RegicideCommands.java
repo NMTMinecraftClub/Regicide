@@ -35,7 +35,9 @@ public class RegicideCommands implements CommandExecutor{
 		//Start games
 		if (args[0] == "start") {
 			startGame(sender, args);
+			return true;
 		}
+		sender.sendMessage("Something went wrong...");
 		return false;
 	}
 	
@@ -67,6 +69,7 @@ public class RegicideCommands implements CommandExecutor{
 		Games.add(game);
 		//Register Button
 		new ButtonListener(((Player) sender).getLocation(), args[1]);
+		sender.sendMessage("Successfully registered game: " + args[1]);
 		return true;
 	}
 	
