@@ -83,8 +83,11 @@ public class RegicideCommands implements CommandExecutor{
 			if (g.getName() == gameName) {
 				sender.sendMessage("Started Game Instance: " + g.getName());
 				g.startGame();
+				return true;
 			}
 		}
+		RegicidePlugin.regicidePlugin.getLogger().info("Warning! Could not find: \"" + gameName + "\" in registered games!");
+		sender.sendMessage("That game is not registered! Make sure you register with /regicide register <game name>");
 		return true;
 	}
 }
