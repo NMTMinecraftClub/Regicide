@@ -29,6 +29,7 @@ public class RegicidePlugin extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		this.getLogger().info("Loading command listener..");
 		this.getCommand("regicide").setExecutor(new RegicideCommands());
 		RegicidePlugin.regicidePlugin = this;
 	}

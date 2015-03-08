@@ -28,12 +28,12 @@ public class RegicideCommands implements CommandExecutor{
 		}
 		//Sender must now be a player
 		//Register buttons/games
-		if (args[0] == "register") {
+		if (args[0].equalsIgnoreCase("register")) {
 			registerGame(sender, args);
 			return true;
 		}
 		//Start games
-		if (args[0] == "start") {
+		if (args[0].equalsIgnoreCase("start")) {
 			startGame(sender, args);
 			return true;
 		}
