@@ -38,5 +38,13 @@ public class RegicidePlugin extends JavaPlugin {
 		
 	}
 	
+	/**
+	 * Returns the list of games under the Regicide Plugin
+	 * @return The List
+	 */
+	public List<RegicideGame> getGames() {
+		return this.games;
+	}
+	
 	
 }
