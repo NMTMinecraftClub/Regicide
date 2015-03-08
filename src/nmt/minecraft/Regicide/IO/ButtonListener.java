@@ -1,8 +1,11 @@
 package nmt.minecraft.Regicide.IO;
 
+import nmt.minecraft.Regicide.RegicidePlugin;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 /**
@@ -11,7 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
  * @author William
  *
  */
-public class ButtonListener{
+public class ButtonListener implements Listener{
 	
 	private Location buttonLocation;
 	private String gameInstance;
@@ -22,6 +25,7 @@ public class ButtonListener{
 	public ButtonListener (Location buttonLocation, String gameInstance) {
 		this.buttonLocation = buttonLocation;
 		this.gameInstance = gameInstance;
+		RegicidePlugin.regicidePlugin.getLogger().info("Added ButtonListener at: " + buttonLocation.toString());
 	}
 	
 	/**
@@ -33,6 +37,7 @@ public class ButtonListener{
 		if (e.getClickedBlock().getLocation() == buttonLocation) {
 			//Throw event
 			Bukkit.getPluginManager().callEvent(new PlayerJoinRegicide(e.getPlayer(), this.gameInstance));
+			RegicidePlugin.regicidePlugin.getLogger().info("Player: " + e.getPlayer().getName() + " requesting registration...");
 		}
 	
 		
