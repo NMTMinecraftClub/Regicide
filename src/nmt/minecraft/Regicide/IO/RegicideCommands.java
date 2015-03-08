@@ -27,9 +27,14 @@ public class RegicideCommands implements CommandExecutor{
 			return false;
 		}
 		//Sender must now be a player
+		//Register buttons/games
 		if (label == "register") {
 			registerGame(sender, args);
 			return true;
+		}
+		//Start games
+		if (label == "start") {
+			startGame(sender, args);
 		}
 		return false;
 	}
