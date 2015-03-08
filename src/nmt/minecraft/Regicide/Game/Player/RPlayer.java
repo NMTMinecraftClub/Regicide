@@ -46,7 +46,9 @@ public class RPlayer{
 	 * moves the villager to sync with the controlling player
 	 */
 	public void syncVillager(){
-		villager.teleport(player.getLocation());
+		if(villager != null){
+			villager.teleport(player.getLocation());
+		}
 	}
 	
 	public void setIsKing(boolean isKing) {
