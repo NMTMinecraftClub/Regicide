@@ -84,6 +84,9 @@ public class RegicideGame implements Listener{
 	@EventHandler
 	public void PlayerMovementListner(PlayerMoveEvent event){
 		RPlayer player = players.get(event.getPlayer().getUniqueId());
+		if(player == null){
+			return;
+		}
 		player.syncVillager();
 	}
 	
