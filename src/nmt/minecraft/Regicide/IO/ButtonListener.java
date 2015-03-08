@@ -38,7 +38,11 @@ public class ButtonListener implements Listener{
 		if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			return;
 		}
-		if (e.getClickedBlock().getLocation() == buttonLocation) {
+		double XCor = e.getClickedBlock().getLocation().getX();
+		double YCor = e.getClickedBlock().getLocation().getY();
+		double ButtonXCor = Math.floor(this.buttonLocation.getX());
+		double ButtonYCor = Math.floor(this.buttonLocation.getY());
+		if (XCor == ButtonXCor && YCor == ButtonYCor) {
 			//Throw event
 			Bukkit.getPluginManager().callEvent(new PlayerJoinRegicide(e.getPlayer(), this.gameInstance));
 			RegicidePlugin.regicidePlugin.getLogger().info("Player: " + e.getPlayer().getName() + " requesting registration...");
