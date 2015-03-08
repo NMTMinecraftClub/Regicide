@@ -54,10 +54,27 @@ public class RegicideCommands implements CommandExecutor{
 			}
 		}
 		//Add new Game to lissssst
+		//@Debug
+		
 		RegicideGame game = new RegicideGame(args[0]);
 		Games.add(game);
 		//Register Button
 		new ButtonListener(((Player) sender).getLocation(), args[0]);
+		return true;
+	}
+	
+	public boolean startGame(CommandSender sender, String[] args) {
+		if (args.length > 2 || args.length == 0) {
+			return false;
+		}
+		String gameName = args[0];
+		List<RegicideGame> Games = RegicidePlugin.regicidePlugin.getGames();
+		for (RegicideGame g : Games) {
+			if (g.getName() == gameName) {
+				sender.sendMessage("Started Game Instance: " + g.getName());
+				g.startGame();
+			}
+		}
 		return true;
 	}
 }
