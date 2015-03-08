@@ -1,6 +1,9 @@
 package nmt.minecraft.Regicide;
 
-import nmt.minecraft.Regicide.IO.RegisterButton;
+import java.util.List;
+
+import nmt.minecraft.Regicide.Game.RegicideGame;
+import nmt.minecraft.Regicide.IO.RegicideCommands;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class RegicidePlugin extends JavaPlugin {
 	
+	private List<RegicideGame> games;
 	/**
 	 * Are we gonna have any config options? 
 	 */
@@ -24,7 +28,7 @@ public class RegicidePlugin extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		this.getCommand("regicide").setExecutor(new RegisterButton());
+		this.getCommand("regicide").setExecutor(new RegicideCommands());
 	}
 	
 	@Override
