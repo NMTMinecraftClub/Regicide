@@ -50,7 +50,7 @@ public class RegicideCommands implements CommandExecutor{
 	public boolean registerGame(CommandSender sender, String[] args) {
 		
 		if (args.length != 2) {
-			sender.sendMessage("Not the correct number of arguments: /regicide register <game name>");
+			sender.sendMessage("Not the correct number of arguments: /regicide register <game name>g");
 			return false;
 		}
 		List<RegicideGame> Games = RegicidePlugin.regicidePlugin.getGames();

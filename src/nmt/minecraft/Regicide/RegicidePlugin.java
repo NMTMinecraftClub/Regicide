@@ -1,5 +1,6 @@
 package nmt.minecraft.Regicide;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import nmt.minecraft.Regicide.Game.RegicideGame;
@@ -32,6 +33,8 @@ public class RegicidePlugin extends JavaPlugin {
 		this.getLogger().info("Loading command listener..");
 		this.getCommand("regicide").setExecutor(new RegicideCommands());
 		RegicidePlugin.regicidePlugin = this;
+		this.getLogger().info("Creating Empty Game list...");
+		this.games = new LinkedList<RegicideGame>();
 	}
 	
 	@Override
