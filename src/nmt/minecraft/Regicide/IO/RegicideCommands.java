@@ -56,15 +56,15 @@ public class RegicideCommands implements CommandExecutor{
 		List<RegicideGame> Games = RegicidePlugin.regicidePlugin.getGames();
 		//Check to see if a Game with the same name already exists
 		for (RegicideGame g : Games) {
-			if (g.getName() == args[1]) {
+			if (g.getName().equals(args[1])) {
 				//Alert User that a game with the same name already exists.
-				sender.sendMessage("Game with name: \"" + args[0] + "\" already exists!");
+				sender.sendMessage("Game with name: \"" + args[1] + "\" already exists!");
 				return false;
 			}
 		}
 		//Add new Game to lissssst
 		//@Debug
-		
+		RegicidePlugin.regicidePlugin.getLogger().info("Adding game: " + args[1]);
 		RegicideGame game = new RegicideGame(args[1]);
 		Games.add(game);
 		//Register Button
@@ -82,6 +82,7 @@ public class RegicideCommands implements CommandExecutor{
 		for (RegicideGame g : Games) {
 			if (g.getName().equals(gameName)) {
 				sender.sendMessage("Started Game Instance: " + g.getName());
+				RegicidePlugin.regicidePlugin.getLogger().info("Started Game: " + g.getName());
 				g.startGame();
 				return true;
 			}
