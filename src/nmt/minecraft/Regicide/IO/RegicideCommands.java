@@ -28,12 +28,12 @@ public class RegicideCommands implements CommandExecutor{
 		}
 		//Sender must now be a player
 		//Register buttons/games
-		if (label == "register") {
+		if (args[0] == "register") {
 			registerGame(sender, args);
 			return true;
 		}
 		//Start games
-		if (label == "start") {
+		if (args[0] == "start") {
 			startGame(sender, args);
 		}
 		return false;
@@ -46,13 +46,14 @@ public class RegicideCommands implements CommandExecutor{
 	 * @return True if the registration completed, false if otherwise.
 	 */
 	public boolean registerGame(CommandSender sender, String[] args) {
+		
 		if (args.length > 2 || args.length == 0) {
 			return false;
 		}
 		List<RegicideGame> Games = RegicidePlugin.regicidePlugin.getGames();
 		//Check to see if a Game with the same name already exists
 		for (RegicideGame g : Games) {
-			if (g.getName() == args[0]) {
+			if (g.getName() == args[1]) {
 				//Alert User that a game with the same name already exists.
 				sender.sendMessage("Game with name: \"" + args[0] + "\" already exists!");
 				return false;
@@ -61,10 +62,10 @@ public class RegicideCommands implements CommandExecutor{
 		//Add new Game to lissssst
 		//@Debug
 		
-		RegicideGame game = new RegicideGame(args[0]);
+		RegicideGame game = new RegicideGame(args[1]);
 		Games.add(game);
 		//Register Button
-		new ButtonListener(((Player) sender).getLocation(), args[0]);
+		new ButtonListener(((Player) sender).getLocation(), args[1]);
 		return true;
 	}
 	
@@ -72,7 +73,7 @@ public class RegicideCommands implements CommandExecutor{
 		if (args.length > 2 || args.length == 0) {
 			return false;
 		}
-		String gameName = args[0];
+		String gameName = args[1];
 		List<RegicideGame> Games = RegicidePlugin.regicidePlugin.getGames();
 		for (RegicideGame g : Games) {
 			if (g.getName() == gameName) {
