@@ -5,6 +5,7 @@ import java.util.List;
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
 
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,6 +36,11 @@ public class RegicideCommands implements CommandExecutor{
 		//Start games
 		if (args[0].equalsIgnoreCase("start")) {
 			startGame(sender, args);
+			return true;
+		}
+		
+		if (args[0].equalsIgnoreCase("setSpawn")) {
+			setSpawn(sender, args);
 			return true;
 		}
 		sender.sendMessage("Something went wrong...");
@@ -89,6 +95,29 @@ public class RegicideCommands implements CommandExecutor{
 		}
 		RegicidePlugin.regicidePlugin.getLogger().info("Warning! Could not find: \"" + gameName + "\" in registered games!");
 		sender.sendMessage("That game is not registered! Make sure you register with /regicide register <game name>g");
+		return true;
+	}
+	
+	public boolean setSpawn(CommandSender sender, String[] args) {
+		if (args.length < 2) {
+			sender.sendMessage("Please supply the name of the instance to add this spawn point to!");
+			return false;
+		}
+		
+		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
+		
+		for (RegicideGame game : games) {
+			if (game.getName().equalsIgnoreCase(args[1])) {
+				//do the stuff
+				Location loc = ((Player) sender).getLocation();
+				game.addSpawnLocation(loc);
+				
+				sender.sendMessage("Successfully registered starting position!");
+				return true;
+			}
+		}
+		
+		sender.sendMessage("Unable to locate instance: " + args[1]);		
 		return true;
 	}
 }
