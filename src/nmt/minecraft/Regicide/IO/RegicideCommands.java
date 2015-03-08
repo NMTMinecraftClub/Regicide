@@ -5,6 +5,7 @@ import java.util.List;
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -74,7 +75,8 @@ public class RegicideCommands implements CommandExecutor{
 		RegicideGame game = new RegicideGame(args[1]);
 		Games.add(game);
 		//Register Button
-		new ButtonListener(((Player) sender).getLocation(), args[1]);
+		ButtonListener listen = new ButtonListener(((Player) sender).getLocation(), args[1]);
+		Bukkit.getPluginManager().registerEvents(listen, RegicidePlugin.regicidePlugin);
 		sender.sendMessage("Successfully registered game: " + args[1]);
 		return true;
 	}
