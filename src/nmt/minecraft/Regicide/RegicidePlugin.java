@@ -14,6 +14,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class RegicidePlugin extends JavaPlugin {
 	
+	public static RegicidePlugin regicidePlugin;
+	
 	/**
 	 * Are we gonna have any config options? 
 	 */
@@ -25,6 +27,7 @@ public class RegicidePlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		this.getCommand("regicide").setExecutor(new RegisterButton());
+		RegicidePlugin.regicidePlugin = this;
 	}
 	
 	@Override
