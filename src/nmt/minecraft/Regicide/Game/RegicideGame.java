@@ -99,7 +99,9 @@ public class RegicideGame {
 		Random rand = new Random();;
 		kingIndex = rand.nextInt(players.size());
 		
-		new LinkedList<RPlayer>(players.values()).get(kingIndex).setIsKing(true);
+		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
+		king.setIsKing(true);
+		
 		
 		
 	}
