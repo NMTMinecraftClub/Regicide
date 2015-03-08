@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
+import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -54,6 +55,8 @@ public class RegicideGame {
 	
 	private long endTime = 600;
 	
+	private ScoreBoard board;
+	
 	
 	/**
 	 * Create a blank regicide game.
@@ -64,6 +67,8 @@ public class RegicideGame {
 		players = new HashMap<UUID, RPlayer>();
 		spawnLocations = new LinkedList<Location>();
 		lobbyLocation = null;
+		
+		board = new ScoreBoard();
 	}
 	
 	/**
@@ -264,6 +269,7 @@ public class RegicideGame {
 	 */
 	public void scorePoint() {
 		king.addPoint();
+		board.updateScore(king, king.getPoints());
 	}
 	
 	public void endGame() {

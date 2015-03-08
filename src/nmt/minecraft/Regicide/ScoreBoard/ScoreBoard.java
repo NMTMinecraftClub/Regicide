@@ -5,6 +5,7 @@ import java.util.Collection;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
 import org.bukkit.Bukkit;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 
 public class ScoreBoard {
@@ -16,6 +17,8 @@ public class ScoreBoard {
 	public ScoreBoard() {
 		this.board = Bukkit.getScoreboardManager().getNewScoreboard();
 		scoreObjective = board.registerNewObjective("Points", "dummy");
+		
+		scoreObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 	}
 	
 	public void updateScore(RPlayer player, int score) {
