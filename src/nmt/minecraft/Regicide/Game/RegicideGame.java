@@ -267,7 +267,8 @@ public class RegicideGame {
 	}
 	
 	public void endGame() {
-		//TODO
+		this.isRunning = false;
+		//TODO PUT FINISHING STUFF
 	}
 	
 }

@@ -27,6 +27,7 @@ public class GameTimer extends BukkitRunnable {
 		
 		if (time == endTime) {
 			game.endGame();
+			return;
 		}
 		
 		//score every n seconds
