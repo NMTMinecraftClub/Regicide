@@ -75,7 +75,7 @@ public class RegicideCommands implements CommandExecutor{
 		RegicideGame game = new RegicideGame(args[1]);
 		Games.add(game);
 		//Register Button
-		ButtonListener listen = new ButtonListener(((Player) sender).getLocation(), args[1]);
+		ButtonListener listen = new ButtonListener(((Player) sender).getLocation(), game);
 		Bukkit.getPluginManager().registerEvents(listen, RegicidePlugin.regicidePlugin);
 		sender.sendMessage("Successfully registered game: " + args[1]);
 		return true;

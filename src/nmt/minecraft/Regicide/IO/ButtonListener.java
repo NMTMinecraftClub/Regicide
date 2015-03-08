@@ -1,8 +1,8 @@
 package nmt.minecraft.Regicide.IO;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
+import nmt.minecraft.Regicide.Game.RegicideGame;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +10,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 /**
- * This class listens to a button and triggers a PlayerJoinRegide event when a player
+ * This class listens to a button and adds them to a game.
  * presses the registered button
  * @author William
  *
@@ -18,12 +18,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class ButtonListener implements Listener{
 	
 	private Location buttonLocation;
-	private String gameInstance;
+	private RegicideGame gameInstance;
 	/**
 	 * Main Constructor, requires the button location.
 	 * @param buttonLocation The button location.
 	 */
-	public ButtonListener (Location buttonLocation, String gameInstance) {
+	public ButtonListener (Location buttonLocation, RegicideGame gameInstance) {
 		this.buttonLocation = buttonLocation;
 		this.gameInstance = gameInstance;
 		RegicidePlugin.regicidePlugin.getLogger().info("Added ButtonListener at: " + buttonLocation.toString());
@@ -43,9 +43,10 @@ public class ButtonListener implements Listener{
 		double ButtonXCor = Math.floor(this.buttonLocation.getX());
 		double ButtonYCor = Math.floor(this.buttonLocation.getY());
 		if (XCor == ButtonXCor && YCor == ButtonYCor) {
-			//Throw event
-			Bukkit.getPluginManager().callEvent(new PlayerJoinRegicide(e.getPlayer(), this.gameInstance));
 			RegicidePlugin.regicidePlugin.getLogger().info("Player: " + e.getPlayer().getName() + " requesting registration...");
+			//Add player to game and teleport to correct lobby
+			this.gameInstance.addPlayer(e.getPlayer());
+			e.getPlayer().teleport(this.gameInstance.getLobbyLocation());
 		}
 	
 		

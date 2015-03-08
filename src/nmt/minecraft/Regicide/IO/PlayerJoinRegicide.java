@@ -1,5 +1,7 @@
 package nmt.minecraft.Regicide.IO;
 
+import nmt.minecraft.Regicide.Game.RegicideGame;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -13,14 +15,14 @@ import org.bukkit.event.HandlerList;
 public class PlayerJoinRegicide extends Event {
 
 	private final Player player;
-	private final String gameInstance;
+	private final RegicideGame gameInstance;
 	
 	/**
 	 * Main constructor of the event.
 	 * @param player The Player who is joining.
 	 * @param gameInstance The Instance of the Game to associate the player with.
 	 */
-	public PlayerJoinRegicide(Player player, String gameInstance) {
+	public PlayerJoinRegicide(Player player, RegicideGame gameInstance) {
 		this.player = player;
 		this.gameInstance = gameInstance;
 	}
@@ -37,7 +39,7 @@ public class PlayerJoinRegicide extends Event {
 	 * Returns the Game Instance of the Player who is attempting to join.
 	 * @return
 	 */
-	public String getGameInstance() {
+	public RegicideGame getGameInstance() {
 		return this.gameInstance;
 	}
 	/**
