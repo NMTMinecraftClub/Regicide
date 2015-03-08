@@ -44,6 +44,11 @@ public class RegicideCommands implements CommandExecutor{
 			setSpawn(sender, args);
 			return true;
 		}
+		
+		if (args[0].equalsIgnoreCase("setLobby")) {
+			setLobby(sender, args);
+			return true;
+		}
 		sender.sendMessage("Something went wrong...");
 		return false;
 	}
