@@ -48,6 +48,8 @@ public class RegicideGame {
 	 */
 	private String name;
 	
+	private RPlayer king;
+	
 	
 	/**
 	 * Create a blank regicide game.
@@ -251,6 +253,9 @@ public class RegicideGame {
 		return players.get(player);
 	}
 	
+	/**
+	 * Score a point for the current king
+	 */
 	public void scorePoint() {
 		//TODO
 	}
