@@ -212,14 +212,11 @@ public class RegicideGame {
 	}
 	
 	/**
-	 * Makes all the players invisible
+	 * Disguise all players that are part of this fight
 	 */
 	private void makePlayersInvisible(){
 		for(RPlayer player : players.values()){
-			Player tmp = player.getPlayer();
-			for (RPlayer bob : players.values()) {
-			    bob.getPlayer().hidePlayer(tmp);
-			}
+			player.disguise();
 		}
 	}
 	
@@ -228,10 +225,7 @@ public class RegicideGame {
 	 */
 	private void makePlayersVisable(){
 		for(RPlayer player : players.values()){
-			Player tmp = player.getPlayer();
-			for (RPlayer bob : players.values()) {
-			    bob.getPlayer().showPlayer(tmp);
-			}
+			player.unDisguise();
 		}
 	}
 	
