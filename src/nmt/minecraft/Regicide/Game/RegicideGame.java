@@ -10,12 +10,8 @@ import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 
 /**
  * A running instance of a regicide game.
@@ -24,7 +20,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
  * @author smanzana
  *
  */
-public class RegicideGame implements Listener{
+public class RegicideGame {
 	
 	/**
 	 * A map of the players involved in this current instance vs. their actual UUID.<br />
@@ -74,21 +70,8 @@ public class RegicideGame implements Listener{
 		lobbyLocation = null;
 		
 		board = new ScoreBoard();
-		
-		Bukkit.getPluginManager().registerEvents(this, RegicidePlugin.regicidePlugin);
 	}
-	
-	/**
-	 * Listens for player movement
-	 */
-	@EventHandler
-	public void PlayerMovementListner(PlayerMoveEvent event){
-		RPlayer player = players.get(event.getPlayer().getUniqueId());
-		if(player == null){
-			return;
-		}
-		player.syncVillager();
-	}
+
 	
 	/**
 	 * Set the spawn location of this games lobby
