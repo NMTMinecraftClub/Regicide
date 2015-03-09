@@ -73,6 +73,10 @@ public class RPlayer{
 		this.isKing = isKing;
 	}
 	
+	public boolean isKing() {
+		return isKing;
+	}
+	
 	public void addPoint() {
 		this.points++;
 		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);

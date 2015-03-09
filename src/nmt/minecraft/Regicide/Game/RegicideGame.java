@@ -12,6 +12,9 @@ import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 /**
  * A running instance of a regicide game.
@@ -20,7 +23,7 @@ import org.bukkit.entity.Player;
  * @author smanzana
  *
  */
-public class RegicideGame {
+public class RegicideGame implements Listener {
 	
 	/**
 	 * A map of the players involved in this current instance vs. their actual UUID.<br />
@@ -284,6 +287,34 @@ public class RegicideGame {
 		this.isRunning = false;
 		RegicidePlugin.regicidePlugin.getLogger().info("Game [" + name + "] now stopping!");
 		//TODO PUT FINISHING STUFF
+	}
+	
+	@EventHandler
+	public void onPlayerDamage(EntityDamageByEntityEvent e) {
+		//TODO check if villager, if so nauseua
+		
+		if (!(e.getEntity() instanceof Player) && !(e.getDamager() instanceof Player)) {
+			return;
+		}
+		
+		Player player = (Player) e.getEntity();
+		
+		if (e.getDamage() >= player.getHealth()) {
+			//player gonna die!
+			e.setCancelled(true);
+			player.setHealth(player.getMaxHealth());
+			player.teleport(getSpawnLocation());
+			
+			//check if they were the king
+			RPlayer rplay = getPlayer(player);
+			if (rplay.isKing()) {
+				//register new king!
+				rplay.setIsKing(false);
+				this.king = getPlayer((Player) e.getDamager());
+				king.setIsKing(true);
+				board.updateKing(king);
+			}
+		}
 	}
 	
 }
