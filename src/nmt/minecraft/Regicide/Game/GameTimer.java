@@ -36,6 +36,7 @@ public class GameTimer extends BukkitRunnable {
 			game.scorePoint();
 		}
 		
+		game.getBoard().update((time % scoreInterval) / scoreInterval);
 		
 	}
 

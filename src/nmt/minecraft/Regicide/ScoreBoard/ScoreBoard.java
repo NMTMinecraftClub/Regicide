@@ -61,4 +61,12 @@ public class ScoreBoard {
 		playerTeam.removePlayer(king.getPlayer());
 		kingTeam.addPlayer(king.getPlayer());
 	}
+	
+	/**
+	 * Updates the scoreboard and PointBar to accurately show information
+	 * @param time num from 0.0 to 1.0 describing how close to another point the king is
+	 */
+	public void update(float time) {
+		scoreBar.update(time);
+	}
 }

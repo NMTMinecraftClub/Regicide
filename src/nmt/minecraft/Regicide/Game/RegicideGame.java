@@ -111,11 +111,12 @@ public class RegicideGame {
 		}
 		
 		int kingIndex;
-		Random rand = new Random();;
+		Random rand = new Random();
 		kingIndex = rand.nextInt(players.size());
 		
 		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
 		king.setIsKing(true);
+		board.updateKing(king);
 		
 		timer = new GameTimer(this, endTime);
 		timer.runTaskTimer(RegicidePlugin.regicidePlugin, 20, 20);
@@ -265,6 +266,10 @@ public class RegicideGame {
 	 */
 	public RPlayer getPlayer(UUID player) {
 		return players.get(player);
+	}
+	
+	public ScoreBoard getBoard() {
+		return this.board;
 	}
 	
 	/**
