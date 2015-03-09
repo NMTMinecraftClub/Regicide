@@ -69,6 +69,9 @@ public class RegicideGame {
 		spawnLocations = new LinkedList<Location>();
 		lobbyLocation = null;
 		
+		timer = new GameTimer(this, endTime);
+		timer.runTaskTimer(RegicidePlugin.regicidePlugin, 10, 10);
+		
 		board = new ScoreBoard();
 	}
 
