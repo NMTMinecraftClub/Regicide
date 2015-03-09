@@ -27,6 +27,7 @@ public class GameTimer extends BukkitRunnable {
 		
 		if (time == endTime) {
 			game.endGame();
+			this.cancel();
 			return;
 		}
 		

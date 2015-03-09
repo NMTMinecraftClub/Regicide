@@ -118,7 +118,9 @@ public class RegicideGame {
 		king.setIsKing(true);
 		
 		timer = new GameTimer(this, endTime);
-		timer.runTaskTimer(RegicidePlugin.regicidePlugin, 10, 10);
+		timer.runTaskTimer(RegicidePlugin.regicidePlugin, 20, 20);
+		
+		board.displayScoreboard(players.values());
 		
 	}
 	
@@ -275,6 +277,7 @@ public class RegicideGame {
 	
 	public void endGame() {
 		this.isRunning = false;
+		RegicidePlugin.regicidePlugin.getLogger().info("Game [" + name + "] now stopping!");
 		//TODO PUT FINISHING STUFF
 	}
 	
