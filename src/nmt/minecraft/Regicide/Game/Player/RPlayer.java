@@ -2,7 +2,10 @@ package nmt.minecraft.Regicide.Game.Player;
 
 import java.util.UUID;
 
+import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -35,10 +38,16 @@ public class RPlayer{
 		points = 0;
 		isKing = false;
 		this.player = Bukkit.getPlayer(player);
+		
+		disguise = new MobDisguise(DisguiseType.VILLAGER, true);
 	}
 	
 	public void teleport(Location loc) {
 		player.teleport(loc);
+	}
+	
+	public void disguise() {
+		DisguiseAPI.disguiseToAll(this.player, disguise);
 	}
 	
 	public Player getPlayer() {
