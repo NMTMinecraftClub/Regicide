@@ -5,8 +5,10 @@ import java.util.Collection;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Team;
 
 public class ScoreBoard {
 	
@@ -14,11 +16,26 @@ public class ScoreBoard {
 	
 	private Objective scoreObjective;
 	
+	private PointBar scoreBar;
+	
+	private Team kingTeam, playerTeam;
+	
+	private RPlayer currentKing;
+	
 	public ScoreBoard() {
 		this.board = Bukkit.getScoreboardManager().getNewScoreboard();
 		scoreObjective = board.registerNewObjective("Points", "dummy");
 		
 		scoreObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
+		
+		scoreBar = new PointBar();
+		
+		playerTeam = board.registerNewTeam("Players");
+		kingTeam = board.registerNewTeam("King");
+		
+		kingTeam.setPrefix(ChatColor.GOLD.toString());
+		playerTeam.setPrefix(ChatColor.BLUE.toString());
+		
 	}
 	
 	public void updateScore(RPlayer player, int score) {
@@ -29,6 +46,19 @@ public class ScoreBoard {
 		for (RPlayer play : players) {
 			updateScore(play, 0);
 			play.getPlayer().setScoreboard(board);
+			playerTeam.addPlayer(play.getPlayer());
 		}
+	}
+	
+	public void updateKing(RPlayer king) {
+		scoreBar.setKing(king);
+		
+		//update names on scoreboard
+		if (currentKing != null) {
+			kingTeam.removePlayer(currentKing.getPlayer());
+			playerTeam.addPlayer(currentKing.getPlayer());
+		}
+		playerTeam.removePlayer(king.getPlayer());
+		kingTeam.addPlayer(king.getPlayer());
 	}
 }

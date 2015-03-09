@@ -20,4 +20,8 @@ public class PointBar {
 		
 	}
 	
+	public void setKing(RPlayer king) {
+		this.king = king;
+	}
+	
 }
