@@ -46,8 +46,18 @@ public class RPlayer{
 		player.teleport(loc);
 	}
 	
+	/**
+	 * Disguises the underlying player as his registered disguise -- a villager
+	 */
 	public void disguise() {
 		DisguiseAPI.disguiseToAll(this.player, disguise);
+	}
+	
+	/**
+	 * Removes the disguise this player is using to everyone.
+	 */
+	public void unDisguise() {
+		DisguiseAPI.undisguiseToAll(this.player);
 	}
 	
 	public Player getPlayer() {
