@@ -8,7 +8,11 @@ import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Instrument;
 import org.bukkit.Location;
+import org.bukkit.Note;
+import org.bukkit.Note.Tone;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
@@ -71,6 +75,7 @@ public class RPlayer{
 	
 	public void addPoint() {
 		this.points++;
+		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
 	}
 	
 	public int getPoints() {

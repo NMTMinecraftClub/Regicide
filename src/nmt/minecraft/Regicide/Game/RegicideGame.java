@@ -116,12 +116,12 @@ public class RegicideGame {
 		
 		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
 		king.setIsKing(true);
-		board.updateKing(king);
 		
 		timer = new GameTimer(this, endTime);
 		timer.runTaskTimer(RegicidePlugin.regicidePlugin, 20, 20);
 		
 		board.displayScoreboard(players.values());
+		board.updateKing(king);
 		
 	}
 	
