@@ -68,10 +68,7 @@ public class RegicideGame {
 		players = new HashMap<UUID, RPlayer>();
 		spawnLocations = new LinkedList<Location>();
 		lobbyLocation = null;
-		
-		timer = new GameTimer(this, endTime);
-		timer.runTaskTimer(RegicidePlugin.regicidePlugin, 10, 10);
-		
+				
 		board = new ScoreBoard();
 	}
 
@@ -121,6 +118,7 @@ public class RegicideGame {
 		king.setIsKing(true);
 		
 		timer = new GameTimer(this, endTime);
+		timer.runTaskTimer(RegicidePlugin.regicidePlugin, 10, 10);
 		
 	}
 	
