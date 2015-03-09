@@ -17,11 +17,16 @@ public class PointBar {
 	
 	
 	public PointBar() {
-		
+		king = null;
 	}
 	
 	public void setKing(RPlayer king) {
 		this.king = king;
+	}
+	
+	public void update(float time) {
+		king.getPlayer().setLevel(king.getPoints());
+		king.getPlayer().setExp(time);
 	}
 	
 }
