@@ -2,6 +2,8 @@ package nmt.minecraft.Regicide.Game.Player;
 
 import java.util.UUID;
 
+import me.libraryaddict.disguise.disguisetypes.Disguise;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -14,11 +16,20 @@ public class RPlayer{
 	
 	private Player player;
 	
-	private LivingEntity villager;
 	
 	private boolean isKing;
 	
 	private int points;
+	
+	/**
+	 * IS THIS GIVING YOU AN ERROR? IF IT IS,
+	 * make sure to download the two new libraries we are dependent upon. Namely
+	 * Lib's Disguises - http://www.spigotmc.org/resources/libs-disguises.81/
+	 * and
+	 * ProtocolLib - http://dev.bukkit.org/bukkit-plugins/protocollib/
+	 * Make sure to get 3.4.0 of ProtocolLib!!! 
+	 */
+	private Disguise disguise;
 	
 	public RPlayer(UUID player) {
 		points = 0;
