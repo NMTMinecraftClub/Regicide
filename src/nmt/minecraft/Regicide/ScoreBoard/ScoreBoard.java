@@ -51,6 +51,7 @@ public class ScoreBoard {
 	}
 	
 	public void updateKing(RPlayer king) {
+		
 		scoreBar.setKing(king);
 		
 		//update names on scoreboard
@@ -60,6 +61,8 @@ public class ScoreBoard {
 		}
 		playerTeam.removePlayer(king.getPlayer());
 		kingTeam.addPlayer(king.getPlayer());
+		
+		
 	}
 	
 	/**

@@ -21,6 +21,11 @@ public class PointBar {
 	}
 	
 	public void setKing(RPlayer king) {
+		//take HUD from old king
+		if (king != null) {
+			king.getPlayer().setExp(0.0f);
+		}
+		
 		this.king = king;
 	}
 	
