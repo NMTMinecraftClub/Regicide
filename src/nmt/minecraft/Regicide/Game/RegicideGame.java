@@ -355,13 +355,15 @@ public class RegicideGame implements Listener {
 		if (e.isCancelled()) {
 			return;
 		}
+		if (e.getItem() != null)
 		if (e.getItem().getType() != Material.COOKED_BEEF || e.getPlayer().getFoodLevel() >= 19.9f) {
 			//not eating OR already full
 			return;
 		}
 		
 		//display food particles
-		//e.getPlayer().playEffect(e.getPlayer().getLocation(), , arg2);;
+		//e.getPlayer().playEffect(e.getPlayer().getLocation(), Effect., arg2);;
+		//WrapperPlayerServerWorldParticles particle = new WrapperPlayerServerWorldParticles();
 		
 		
 	}
