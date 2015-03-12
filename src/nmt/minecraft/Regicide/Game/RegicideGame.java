@@ -301,7 +301,7 @@ public class RegicideGame implements Listener {
 		if (!(e.getEntity() instanceof Player) && !(e.getDamager() instanceof Player)) {
 			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
 				//TODO check if villager, if so nauseua
-				Player player = (Player)e.getEntity();
+				Player player = (Player)e.getDamager();
 				player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
 			}
 			return;
@@ -319,7 +319,7 @@ public class RegicideGame implements Listener {
 			if (rplay.isKing()) {
 				//register new king!
 				//rplay.setIsKing(false);//is set false in die
-				rplay.die();
+				rplay.die();r
 				this.king = getPlayer((Player) e.getDamager());
 				king.setIsKing(true);
 				board.updateKing(king);
