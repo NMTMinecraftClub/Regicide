@@ -1,5 +1,7 @@
 package nmt.minecraft.Regicide.Game;
 
+import nmt.minecraft.Regicide.Game.Player.RPlayer;
+
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameTimer extends BukkitRunnable {
@@ -37,6 +39,16 @@ public class GameTimer extends BukkitRunnable {
 		}
 		
 		game.getBoard().update(((float) (time % scoreInterval)) / (float) scoreInterval);
+		
+		//update everyone's food level
+		for (RPlayer player : game.getPlayers()) {
+			if (player.isKing()) {
+				player.getPlayer().setSaturation(0);
+			} else {
+				player.getPlayer().setSaturation(20);
+				player.getPlayer().setFoodLevel(20);
+			}
+		}
 		
 	}
 
