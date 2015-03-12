@@ -12,12 +12,15 @@ import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -138,12 +141,6 @@ public class RegicideGame implements Listener {
 	public String getName() {
 		return name;
 	}
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * Removes all added spawn locations and works with none.
@@ -302,7 +299,9 @@ public class RegicideGame implements Listener {
 			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
 				//TODO check if villager, if so nauseua
 				Player player = (Player)e.getDamager();
-				player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
+				if(getPlayer(player) != null){
+					player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
+				}
 			}
 			return;
 		}
@@ -327,6 +326,21 @@ public class RegicideGame implements Listener {
 			
 			//teleport needs to come after the fireworks in the die call
 			player.teleport(getSpawnLocation());
+		}
+	}
+	
+	/**
+	 * Gives the king bread when he needs it
+	 * @param e
+	 */
+	@EventHandler(priority=EventPriority.HIGH)
+	public void onKingEat(FoodLevelChangeEvent e) {
+		if(e.getEntity() instanceof Player){
+			Player player = (Player) e.getEntity();
+			RPlayer rplayer = getPlayer(player);
+			if(rplayer != null && rplayer.isKing()){
+				player.getInventory().addItem(new ItemStack(Material.BREAD, 1));
+			}
 		}
 	}
 	
