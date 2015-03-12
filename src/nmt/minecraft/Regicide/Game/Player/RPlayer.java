@@ -86,5 +86,9 @@ public class RPlayer{
 		return this.points;
 	}
 	
+	public void die(){
+		
+	}
+	
 }
 
