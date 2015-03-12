@@ -10,9 +10,11 @@ import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
@@ -73,6 +75,8 @@ public class RegicideGame implements Listener {
 		lobbyLocation = null;
 				
 		board = new ScoreBoard();
+		
+		Bukkit.getPluginManager().registerEvents(this, RegicidePlugin.regicidePlugin);
 	}
 
 	
@@ -289,7 +293,7 @@ public class RegicideGame implements Listener {
 		//TODO PUT FINISHING STUFF
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.HIGH)
 	public void onPlayerDamage(EntityDamageByEntityEvent e) {
 		//TODO check if villager, if so nauseua
 		
