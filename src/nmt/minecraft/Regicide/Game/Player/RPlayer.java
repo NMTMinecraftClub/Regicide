@@ -8,16 +8,14 @@ import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Instrument;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
-import org.bukkit.Note;
-import org.bukkit.Note.Tone;
 import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
 
 public class RPlayer{
 	
@@ -84,6 +82,25 @@ public class RPlayer{
 	
 	public int getPoints() {
 		return this.points;
+	}
+	
+	public void die(){
+		Firework firework = this.player.getWorld().spawn(this.player.getLocation(), Firework.class);
+		FireworkMeta fm = firework.getFireworkMeta();
+        fm.addEffect(FireworkEffect.builder()
+            .flicker(false)
+            .trail(true)
+            .with(Type.BALL)
+            .with(Type.BALL_LARGE)
+            .with(Type.STAR)
+            .withColor(Color.YELLOW)
+            .withColor(Color.ORANGE)
+            .withFade(Color.RED)
+            .withFade(Color.PURPLE)
+            .build());
+            fm.setPower(2);
+            firework.setFireworkMeta(fm);
+            
 	}
 	
 }
