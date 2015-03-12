@@ -298,7 +298,7 @@ public class RegicideGame implements Listener {
 	
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onPlayerDamage(EntityDamageByEntityEvent e) {
-		if (!(e.getEntity() instanceof Player) && !(e.getDamager() instanceof Player)) {
+		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
 			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
 				//TODO check if villager, if so nauseua
 				Player player = (Player)e.getDamager();
