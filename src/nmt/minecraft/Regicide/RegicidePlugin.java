@@ -16,7 +16,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  * but doesn't create an instance of a game or anything else.</p>
  * @author Skyler, ADD YOUR NAME HERE
  *
- *
+ * TODO add food to the king's inventory
+ * TODO add villagers! npcs!
  */
 public class RegicidePlugin extends JavaPlugin {
 	
