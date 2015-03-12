@@ -19,7 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -342,13 +342,11 @@ public class RegicideGame implements Listener {
 	 * @param e
 	 */
 	@EventHandler(priority=EventPriority.HIGH)
-	public void onKingEat(FoodLevelChangeEvent e) {
-		if(e.getEntity() instanceof Player){
-			Player player = (Player) e.getEntity();
-			RPlayer rplayer = getPlayer(player);
-			if(rplayer != null && rplayer.isKing()){
-				player.getInventory().addItem(new ItemStack(Material.BREAD, 1));
-			}
+	public void onKingEat(PlayerItemConsumeEvent e) {
+		Player player = (Player) e.getPlayer();
+		RPlayer rplayer = getPlayer(player);
+		if(rplayer != null && rplayer.isKing()){
+			player.getInventory().addItem(new ItemStack(Material.BREAD, 1));
 		}
 	}
 	
