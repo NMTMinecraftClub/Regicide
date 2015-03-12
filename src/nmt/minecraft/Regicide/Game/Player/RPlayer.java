@@ -100,7 +100,10 @@ public class RPlayer{
             .build());
             fm.setPower(2);
             firework.setFireworkMeta(fm);
-            
+        
+        if(isKing){
+        	player.sendMessage("You have lost the King!");
+        }
 	}
 	
 }
