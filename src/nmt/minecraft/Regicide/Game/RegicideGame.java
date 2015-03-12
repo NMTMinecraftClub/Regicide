@@ -293,6 +293,14 @@ public class RegicideGame implements Listener {
 	public void endGame() {
 		this.isRunning = false;
 		RegicidePlugin.regicidePlugin.getLogger().info("Game [" + name + "] now stopping!");
+		
+		makePlayersVisable();
+		for (RPlayer player : players.values()) {
+			player.getPlayer().sendMessage("Game now ending. This is lame put more fancy ending!");
+		}
+		
+		players.clear();
+		
 		//TODO PUT FINISHING STUFF
 	}
 	
