@@ -317,6 +317,7 @@ public class RegicideGame implements Listener {
 				this.king = getPlayer((Player) e.getDamager());
 				king.setIsKing(true);
 				board.updateKing(king);
+				rplay.die();
 			}
 		}
 	}
