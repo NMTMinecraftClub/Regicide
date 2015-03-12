@@ -11,6 +11,7 @@ import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -339,7 +340,6 @@ public class RegicideGame implements Listener {
 	
 	/**
 	 * Gives the king bread when he needs it
-	 * @param e
 	 */
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onKingEat(PlayerItemConsumeEvent e) {
@@ -348,6 +348,7 @@ public class RegicideGame implements Listener {
 		if(rplayer != null && rplayer.isKing()){
 			player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 1));
 		}
+		
 	}
 	
 	@EventHandler

@@ -105,7 +105,9 @@ public class RPlayer{
         firework.setFireworkMeta(fm);
         
         if(this.isKing){
-        	player.sendMessage(ChatColor.RED + "You have lost the King!");	
+        	player.sendMessage(ChatColor.RED + "You have lost the King!");
+        	//remove steak from inventory
+        	player.getInventory().remove(Material.COOKED_BEEF);
         }
         this.isKing = false;
 	}
