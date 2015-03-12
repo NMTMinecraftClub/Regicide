@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * but doesn't create an instance of a game or anything else.</p>
  * @author Skyler, ADD YOUR NAME HERE
  *
+ *
  */
 public class RegicidePlugin extends JavaPlugin {
 	
