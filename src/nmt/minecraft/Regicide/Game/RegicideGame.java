@@ -13,10 +13,13 @@ import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * A running instance of a regicide game.
@@ -295,9 +298,12 @@ public class RegicideGame implements Listener {
 	
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onPlayerDamage(EntityDamageByEntityEvent e) {
-		//TODO check if villager, if so nauseua
-		
 		if (!(e.getEntity() instanceof Player) && !(e.getDamager() instanceof Player)) {
+			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
+				//TODO check if villager, if so nauseua
+				Player player = (Player)e.getEntity();
+				player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
+			}
 			return;
 		}
 		
@@ -317,7 +323,6 @@ public class RegicideGame implements Listener {
 				this.king = getPlayer((Player) e.getDamager());
 				king.setIsKing(true);
 				board.updateKing(king);
-				
 			}
 			
 			//teleport needs to come after the fireworks in the die call
