@@ -46,10 +46,10 @@ public class GameTimer extends BukkitRunnable {
 			Player p = player.getPlayer();
 			if (player.isKing()) {
 				p.setSaturation(0);
-				p.sendMessage("Exhaustion set to: " + (p.getExhaustion() + .5f));
 				p.setExhaustion(p.getExhaustion() + .5f);
 				if (p.getExhaustion() >= 3.9f) {
-					p.setExhaustion(4f);
+					p.setFoodLevel(p.getFoodLevel() - 1);
+					p.setExhaustion(0.0f);
 				}
 			} else {
 				p.setSaturation(20);
