@@ -63,6 +63,8 @@ public class ScoreBoard {
 		kingTeam.addPlayer(king.getPlayer());
 		
 		currentKing = king;
+		
+		king.getPlayer().sendMessage(ChatColor.BLUE + "You are now the king!");
 	}
 	
 	/**
