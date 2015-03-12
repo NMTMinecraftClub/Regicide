@@ -62,7 +62,7 @@ public class ScoreBoard {
 		playerTeam.removePlayer(king.getPlayer());
 		kingTeam.addPlayer(king.getPlayer());
 		
-		
+		currentKing = king;
 	}
 	
 	/**
