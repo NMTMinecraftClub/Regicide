@@ -58,11 +58,14 @@ public class ScoreBoard {
 		if (currentKing != null) {
 			kingTeam.removePlayer(currentKing.getPlayer());
 			playerTeam.addPlayer(currentKing.getPlayer());
+			
 		}
 		playerTeam.removePlayer(king.getPlayer());
 		kingTeam.addPlayer(king.getPlayer());
 		
 		currentKing = king;
+		
+		king.getPlayer().sendMessage(ChatColor.BLUE + "You are now the king!");
 	}
 	
 	/**
