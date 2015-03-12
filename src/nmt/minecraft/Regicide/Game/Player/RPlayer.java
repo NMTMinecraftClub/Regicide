@@ -114,7 +114,7 @@ public class RPlayer{
 	
 	public void makeKing(){
 		this.isKing = true;
-		this.player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 2));
+		this.player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 5));
 	}
 	
 }
