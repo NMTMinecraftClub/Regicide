@@ -19,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -350,4 +351,19 @@ public class RegicideGame implements Listener {
 		}
 	}
 	
+	@EventHandler
+	public void onEatFood(PlayerInteractEvent e) {
+		if (e.isCancelled()) {
+			return;
+		}
+		if (e.getItem().getType() != Material.COOKED_BEEF || e.getPlayer().getFoodLevel() >= 19.9f) {
+			//not eating OR already full
+			return;
+		}
+		
+		//display food particles
+		//e.getPlayer().playEffect(e.getPlayer().getLocation(), , arg2);;
+		
+		
+	}
 }
