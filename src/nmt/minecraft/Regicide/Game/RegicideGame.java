@@ -11,7 +11,6 @@ import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -337,6 +337,12 @@ public class RegicideGame implements Listener {
 			//teleport needs to come after the fireworks in the die call
 			player.teleport(getSpawnLocation());
 		}
+	}
+	
+	public void onPLayerDeath(PlayerDeathEvent e){
+		if(e.getEntity() instanceof Player && getPlayer(e.getEntity()) != null){
+			e.getEntity().teleport(getSpawnLocation());
+		}		
 	}
 	
 	/**
