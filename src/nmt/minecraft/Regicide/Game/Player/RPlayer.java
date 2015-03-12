@@ -8,6 +8,7 @@ import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
@@ -98,12 +99,13 @@ public class RPlayer{
             .withFade(Color.RED)
             .withFade(Color.PURPLE)
             .build());
-            fm.setPower(2);
-            firework.setFireworkMeta(fm);
+        fm.setPower(1);
+        firework.setFireworkMeta(fm);
         
-        if(isKing){
-        	player.sendMessage("You have lost the King!");
+        if(this.isKing){
+        	player.sendMessage(ChatColor.RED + "You have lost the King!");	
         }
+        this.isKing = false;
 	}
 	
 }

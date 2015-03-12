@@ -307,18 +307,21 @@ public class RegicideGame implements Listener {
 			//player gonna die!
 			e.setCancelled(true);
 			player.setHealth(player.getMaxHealth());
-			player.teleport(getSpawnLocation());
 			
 			//check if they were the king
 			RPlayer rplay = getPlayer(player);
 			if (rplay.isKing()) {
 				//register new king!
-				rplay.setIsKing(false);
+				//rplay.setIsKing(false);//is set false in die
+				rplay.die();
 				this.king = getPlayer((Player) e.getDamager());
 				king.setIsKing(true);
 				board.updateKing(king);
-				rplay.die();
+				
 			}
+			
+			//teleport needs to come after the fireworks in the die call
+			player.teleport(getSpawnLocation());
 		}
 	}
 	
