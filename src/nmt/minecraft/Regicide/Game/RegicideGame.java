@@ -129,7 +129,7 @@ public class RegicideGame implements Listener {
 		kingIndex = rand.nextInt(players.size());
 		
 		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
-		king.setIsKing(true);
+		king.makeKing();
 		
 		timer = new GameTimer(this, endTime);
 		timer.runTaskTimer(RegicidePlugin.regicidePlugin, 20, 20);
@@ -326,10 +326,9 @@ public class RegicideGame implements Listener {
 			RPlayer rplay = getPlayer(player);
 			if (rplay.isKing()) {
 				//register new king!
-				//rplay.setIsKing(false);//is set false in die
 				rplay.die();
 				this.king = getPlayer((Player) e.getDamager());
-				king.setIsKing(true);
+				king.makeKing();
 				board.updateKing(king);
 			}
 			
@@ -347,7 +346,7 @@ public class RegicideGame implements Listener {
 		Player player = (Player) e.getPlayer();
 		RPlayer rplayer = getPlayer(player);
 		if(rplayer != null && rplayer.isKing()){
-			player.getInventory().addItem(new ItemStack(Material.BREAD, 1));
+			player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 1));
 		}
 	}
 	
