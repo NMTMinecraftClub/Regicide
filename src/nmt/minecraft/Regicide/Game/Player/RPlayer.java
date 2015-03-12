@@ -99,7 +99,8 @@ public class RPlayer{
             .withFade(Color.PURPLE)
             .build());
             fm.setPower(2);
-            f.setFireworkMeta(fm);
+            firework.setFireworkMeta(fm);
+            
 	}
 	
 }
