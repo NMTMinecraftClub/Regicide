@@ -319,7 +319,7 @@ public class RegicideGame implements Listener {
 			if (rplay.isKing()) {
 				//register new king!
 				//rplay.setIsKing(false);//is set false in die
-				rplay.die();r
+				rplay.die();
 				this.king = getPlayer((Player) e.getDamager());
 				king.setIsKing(true);
 				board.updateKing(king);
