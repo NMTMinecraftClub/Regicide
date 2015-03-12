@@ -13,9 +13,11 @@ import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 public class RPlayer{
@@ -106,6 +108,11 @@ public class RPlayer{
         	player.sendMessage(ChatColor.RED + "You have lost the King!");	
         }
         this.isKing = false;
+	}
+	
+	public void makeKing(){
+		this.isKing = true;
+		this.player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 2));
 	}
 	
 }
