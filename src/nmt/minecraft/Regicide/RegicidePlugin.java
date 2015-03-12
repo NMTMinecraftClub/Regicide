@@ -17,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author Skyler, ADD YOUR NAME HERE
  *
  *
- * TODO PERMISSIONS
  */
 public class RegicidePlugin extends JavaPlugin {
 	
