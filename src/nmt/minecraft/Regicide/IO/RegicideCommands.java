@@ -1,5 +1,6 @@
 package nmt.minecraft.Regicide.IO;
 
+import java.util.Arrays;
 import java.util.List;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
@@ -76,6 +77,11 @@ public class RegicideCommands implements CommandExecutor{
 		sender.sendMessage("Something went wrong...");
 		sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
 		return false;
+	}
+	
+	public static List<String> getCommandList(){
+		String[] commands = {"register", "setLobby", "setSpawn", "start"};
+		return Arrays.asList(commands);
 	}
 	
 	/**

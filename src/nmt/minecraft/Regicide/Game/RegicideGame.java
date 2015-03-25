@@ -392,7 +392,7 @@ public class RegicideGame implements Listener {
 				player.getActivePotionEffects().clear();
 				player.setFireTicks(0);
 				
-				//TODO lose king if you die?
+				//lose king if you die
 				RPlayer rplayer = getPlayer(player);
 				if(rplayer.isKing()){
 					rplayer.die();

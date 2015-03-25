@@ -117,7 +117,6 @@ public class RPlayer{
 		this.player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 5));
 	}
 	
-	
 	public void setInitialState() {
 		// TODO Auto-generated method stub
 		this.isKing=false;
@@ -125,6 +124,7 @@ public class RPlayer{
 		player.closeInventory();
 		player.getInventory().clear();
 		player.setExp(0);
+		player.getActivePotionEffects().clear();
 	}
 	
 }

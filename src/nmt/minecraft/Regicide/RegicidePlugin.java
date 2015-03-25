@@ -5,6 +5,7 @@ import java.util.List;
 
 import nmt.minecraft.Regicide.Game.RegicideGame;
 import nmt.minecraft.Regicide.IO.RegicideCommands;
+import nmt.minecraft.Regicide.IO.RegicideTabCompleter;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,6 +39,7 @@ public class RegicidePlugin extends JavaPlugin {
 		RegicidePlugin.regicidePlugin = this;
 		this.getLogger().info("Creating Empty Game list...");
 		this.games = new LinkedList<RegicideGame>();
+		getCommand("regicide").setTabCompleter(new RegicideTabCompleter());
 	}
 	
 	@Override
