@@ -28,28 +28,53 @@ public class RegicideCommands implements CommandExecutor{
 			sender.sendMessage("You must be a playah!");
 			return false;
 		}
+		if(args.length == 0){
+			sender.sendMessage("Something went wrong... We need more arguments");
+			sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
+			return false;
+		}
+		
 		//Sender must now be a player
 		//Register buttons/games
 		if (args[0].equalsIgnoreCase("register")) {
+			if(args.length != 2){
+				sender.sendMessage("Wrong number of arguments: /regicide register [name]");
+				return false;
+			}
 			registerGame(sender, args);
 			return true;
 		}
+		
 		//Start games
 		if (args[0].equalsIgnoreCase("start")) {
+			if(args.length != 2){
+				sender.sendMessage("Wrong number of arguments: /regicide start [name]");
+				return false;
+			}
 			startGame(sender, args);
 			return true;
 		}
 		
 		if (args[0].equalsIgnoreCase("setSpawn")) {
+			if(args.length != 2){
+				sender.sendMessage("Wrong number of arguments: /regicide setSpawn [name]");
+				return false;
+			}
 			setSpawn(sender, args);
 			return true;
 		}
 		
 		if (args[0].equalsIgnoreCase("setLobby")) {
+			if(args.length != 2){
+				sender.sendMessage("Wrong number of arguments: /regicide setLobby [name]");
+				return false;
+			}
 			setLobby(sender, args);
 			return true;
 		}
+		
 		sender.sendMessage("Something went wrong...");
+		sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
 		return false;
 	}
 	

@@ -18,8 +18,9 @@ import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -339,12 +340,6 @@ public class RegicideGame implements Listener {
 		}
 	}
 	
-	public void onPLayerDeath(PlayerDeathEvent e){
-		if(e.getEntity() instanceof Player && getPlayer(e.getEntity()) != null){
-			e.getEntity().teleport(getSpawnLocation());
-		}		
-	}
-	
 	/**
 	 * Gives the king bread when he needs it
 	 */
@@ -374,5 +369,39 @@ public class RegicideGame implements Listener {
 		//WrapperPlayerServerWorldParticles particle = new WrapperPlayerServerWorldParticles();
 		
 		
+	}
+	
+	@EventHandler
+	public void onPlayerDamage(EntityDamageEvent e){
+		if(e.getEntity() instanceof Player){
+			//if the player is gonna die teleport them and fill they're health
+			Player player = (Player) e.getEntity();
+
+			if(getPlayer(player) != null && e.getDamage() >= player.getHealth()){
+				e.setCancelled(true);
+				player.setHealth(player.getMaxHealth());
+				e.getEntity().teleport(getSpawnLocation());
+				
+				//TODO if the player is on fire put them out
+				player.getActivePotionEffects().clear();
+				player.setFireTicks(0);
+				
+				//TODO lose king if you die?
+				
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onThingGettingSetOnFireEvent(EntityCombustEvent e){
+		if(e.getEntity() instanceof Player){
+			Player player = (Player)e.getEntity();//if the thing on fire is a player in the game, don't allow it to burn
+			if(getPlayer(player) != null){
+				e.setCancelled(true);
+				player.setFireTicks(0);
+			}
+		}else if(e.getEntity() instanceof Villager){
+			e.setCancelled(true);
+		}
 	}
 }
