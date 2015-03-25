@@ -117,5 +117,15 @@ public class RPlayer{
 		this.player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 5));
 	}
 	
+	
+	public void setInitialState() {
+		// TODO Auto-generated method stub
+		this.isKing=false;
+		player.setHealth(player.getMaxHealth());
+		player.closeInventory();
+		player.getInventory().clear();
+		player.setExp(0);
+	}
+	
 }
 

@@ -111,6 +111,7 @@ public class RegicideGame implements Listener {
 			return;
 			//can't start a game that's already running
 		}
+		
 		if (players.size() <= 0) {
 			RegicidePlugin.regicidePlugin.getLogger().severe("Unable to start game because there are no registered players!");
 			return;
@@ -121,17 +122,13 @@ public class RegicideGame implements Listener {
 		//make players invis 
 		makePlayersInvisible();
 		
-		//get all players and teleport them to a spawn location
+		//get all players and teleport them to a spawn location, and set them to an initial state
 		for (RPlayer player : players.values()) {
 			player.teleport(getSpawnLocation());
+			player.setInitialState();
 		}
 		
-		int kingIndex;
-		Random rand = new Random();
-		kingIndex = rand.nextInt(players.size());
-		
-		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
-		king.makeKing();
+		makeRandomKing();//make someone the king
 		
 		timer = new GameTimer(this, endTime);
 		timer.runTaskTimer(RegicidePlugin.regicidePlugin, 20, 20);
@@ -141,6 +138,15 @@ public class RegicideGame implements Listener {
 		
 	}
 	
+	private void makeRandomKing(){
+		int kingIndex;
+		Random rand = new Random();
+		kingIndex = rand.nextInt(players.size());
+		
+		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
+		king.makeKing();
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -387,7 +393,11 @@ public class RegicideGame implements Listener {
 				player.setFireTicks(0);
 				
 				//TODO lose king if you die?
-				
+				RPlayer rplayer = getPlayer(player);
+				if(rplayer.isKing()){
+					rplayer.die();
+					makeRandomKing();
+				}
 			}
 		}
 	}
