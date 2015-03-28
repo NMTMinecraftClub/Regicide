@@ -18,8 +18,10 @@ import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -110,6 +112,7 @@ public class RegicideGame implements Listener {
 			return;
 			//can't start a game that's already running
 		}
+		
 		if (players.size() <= 0) {
 			RegicidePlugin.regicidePlugin.getLogger().severe("Unable to start game because there are no registered players!");
 			return;
@@ -120,17 +123,13 @@ public class RegicideGame implements Listener {
 		//make players invis 
 		makePlayersInvisible();
 		
-		//get all players and teleport them to a spawn location
+		//get all players and teleport them to a spawn location, and set them to an initial state
 		for (RPlayer player : players.values()) {
 			player.teleport(getSpawnLocation());
+			player.setInitialState();
 		}
 		
-		int kingIndex;
-		Random rand = new Random();
-		kingIndex = rand.nextInt(players.size());
-		
-		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
-		king.makeKing();
+		makeRandomKing();//make someone the king
 		
 		timer = new GameTimer(this, endTime);
 		timer.runTaskTimer(RegicidePlugin.regicidePlugin, 20, 20);
@@ -140,6 +139,15 @@ public class RegicideGame implements Listener {
 		
 	}
 	
+	private void makeRandomKing(){
+		int kingIndex;
+		Random rand = new Random();
+		kingIndex = rand.nextInt(players.size());
+		
+		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
+		king.makeKing();
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -304,7 +312,7 @@ public class RegicideGame implements Listener {
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)
-	public void onPlayerDamage(EntityDamageByEntityEvent e) {
+	public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
 			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
 				//TODO check if villager, if so nauseua
@@ -339,12 +347,6 @@ public class RegicideGame implements Listener {
 		}
 	}
 	
-	public void onPLayerDeath(PlayerDeathEvent e){
-		if(e.getEntity() instanceof Player && getPlayer(e.getEntity()) != null){
-			e.getEntity().teleport(getSpawnLocation());
-		}		
-	}
-	
 	/**
 	 * Gives the king bread when he needs it
 	 */
@@ -374,5 +376,44 @@ public class RegicideGame implements Listener {
 		//WrapperPlayerServerWorldParticles particle = new WrapperPlayerServerWorldParticles();
 		
 		
+	}
+	
+	@EventHandler
+	public void onPlayerDamage(EntityDamageEvent e){
+		if(e.getEntity() instanceof Player && e.getCause() != DamageCause.ENTITY_ATTACK){
+		
+			//if the player is gonna die teleport them and fill they're health
+			Player player = (Player) e.getEntity();
+
+			if(getPlayer(player) != null && e.getDamage() >= player.getHealth()){
+				e.setCancelled(true);
+				player.setHealth(player.getMaxHealth());
+				e.getEntity().teleport(getSpawnLocation());
+				
+				//TODO if the player is on fire put them out
+				player.getActivePotionEffects().clear();
+				player.setFireTicks(0);
+				
+				//lose king if you die
+				RPlayer rplayer = getPlayer(player);
+				if(rplayer.isKing()){
+					rplayer.die();
+					makeRandomKing();
+				}
+			}
 		}
+	}
+	
+	@EventHandler
+	public void onThingGettingSetOnFireEvent(EntityCombustEvent e) {
+		if(e.getEntity() instanceof Player){
+			Player player = (Player)e.getEntity();//if the thing on fire is a player in the game, don't allow it to burn
+			if(getPlayer(player) != null){
+				e.setCancelled(true);
+				player.setFireTicks(0);
+			}
+		}else if(e.getEntity() instanceof Villager){
+			e.setCancelled(true);
+		}
+	}
 }
