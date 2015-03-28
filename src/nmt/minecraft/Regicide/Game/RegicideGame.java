@@ -400,7 +400,19 @@ public class RegicideGame implements Listener {
 				RPlayer rplayer = getPlayer(player);
 				if(rplayer.isKing()){
 					rplayer.die();
-					makeRandomKing();
+					//makeRandomKing();
+					//instead of making a random king, we make the last person
+					//who hit them king. unless nobody did then random
+					//to avoid them killing themselves instead of letting someone get king
+					
+					if (rplayer.getLastHitBy() == null) {
+						makeRandomKing();
+					}
+					else {
+						this.king = rplayer.getLastHitBy();
+						king.makeKing();
+						board.updateKing(king);
+					}
 				}
 			}
 		}
