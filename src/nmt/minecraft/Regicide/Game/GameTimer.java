@@ -48,7 +48,7 @@ public class GameTimer extends BukkitRunnable {
 				p.setSaturation(0);
 				p.setExhaustion(p.getExhaustion() + .5f);
 				if (p.getExhaustion() >= 3.9f) {
-					p.setFoodLevel(p.getFoodLevel() - 1);
+					p.setFoodLevel(Math.max(p.getFoodLevel() - 1, 0));
 					p.setExhaustion(0.0f);
 				}
 			} else {
