@@ -326,6 +326,9 @@ public class RegicideGame implements Listener {
 		}
 		
 		Player player = (Player) e.getEntity();
+		RPlayer rplay = getPlayer(player);
+		
+		rplay.setHitBy(getPlayer((Player) e.getDamager()));
 		
 		if (e.getDamage() >= player.getHealth()) {
 			//player gonna die!
@@ -333,7 +336,6 @@ public class RegicideGame implements Listener {
 			player.setHealth(player.getMaxHealth());
 			
 			//check if they were the king
-			RPlayer rplay = getPlayer(player);
 			if (rplay.isKing()) {
 				//register new king!
 				rplay.die();
