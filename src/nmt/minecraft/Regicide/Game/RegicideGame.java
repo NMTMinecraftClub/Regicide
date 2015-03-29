@@ -395,7 +395,7 @@ public class RegicideGame implements Listener {
 				
 				//TODO if the player is on fire put them out
 				player.getActivePotionEffects().clear();
-				player.setFireTicks(0);
+				player.setFireTicks(1);
 				
 				//lose king if you die
 				RPlayer rplayer = getPlayer(player);
