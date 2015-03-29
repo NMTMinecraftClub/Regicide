@@ -2,6 +2,7 @@ package nmt.minecraft.Regicide.Game;
 
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -50,6 +51,7 @@ public class GameTimer extends BukkitRunnable {
 				//if so, DEATH
 				if (p.getFoodLevel() < 1) {
 					game.killPlayer(player);
+					player.getPlayer().sendMessage(ChatColor.RED + "You starved to death!" + ChatColor.RESET);
 				}
 				
 				p.setSaturation(0);

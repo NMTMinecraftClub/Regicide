@@ -190,12 +190,8 @@ public class RegicideCommands implements CommandExecutor{
 					return false;
 				}
 				
-				if(g.getExitLocation() == null){
-					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + g.getName() + " has no exit Location!" + resetChat);
-					return false;
-				}
-				
-				sender.sendMessage("Started Game Instance: " + g.getName());
+				sender.sendMessage(aquaChat + "Started Game Instance: " + goldChat +  g.getName() + resetChat);
+
 				RegicidePlugin.regicidePlugin.getLogger().info("Started Game: " + g.getName());
 				g.startGame();
 				return true;

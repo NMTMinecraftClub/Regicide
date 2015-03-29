@@ -11,6 +11,7 @@ import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -246,7 +247,7 @@ public class RegicideGame implements Listener {
 	 */
 	public void addPlayer(UUID player) {
 		if (!isOpen) {
-			Bukkit.getPlayer(player).sendMessage("Game is not yet open, or has already closed!");
+			Bukkit.getPlayer(player).sendMessage(ChatColor.DARK_RED + "Game is not yet open, or has already closed!" + ChatColor.RESET);
 			return;
 		}
 		
@@ -435,13 +436,13 @@ public class RegicideGame implements Listener {
 	public void onPlayerDamage(EntityDamageEvent e){
 		if(e.getEntity() instanceof Player && e.getCause() != DamageCause.ENTITY_ATTACK){
 		
-			//if the player is gonna die teleport them and fill they're health
+			//if the player is gonna die teleport them and fill thei health
 			Player player = (Player) e.getEntity();
 
 			if(getPlayer(player) != null && e.getDamage() >= player.getHealth()){
 				e.setCancelled(true);
 
-				getPlayer(player).die();
+				this.killPlayer(getPlayer(player));
 			}
 		}
 	}
@@ -467,8 +468,8 @@ public class RegicideGame implements Listener {
 	public void onLogout(PlayerQuitEvent e) {
 		if (getPlayer(e.getPlayer()) != null) {
 			System.out.println("got a player!");
-			removePlayer(e.getPlayer());
 			board.removePlayer(getPlayer(e.getPlayer()));
+			removePlayer(e.getPlayer());
 		}
 	}
 	
