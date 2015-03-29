@@ -514,7 +514,11 @@ public class RegicideGame implements Listener {
 		
 		//teleport needs to come after the fireworks in the die call
 		player.teleport(getSpawnLocation());
-		play.getActivePotionEffects().clear();
+		
+		for (PotionEffect e : play.getActivePotionEffects()) {
+			play.removePotionEffect(e.getType());
+		}
+		
 		play.setFireTicks(1);
 		play.setFoodLevel(20);
 		play.setExhaustion(0);
