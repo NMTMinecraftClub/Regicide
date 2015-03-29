@@ -17,6 +17,7 @@ public class RegicideTabCompleter implements TabCompleter{
 			List<String> list=null;
 			if(args.length == 1){
 				 list = RegicideCommands.getCommandList();//get the list of commands
+				 //only put the ones that are 
 			}else if(args.length == 2 && !args[0].equalsIgnoreCase("register")){
 				list = new ArrayList<String>();
 				for(RegicideGame game : RegicidePlugin.regicidePlugin.getGames()){
