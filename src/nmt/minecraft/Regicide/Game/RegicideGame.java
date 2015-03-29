@@ -303,21 +303,26 @@ public class RegicideGame implements Listener {
 			player.teleport(exitLocation);
 		}
 		
-		if (isRunning)
-		if (player.isKing()) {
-
-			System.out.println("got a king!");
-			if (plays.getLastHitBy() == null || getPlayer(plays.getLastHitBy().getPlayer()) != null) {
-				makeRandomKing();
-				board.updateKing(king);
+		if (isRunning) {
+			if (players.isEmpty()) {
+				
+				endGame();
+				return true;
 			}
-			else {
-				this.king = plays.getLastHitBy();
-				king.makeKing();
-				board.updateKing(king);
+			if (player.isKing()) {
+	
+				System.out.println("got a king!");
+				if (plays.getLastHitBy() == null || getPlayer(plays.getLastHitBy().getPlayer()) != null) {
+					makeRandomKing();
+					board.updateKing(king);
+				}
+				else {
+					this.king = plays.getLastHitBy();
+					king.makeKing();
+					board.updateKing(king);
+				}
 			}
 		}
-		
 		board.removePlayer(player);
 		player.setEndState();
 		
