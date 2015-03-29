@@ -50,6 +50,8 @@ public class RegicideCommands implements CommandExecutor{
 			sender.sendMessage(blueChat + "start    " + goldChat + " [game name]" + resetChat + " starts the specified game");
 			sender.sendMessage(blueChat + "setSpawn " + goldChat + " [game name]" + resetChat + " sets another spawn point for the specified game");
 			sender.sendMessage(blueChat + "setLobby " + goldChat + " [game name]" + resetChat + " sets the lobby location");
+			sender.sendMessage(blueChat + "setExit  " + goldChat + " [game name]" + resetChat + " sets the exit location of a game");
+			sender.sendMessage(blueChat + "leave    " + resetChat + " leave regicide");
 			return true;
 		}
 		
@@ -114,7 +116,7 @@ public class RegicideCommands implements CommandExecutor{
 	}
 	
 	public static List<String> getCommandList(){
-		String[] commands = {"register", "setLobby", "setSpawn", "setExit", "start", "help"};
+		String[] commands = {"register", "setLobby", "setSpawn", "setExit", "start", "leave", "setExit", "help"};
 		return Arrays.asList(commands);
 	}
 	
@@ -165,6 +167,12 @@ public class RegicideCommands implements CommandExecutor{
 		List<RegicideGame> Games = RegicidePlugin.regicidePlugin.getGames();
 		for (RegicideGame g : Games) {
 			if (g.getName().equals(gameName)) {
+				//Check to see if game is already running
+				if (g.getIsRunning()) {
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + g.getName() + " is already running!" + resetChat);
+					return false;
+				}
+				
 				sender.sendMessage("Started Game Instance: " + g.getName());
 				RegicidePlugin.regicidePlugin.getLogger().info("Started Game: " + g.getName());
 				g.startGame();
@@ -187,7 +195,11 @@ public class RegicideCommands implements CommandExecutor{
 		
 		for (RegicideGame game : games) {
 			if (game.getName().equalsIgnoreCase(args[1])) {
-				//do the stuff
+				//Check to see if game is already running
+				if (game.getIsRunning()) {
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + game.getName() + " is already running!" + resetChat);
+					return false;
+				}
 				Location loc = ((Player) sender).getLocation();
 				game.addSpawnLocation(loc);
 				
@@ -215,7 +227,11 @@ public class RegicideCommands implements CommandExecutor{
 
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			if (game.getName().equalsIgnoreCase(args[1])) {
-				//do the stuff
+				//Check to see if game is already running
+				if (game.getIsRunning()) {
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + game.getName() + " is already running!" + resetChat);
+					return false;
+				}
 				Location loc = ((Player) sender).getLocation();
 				game.setLobbyLocation(loc);
 				
@@ -255,7 +271,7 @@ public class RegicideCommands implements CommandExecutor{
 			if (game.getName().equalsIgnoreCase(args[1])) {
 				//Check to see if the game is running
 				if (game.getIsRunning()) {
-					sender.sendMessage(redChat + boldChat + "Game: " + game.getName() + " is already running!");
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + game.getName() + " is already running!" + resetChat);
 					return false;
 				}
 				//Game is not running
