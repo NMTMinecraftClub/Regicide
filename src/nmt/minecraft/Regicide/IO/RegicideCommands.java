@@ -74,6 +74,7 @@ public class RegicideCommands implements CommandExecutor{
 			return true;
 		}
 		
+		//Set a Game Spawn
 		if (args[0].equalsIgnoreCase("setSpawn")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide setSpawn [name]");
@@ -83,6 +84,7 @@ public class RegicideCommands implements CommandExecutor{
 			return true;
 		}
 		
+		//Set Lobby
 		if (args[0].equalsIgnoreCase("setLobby")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide setLobby [name]");
@@ -91,9 +93,13 @@ public class RegicideCommands implements CommandExecutor{
 			setLobby(sender, args);
 			return true;
 		}
+		
+		//Leave Game
 		if (args[0].equalsIgnoreCase("leave")) {
-			
+			this.leaveGame(sender);
 		}
+		
+		//Set Game Exit
 		if (args[0].equalsIgnoreCase("setExit")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide Exit [name]");
