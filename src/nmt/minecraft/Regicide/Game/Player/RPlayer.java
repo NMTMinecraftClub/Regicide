@@ -164,6 +164,7 @@ public class RPlayer{
 		player.getActivePotionEffects().clear();
 		player.setGameMode(GameMode.SURVIVAL);
 		player.setFoodLevel(20);//set max food level
+		this.unDisguise();
 	}
 	
 	public void addKill(){
