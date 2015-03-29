@@ -306,7 +306,7 @@ public class RegicideGame implements Listener {
 		if (isRunning) {
 			if (players.isEmpty()) {
 				
-				endGame();
+				Bukkit.getPluginManager().callEvent(new RegicideGameEndEvent(this));
 				return true;
 			}
 			if (player.isKing()) {
