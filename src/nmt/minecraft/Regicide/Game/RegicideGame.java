@@ -517,4 +517,11 @@ public class RegicideGame implements Listener {
 	public Location getExitLocation(){
 		return this.exitLocation;
 	}
+	
+	@EventHandler
+	public void onGameEnd(RegicideGameEndEvent e) {
+		if (e.getGame().name.equals(name)) {
+			endGame();
+		}
+	}
 }
