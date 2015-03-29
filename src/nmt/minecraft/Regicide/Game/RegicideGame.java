@@ -433,13 +433,13 @@ public class RegicideGame implements Listener {
 	public void onPlayerDamage(EntityDamageEvent e){
 		if(e.getEntity() instanceof Player && e.getCause() != DamageCause.ENTITY_ATTACK){
 		
-			//if the player is gonna die teleport them and fill they're health
+			//if the player is gonna die teleport them and fill thei health
 			Player player = (Player) e.getEntity();
 
 			if(getPlayer(player) != null && e.getDamage() >= player.getHealth()){
 				e.setCancelled(true);
 
-				getPlayer(player).die();
+				this.killPlayer(getPlayer(player));
 			}
 		}
 	}
