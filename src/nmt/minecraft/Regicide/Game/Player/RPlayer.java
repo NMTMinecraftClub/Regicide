@@ -12,6 +12,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -90,7 +91,7 @@ public class RPlayer{
 	
 	public void setIsKing(boolean isKing) {
 		this.isKing = isKing;
-		if(isKing){
+		if(isKing == true){
 			this.switchSword(Material.GOLD_SWORD);
 		}
 	}
@@ -148,6 +149,7 @@ public class RPlayer{
 		player.getInventory().addItem(new ItemStack(Material.WOOD_SWORD,1));
 		player.setExp(0);
 		player.getActivePotionEffects().clear();
+		player.setGameMode(GameMode.SURVIVAL);
 	}
 	
 	public void addKill(){
@@ -156,7 +158,7 @@ public class RPlayer{
 	}
 	
 	private void upgrade(){
-		if(this.upgradeLevel != levels.length-1){
+		if(this.upgradeLevel != levels.length-1 && this.isKing == false){
 			//if not at the top level, go to the next level
 			this.upgradeLevel++;
 			this.switchSword(levels[this.upgradeLevel]);
