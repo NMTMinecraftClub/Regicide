@@ -255,6 +255,7 @@ public class RegicideGame implements Listener {
 		}
 		
 		players.put(player, new RPlayer(player));
+		getPlayer(player).teleport(getLobbyLocation());
 	}
 	
 	/**
@@ -393,20 +394,7 @@ public class RegicideGame implements Listener {
 		if (e.getDamage() >= player.getHealth()) {
 			//player gonna die!
 			e.setCancelled(true);
-			player.setHealth(player.getMaxHealth());
-			
-			//check if they were the king
-			if (rplay.isKing()) {
-				//register new king!
-				rplay.die();
-				this.king = getPlayer((Player) e.getDamager());
-				king.makeKing();
-				board.updateKing(king);
-			}
-			
-			//teleport needs to come after the fireworks in the die call
-			player.teleport(getSpawnLocation());
-			player.getActivePotionEffects().clear();
+			killPlayer(rplay);
 		}
 	}
 	
@@ -450,31 +438,8 @@ public class RegicideGame implements Listener {
 
 			if(getPlayer(player) != null && e.getDamage() >= player.getHealth()){
 				e.setCancelled(true);
-				player.setHealth(player.getMaxHealth());
-				e.getEntity().teleport(getSpawnLocation());
-				
-				//TODO if the player is on fire put them out
-				player.getActivePotionEffects().clear();
-				player.setFireTicks(1);
-				
-				//lose king if you die
-				RPlayer rplayer = getPlayer(player);
-				if(rplayer.isKing()){
-					rplayer.die();
-					//makeRandomKing();
-					//instead of making a random king, we make the last person
-					//who hit them king. unless nobody did then random
-					//to avoid them killing themselves instead of letting someone get king
-					
-					if (rplayer.getLastHitBy() == null) {
-						makeRandomKing();
-					}
-					else {
-						this.king = rplayer.getLastHitBy();
-						king.makeKing();
-						board.updateKing(king);
-					}
-				}
+
+				getPlayer(player).die();
 			}
 		}
 	}
@@ -507,5 +472,38 @@ public class RegicideGame implements Listener {
 	
 	public void setExitLocation(Location exit){
 		this.exitLocation = exit;
+	}
+	
+	public void killPlayer(RPlayer player) {
+		if (!players.containsValue(player)) {
+			//player not in this game!
+			return;
+		}
+		
+		Player play = player.getPlayer();
+		play.setHealth(play.getMaxHealth());
+
+		//player.die();
+		//check if they were the king
+		if (player.isKing()) {
+			//register new king!
+			player.die();
+			//give king to last who hit
+			if (player.getLastHitBy() == null) {
+				makeRandomKing();
+			}
+			else {
+				this.king = player.getLastHitBy();
+				king.makeKing();
+			}
+				
+			board.updateKing(king);
+		}
+		
+		//teleport needs to come after the fireworks in the die call
+		player.teleport(getSpawnLocation());
+		play.getActivePotionEffects().clear();
+		play.setFireTicks(1);
+		
 	}
 }

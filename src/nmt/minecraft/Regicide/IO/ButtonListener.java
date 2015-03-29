@@ -46,7 +46,6 @@ public class ButtonListener implements Listener{
 			RegicidePlugin.regicidePlugin.getLogger().info("Player: " + e.getPlayer().getName() + " requesting registration...");
 			//Add player to game and teleport to correct lobby
 			this.gameInstance.addPlayer(e.getPlayer());
-			e.getPlayer().teleport(this.gameInstance.getLobbyLocation());
 		}
 	
 		
