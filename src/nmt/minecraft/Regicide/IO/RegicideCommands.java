@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
  *
  */
 public class RegicideCommands implements CommandExecutor{
+	private String aquaChat = ChatColor.AQUA+"";
 	private String blueChat = ChatColor.BLUE+"";
 	private String goldChat = ChatColor.GOLD+"";
 	private String greenChat = ChatColor.GREEN+"";
@@ -145,7 +146,7 @@ public class RegicideCommands implements CommandExecutor{
 	public boolean registerGame(CommandSender sender, String[] args) {
 		
 		if (args.length != 2) {
-			sender.sendMessage("Not the correct number of arguments: /regicide register <game name>g");
+			sender.sendMessage(redChat + "Not the correct number of arguments: /regicide register <game name>" + resetChat);
 			return false;
 		}
 		List<RegicideGame> Games = RegicidePlugin.regicidePlugin.getGames();
@@ -153,7 +154,7 @@ public class RegicideCommands implements CommandExecutor{
 		for (RegicideGame g : Games) {
 			if (g.getName().equals(args[1])) {
 				//Alert User that a game with the same name already exists.
-				sender.sendMessage("Game with name: \"" + args[1] + "\" already exists!");
+				sender.sendMessage(redChat + boldChat + "Game with name: \"" + args[1] + "\" already exists!" + resetChat);
 				return false;
 			}
 		}
@@ -165,7 +166,7 @@ public class RegicideCommands implements CommandExecutor{
 		//Register Button
 		ButtonListener listen = new ButtonListener(((Player) sender).getLocation(), game);
 		Bukkit.getPluginManager().registerEvents(listen, RegicidePlugin.regicidePlugin);
-		sender.sendMessage("Successfully registered game: " + args[1]);
+		sender.sendMessage(aquaChat + "Successfully registered game: " + goldChat + args[1] + resetChat);
 		return true;
 	}
 	
@@ -196,7 +197,7 @@ public class RegicideCommands implements CommandExecutor{
 			}
 		}
 		RegicidePlugin.regicidePlugin.getLogger().info("Warning! Could not find: \"" + gameName + "\" in registered games!");
-		sender.sendMessage("That game is not registered! Make sure you register with /regicide register <game name>");
+		sender.sendMessage(redChat + "That game is not registered!" + resetChat + " Make sure you register with /regicide register <game name>");
 		return false;
 	}
 	
@@ -219,12 +220,12 @@ public class RegicideCommands implements CommandExecutor{
 				Location loc = ((Player) sender).getLocation();
 				game.addSpawnLocation(loc);
 				
-				sender.sendMessage("Successfully registered starting position!");
+				sender.sendMessage(greenChat + "Successfully registered starting position!" + resetChat);
 				return true;
 			}
 		}
 		
-		sender.sendMessage("Unable to locate instance: " + args[1]);		
+		sender.sendMessage(redChat + "Unable to locate instance: " + args[1] + resetChat);		
 		return false;
 	}
 	
@@ -251,12 +252,12 @@ public class RegicideCommands implements CommandExecutor{
 				Location loc = ((Player) sender).getLocation();
 				game.setLobbyLocation(loc);
 				
-				sender.sendMessage("Successfully registered lobby position!");
+				sender.sendMessage(greenChat + "Successfully registered lobby position!" + resetChat);
 				return true;
 			}
 		}
 		
-		sender.sendMessage("Unable to locate instance: " + args[1]);		
+		sender.sendMessage(redChat + "Unable to locate instance: " + args[1] + resetChat);		
 		return false;
 		
 	}
@@ -270,7 +271,7 @@ public class RegicideCommands implements CommandExecutor{
 		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
 		for (RegicideGame game : games) {
 			game.removePlayer((Player) sender);
-			sender.sendMessage("You have left Regicide Game " + game.getName());
+			sender.sendMessage(aquaChat + "You have left Regicide Game " + goldChat + game.getName() + resetChat);
 		}
 		return true;
 	}
@@ -292,6 +293,7 @@ public class RegicideCommands implements CommandExecutor{
 				}
 				//Game is not running
 				game.open();
+				sender.sendMessage(greenChat + "Successfully opened game: " + game.getName() + resetChat);
 			}
 		}
 		return true;
@@ -316,12 +318,12 @@ public class RegicideCommands implements CommandExecutor{
 				Location loc = ((Player) sender).getLocation();
 				game.setExitLocation(loc);
 				
-				sender.sendMessage("Successfully registered Exit position!");
+				sender.sendMessage(greenChat + "Successfully registered Exit position!" + resetChat);
 				return true;
 			}
 		}
 		
-		sender.sendMessage("Unable to locate instance: " + args[1]);		
+		sender.sendMessage(redChat + "Unable to locate instance: " + args[1] + resetChat);		
 		return false;
 		
 	}
