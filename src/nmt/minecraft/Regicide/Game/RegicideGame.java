@@ -74,6 +74,8 @@ public class RegicideGame implements Listener {
 	
 	private ScoreBoard board;
 	
+	private boolean isOpen;
+	
 	
 	/**
 	 * Create a blank regicide game.
@@ -88,6 +90,11 @@ public class RegicideGame implements Listener {
 		board = new ScoreBoard();
 		
 		Bukkit.getPluginManager().registerEvents(this, RegicidePlugin.regicidePlugin);
+		isOpen = false;
+	}
+	
+	public void open() {
+		this.isOpen = true;
 	}
 
 	
@@ -120,6 +127,7 @@ public class RegicideGame implements Listener {
 		}
 		
 		isRunning = true;
+		isOpen = false;
 		
 		//make players invis 
 		makePlayersInvisible();
@@ -230,6 +238,11 @@ public class RegicideGame implements Listener {
 	 * @param player
 	 */
 	public void addPlayer(UUID player) {
+		if (!isOpen) {
+			Bukkit.getPlayer(player).sendMessage("Game is not yet open, or has already closed!");
+			return;
+		}
+		
 		if (players.containsKey(player)) {
 			return;
 		}
