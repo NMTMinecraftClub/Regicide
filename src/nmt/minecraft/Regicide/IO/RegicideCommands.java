@@ -107,7 +107,7 @@ public class RegicideCommands implements CommandExecutor{
 	}
 	
 	public static List<String> getCommandList(){
-		String[] commands = {"register", "setLobby", "setSpawn", "start", "help"};
+		String[] commands = {"register", "setLobby", "setSpawn", "setExit", "start", "help"};
 		return Arrays.asList(commands);
 	}
 	
