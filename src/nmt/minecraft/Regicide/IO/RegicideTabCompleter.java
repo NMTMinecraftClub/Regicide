@@ -14,10 +14,20 @@ public class RegicideTabCompleter implements TabCompleter{
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("regicide")){
-			List<String> list=null;
+			List<String> list=new ArrayList<String>();
 			if(args.length == 1){
-				 list = RegicideCommands.getCommandList();//get the list of commands
-				 //only put the ones that are 
+				List<String> tmpList;
+				 tmpList = RegicideCommands.getCommandList();//get the list of commands
+				 //only put the ones that start with the given
+				 if(alias.isEmpty()){
+					 return tmpList;
+				 }
+				 
+				 for(String tmpString : tmpList){
+					 if(tmpString.startsWith(alias)){
+						 list.add(tmpString);
+					 }
+				 }
 			}else if(args.length == 2 && !args[0].equalsIgnoreCase("register")){
 				list = new ArrayList<String>();
 				for(RegicideGame game : RegicidePlugin.regicidePlugin.getGames()){
