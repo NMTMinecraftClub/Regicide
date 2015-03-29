@@ -151,6 +151,12 @@ public class RegicideCommands implements CommandExecutor{
 		return true;
 	}
 	
+	/**
+	 * This method starts the specified game.
+	 * @param sender The command sender.
+	 * @param args The command arguments.
+	 * @return
+	 */
 	public boolean startGame(CommandSender sender, String[] args) {
 		if (args.length > 2 || args.length == 0) {
 			return false;
@@ -170,6 +176,12 @@ public class RegicideCommands implements CommandExecutor{
 		return false;
 	}
 	
+	/**
+	 * This method adds a spawn point to the specified game to the location of the sender.
+	 * @param sender The sender of the command.
+	 * @param args The command arguments.
+	 * @return
+	 */
 	public boolean setSpawn(CommandSender sender, String[] args) {
 		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
 		
@@ -188,6 +200,12 @@ public class RegicideCommands implements CommandExecutor{
 		return false;
 	}
 	
+	/**
+	 * This method sets the Game lobby to the location of the sender.
+	 * @param sender The command sender.
+	 * @param args The command arguments.
+	 * @return
+	 */
 	public boolean setLobby(CommandSender sender, String[] args) {
 		if (args.length < 2) {
 			sender.sendMessage("Please supply the name of the instance to add this spawn point to!");
@@ -211,6 +229,11 @@ public class RegicideCommands implements CommandExecutor{
 		
 	}
 
+	/**
+	 * This method allows a player to leave all games.
+	 * @param sender The sender of the command
+	 * @return
+	 */
 	public boolean leaveGame(CommandSender sender) {
 		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
 		for (RegicideGame game : games) {
@@ -220,21 +243,34 @@ public class RegicideCommands implements CommandExecutor{
 		return true;
 	}
 	
+	/**
+	 * This method opens a game for player registration.
+	 * @param sender The command sender.
+	 * @param args The command arguments.
+	 * @return
+	 */
 	public boolean openGame(CommandSender sender, String[] args) {
 		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
 		for (RegicideGame game : games) {
 			if (game.getName().equalsIgnoreCase(args[1])) {
-				//Check to see if game is already open
-				
+				//Check to see if the game is running
+				if (game.getIsRunning()) {
+					sender.sendMessage(redChat + boldChat + "Game: " + game.getName() + " is already running!");
+					return false;
+				}
+				//Game is not running
+				game.open();
 			}
 		}
 		return true;
 	}
 	
-	public boolean closeGame(CommandSender sender, String[] args) {
-		return true;
-	}
-
+	/**
+	 * This method sets a Game Exit location.
+	 * @param sender The command sender.
+	 * @param args The command arguments.
+	 * @return
+	 */
 	public boolean setExit(CommandSender sender, String[] args) {
 		if (args.length < 2) {
 			sender.sendMessage("Please supply the name of the instance to add this exit point to!");
