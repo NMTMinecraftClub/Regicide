@@ -45,6 +45,13 @@ public class GameTimer extends BukkitRunnable {
 		for (RPlayer player : game.getPlayers()) {
 			Player p = player.getPlayer();
 			if (player.isKing()) {
+				
+				//is their hunger all the way down?
+				//if so, DEATH
+				if (p.getFoodLevel() < 1) {
+					game.killPlayer(player);
+				}
+				
 				p.setSaturation(0);
 				p.setExhaustion(p.getExhaustion() + .5f);
 				if (p.getExhaustion() >= 3.9f) {
@@ -54,6 +61,7 @@ public class GameTimer extends BukkitRunnable {
 			} else {
 				p.setSaturation(20);
 				p.setFoodLevel(20);
+				
 			}
 		}
 		
