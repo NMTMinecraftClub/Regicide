@@ -389,10 +389,12 @@ public class RegicideGame implements Listener {
 			//not part of this game!!!!!!
 		}
 		
+		
 		rplay.setHitBy(getPlayer((Player) e.getDamager()));
 		
 		if (e.getDamage() >= player.getHealth()) {
 			//player gonna die!
+			getPlayer((Player) e.getDamager()).addKill();
 			e.setCancelled(true);
 			killPlayer(rplay);
 		}
@@ -481,8 +483,10 @@ public class RegicideGame implements Listener {
 		}
 		
 		Player play = player.getPlayer();
+		getPlayer(play).downgrade();
+		
 		play.setHealth(play.getMaxHealth());
-
+		
 		//player.die();
 		//check if they were the king
 		if (player.isKing()) {
