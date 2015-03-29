@@ -140,13 +140,23 @@ public class RPlayer{
 	}
 	
 	public void setInitialState() {
-		// TODO Auto-generated method stub
 		this.isKing=false;
 		this.killCount = 0;
 		player.setHealth(player.getMaxHealth());
 		player.closeInventory();
 		player.getInventory().clear();
 		player.getInventory().addItem(new ItemStack(Material.WOOD_SWORD,1));
+		player.setExp(0);
+		player.getActivePotionEffects().clear();
+		player.setGameMode(GameMode.SURVIVAL);
+	}
+	
+	public void setEndState() {
+		this.isKing=false;
+		this.killCount = 0;
+		player.setHealth(player.getMaxHealth());
+		player.closeInventory();
+		player.getInventory().clear();
 		player.setExp(0);
 		player.getActivePotionEffects().clear();
 		player.setGameMode(GameMode.SURVIVAL);

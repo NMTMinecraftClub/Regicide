@@ -150,6 +150,7 @@ public class RegicideCommands implements CommandExecutor{
 			sender.sendMessage(redChat + "Not the correct number of arguments: /regicide register <game name>" + resetChat);
 			return false;
 		}
+		
 		List<RegicideGame> Games = RegicidePlugin.regicidePlugin.getGames();
 		//Check to see if a Game with the same name already exists
 		for (RegicideGame g : Games) {
@@ -300,6 +301,9 @@ public class RegicideCommands implements CommandExecutor{
 				//Check to see if the game is running
 				if (game.getIsRunning()) {
 					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!" + resetChat);
+					return false;
+				}else if(game.getLobbyLocation() == null){
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " has no lobby!" + resetChat);
 					return false;
 				}
 				//Game is not running
