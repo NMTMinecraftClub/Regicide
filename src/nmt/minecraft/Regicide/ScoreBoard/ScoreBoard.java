@@ -75,4 +75,8 @@ public class ScoreBoard {
 	public void update(float time) {
 		scoreBar.update(time);
 	}
+	
+	public void removePlayer(RPlayer player) {
+		board.resetScores(player.getPlayer().getDisplayName());
+	}
 }

@@ -91,9 +91,16 @@ public class RegicideCommands implements CommandExecutor{
 			setLobby(sender, args);
 			return true;
 		}
-		
 		if (args[0].equalsIgnoreCase("leave")) {
 			
+		}
+		if (args[0].equalsIgnoreCase("setExit")) {
+			if(args.length != 2){
+				sender.sendMessage("Wrong number of arguments: /regicide Exit [name]");
+				return false;
+			}
+			setExit(sender, args);
+			return true;
 		}
 		sender.sendMessage("Something went wrong...");
 		sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
@@ -154,7 +161,7 @@ public class RegicideCommands implements CommandExecutor{
 		}
 		RegicidePlugin.regicidePlugin.getLogger().info("Warning! Could not find: \"" + gameName + "\" in registered games!");
 		sender.sendMessage("That game is not registered! Make sure you register with /regicide register <game name>");
-		return true;
+		return false;
 	}
 	
 	public boolean setSpawn(CommandSender sender, String[] args) {
@@ -172,7 +179,7 @@ public class RegicideCommands implements CommandExecutor{
 		}
 		
 		sender.sendMessage("Unable to locate instance: " + args[1]);		
-		return true;
+		return false;
 	}
 	
 	public boolean setLobby(CommandSender sender, String[] args) {
@@ -194,10 +201,10 @@ public class RegicideCommands implements CommandExecutor{
 		}
 		
 		sender.sendMessage("Unable to locate instance: " + args[1]);		
-		return true;
+		return false;
 		
 	}
-	
+
 	public boolean leaveGame(CommandSender sender) {
 		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
 		for (RegicideGame game : games) {
@@ -220,5 +227,28 @@ public class RegicideCommands implements CommandExecutor{
 	
 	public boolean closeGame(CommandSender sender, String[] args) {
 		return true;
+	}
+
+	public boolean setExit(CommandSender sender, String[] args) {
+		if (args.length < 2) {
+			sender.sendMessage("Please supply the name of the instance to add this exit point to!");
+			return false;
+		}
+		
+
+		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
+			if (game.getName().equalsIgnoreCase(args[1])) {
+				//do the stuff
+				Location loc = ((Player) sender).getLocation();
+				game.setExitLocation(loc);
+				
+				sender.sendMessage("Successfully registered Exit position!");
+				return true;
+			}
+		}
+		
+		sender.sendMessage("Unable to locate instance: " + args[1]);		
+		return false;
+		
 	}
 }

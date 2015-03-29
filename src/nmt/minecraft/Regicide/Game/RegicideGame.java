@@ -21,8 +21,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -72,6 +74,9 @@ public class RegicideGame implements Listener {
 	
 	private ScoreBoard board;
 	
+	private boolean isOpen;
+	
+	private Location exitLocation;
 	
 	/**
 	 * Create a blank regicide game.
@@ -82,10 +87,16 @@ public class RegicideGame implements Listener {
 		players = new HashMap<UUID, RPlayer>();
 		spawnLocations = new LinkedList<Location>();
 		lobbyLocation = null;
-				
+		exitLocation = null;
+		
 		board = new ScoreBoard();
 		
 		Bukkit.getPluginManager().registerEvents(this, RegicidePlugin.regicidePlugin);
+		isOpen = false;
+	}
+	
+	public void open() {
+		this.isOpen = true;
 	}
 
 	
@@ -117,7 +128,13 @@ public class RegicideGame implements Listener {
 			return;
 		}
 		
+		if(this.exitLocation == null){
+			RegicidePlugin.regicidePlugin.getLogger().severe("Unable to start game because there is no exit Location!");
+			return;
+		}
+		
 		isRunning = true;
+		isOpen = false;
 		
 		//make players invis 
 		makePlayersInvisible();
@@ -142,6 +159,10 @@ public class RegicideGame implements Listener {
 		int kingIndex;
 		Random rand = new Random();
 		kingIndex = rand.nextInt(players.size());
+		
+		if (king != null) {
+			king.setIsKing(false);
+		}
 		
 		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
 		king.makeKing();
@@ -224,6 +245,11 @@ public class RegicideGame implements Listener {
 	 * @param player
 	 */
 	public void addPlayer(UUID player) {
+		if (!isOpen) {
+			Bukkit.getPlayer(player).sendMessage("Game is not yet open, or has already closed!");
+			return;
+		}
+		
 		if (players.containsKey(player)) {
 			return;
 		}
@@ -263,7 +289,33 @@ public class RegicideGame implements Listener {
 	}
 	
 	public boolean removePlayer(RPlayer player) {
-		return (players.remove(player) != null);
+		RPlayer plays = players.remove(player.getPlayer().getUniqueId());
+		if (plays == null) {
+			System.out.println("Not a player!");
+			return false;
+		}
+		
+		if (exitLocation == null) {
+			RegicidePlugin.regicidePlugin.getLogger().warning("No exit location has been set!");
+		} else {
+			player.teleport(exitLocation);
+		}
+		
+		if (player.isKing()) {
+
+			System.out.println("got a king!");
+			if (plays.getLastHitBy() == null) {
+				makeRandomKing();
+				board.updateKing(king);
+			}
+			else {
+				this.king = plays.getLastHitBy();
+				king.makeKing();
+				board.updateKing(king);
+			}
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -305,13 +357,17 @@ public class RegicideGame implements Listener {
 			player.getPlayer().sendMessage("Game now ending. This is lame put more fancy ending!");
 		}
 		
-		players.clear();
+		for (RPlayer player : players.values()) {
+			removePlayer(player);
+		}
+		
+		RegicidePlugin.regicidePlugin.endGame(this);
 		
 		//TODO PUT FINISHING STUFF
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)
-	public void onPlayerDamage(EntityDamageByEntityEvent e) {
+	public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
 			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
 				//TODO check if villager, if so nauseua
@@ -325,6 +381,14 @@ public class RegicideGame implements Listener {
 		}
 		
 		Player player = (Player) e.getEntity();
+		RPlayer rplay = getPlayer(player);
+		
+		if (rplay == null) {
+			return; 
+			//not part of this game!!!!!!
+		}
+		
+		rplay.setHitBy(getPlayer((Player) e.getDamager()));
 		
 		if (e.getDamage() >= player.getHealth()) {
 			//player gonna die!
@@ -332,7 +396,6 @@ public class RegicideGame implements Listener {
 			player.setHealth(player.getMaxHealth());
 			
 			//check if they were the king
-			RPlayer rplay = getPlayer(player);
 			if (rplay.isKing()) {
 				//register new king!
 				rplay.die();
@@ -343,6 +406,7 @@ public class RegicideGame implements Listener {
 			
 			//teleport needs to come after the fireworks in the die call
 			player.teleport(getSpawnLocation());
+			player.getActivePotionEffects().clear();
 		}
 	}
 	
@@ -379,7 +443,8 @@ public class RegicideGame implements Listener {
 	
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent e){
-		if(e.getEntity() instanceof Player){
+		if(e.getEntity() instanceof Player && e.getCause() != DamageCause.ENTITY_ATTACK){
+		
 			//if the player is gonna die teleport them and fill they're health
 			Player player = (Player) e.getEntity();
 
@@ -390,20 +455,32 @@ public class RegicideGame implements Listener {
 				
 				//TODO if the player is on fire put them out
 				player.getActivePotionEffects().clear();
-				player.setFireTicks(0);
+				player.setFireTicks(1);
 				
 				//lose king if you die
 				RPlayer rplayer = getPlayer(player);
 				if(rplayer.isKing()){
 					rplayer.die();
-					makeRandomKing();
+					//makeRandomKing();
+					//instead of making a random king, we make the last person
+					//who hit them king. unless nobody did then random
+					//to avoid them killing themselves instead of letting someone get king
+					
+					if (rplayer.getLastHitBy() == null) {
+						makeRandomKing();
+					}
+					else {
+						this.king = rplayer.getLastHitBy();
+						king.makeKing();
+						board.updateKing(king);
+					}
 				}
 			}
 		}
 	}
 	
 	@EventHandler
-	public void onThingGettingSetOnFireEvent(EntityCombustEvent e){
+	public void onThingGettingSetOnFireEvent(EntityCombustEvent e) {
 		if(e.getEntity() instanceof Player){
 			Player player = (Player)e.getEntity();//if the thing on fire is a player in the game, don't allow it to burn
 			if(getPlayer(player) != null){
@@ -413,5 +490,22 @@ public class RegicideGame implements Listener {
 		}else if(e.getEntity() instanceof Villager){
 			e.setCancelled(true);
 		}
+	}
+	
+	/**
+	 * Catch player logout, and remove the rplayer associated with them
+	 * @param e
+	 */
+	@EventHandler
+	public void onLogout(PlayerQuitEvent e) {
+		if (getPlayer(e.getPlayer()) != null) {
+			System.out.println("got a player!");
+			removePlayer(e.getPlayer());
+			board.removePlayer(getPlayer(e.getPlayer()));
+		}
+	}
+	
+	public void setExitLocation(Location exit){
+		this.exitLocation = exit;
 	}
 }
