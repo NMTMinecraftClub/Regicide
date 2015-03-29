@@ -302,6 +302,9 @@ public class RegicideCommands implements CommandExecutor{
 				if (game.getIsRunning()) {
 					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!" + resetChat);
 					return false;
+				}else if(game.getLobbyLocation() == null){
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " has no lobby!" + resetChat);
+					return false;
 				}
 				//Game is not running
 				game.open();
