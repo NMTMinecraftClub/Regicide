@@ -318,6 +318,8 @@ public class RegicideGame implements Listener {
 			}
 		}
 		
+		player.setEndState();
+		
 		return true;
 	}
 	
