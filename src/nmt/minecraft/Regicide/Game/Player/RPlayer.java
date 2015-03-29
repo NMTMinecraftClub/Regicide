@@ -12,18 +12,19 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 public class RPlayer{
 	
 	private Player player;
-	
 	
 	private boolean isKing;
 	
@@ -41,9 +42,17 @@ public class RPlayer{
 	
 	private RPlayer lastHitBy;
 	
+	private int killCount;
+	
+	private int upgradeLevel;
+	
+	private static Material[] levels = {Material.WOOD_SWORD, Material.STONE_SWORD, Material.IRON_SWORD, Material.DIAMOND_SWORD};
+	
 	public RPlayer(UUID player) {
 		points = 0;
 		isKing = false;
+		this.killCount = 0;
+		this.upgradeLevel = 0;
 		this.player = Bukkit.getPlayer(player);
 		
 		disguise = new MobDisguise(DisguiseType.VILLAGER, true);
@@ -82,6 +91,9 @@ public class RPlayer{
 	
 	public void setIsKing(boolean isKing) {
 		this.isKing = isKing;
+		if(isKing == true){
+			this.switchSword(Material.GOLD_SWORD);
+		}
 	}
 	
 	public boolean isKing() {
@@ -130,12 +142,42 @@ public class RPlayer{
 	public void setInitialState() {
 		// TODO Auto-generated method stub
 		this.isKing=false;
+		this.killCount = 0;
 		player.setHealth(player.getMaxHealth());
 		player.closeInventory();
 		player.getInventory().clear();
-		player.getInventory().addItem(new ItemStack(Material.STONE_SWORD,1));
+		player.getInventory().addItem(new ItemStack(Material.WOOD_SWORD,1));
 		player.setExp(0);
 		player.getActivePotionEffects().clear();
+		player.setGameMode(GameMode.SURVIVAL);
+	}
+	
+	public void addKill(){
+		this.killCount++;
+		this.upgrade();
+	}
+	
+	private void upgrade(){
+		if(this.upgradeLevel != levels.length-1 && this.isKing == false){
+			//if not at the top level, go to the next level
+			this.upgradeLevel++;
+			this.switchSword(levels[this.upgradeLevel]);
+		}
+	}
+	
+	public void downgrade(){
+		this.upgradeLevel = 0;
+		this.switchSword(levels[this.upgradeLevel]);
+	}
+	
+	private void switchSword(Material sword){
+		PlayerInventory inventory = this.player.getInventory();
+		for(Material tmp : levels){
+			inventory.remove(tmp);
+		}
+		inventory.remove(Material.GOLD_SWORD);
+		
+		inventory.addItem(new ItemStack(sword,1));
 	}
 	
 }

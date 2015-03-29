@@ -13,18 +13,20 @@ import org.bukkit.command.TabCompleter;
 public class RegicideTabCompleter implements TabCompleter{
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+		System.out.println("Alias: " + alias);
 		if(cmd.getName().equalsIgnoreCase("regicide")){
 			List<String> list=new ArrayList<String>();
 			if(args.length == 1){
+				System.out.println("ARGs[0]: " + args[0]);
 				List<String> tmpList;
 				 tmpList = RegicideCommands.getCommandList();//get the list of commands
 				 //only put the ones that start with the given
-				 if(alias.isEmpty()){
+				 if(args[0].isEmpty()){
 					 return tmpList;
 				 }
 				 
 				 for(String tmpString : tmpList){
-					 if(tmpString.startsWith(alias)){
+					 if(tmpString.startsWith(args[0])){
 						 list.add(tmpString);
 					 }
 				 }
