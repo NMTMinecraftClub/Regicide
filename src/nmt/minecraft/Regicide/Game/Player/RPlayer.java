@@ -58,7 +58,7 @@ public class RPlayer{
 		this.upgradeLevel = 0;
 		this.player = Bukkit.getPlayer(player);
 		
-		disguise = new MobDisguise(DisguiseType.VILLAGER, true);
+		//disguise = new MobDisguise(DisguiseType.VILLAGER, true);
 	}
 	
 	public void teleport(Location loc) {
@@ -69,6 +69,7 @@ public class RPlayer{
 	 * Disguises the underlying player as his registered disguise -- a villager
 	 */
 	public void disguise() {
+		disguise = new MobDisguise(DisguiseType.VILLAGER, true);
 		DisguiseAPI.disguiseToAll(this.player, disguise);
 	}
 	
@@ -77,6 +78,7 @@ public class RPlayer{
 	 */
 	public void unDisguise() {
 		DisguiseAPI.undisguiseToAll(this.player);
+		disguise = null;
 	}
 	
 	public Player getPlayer() {
@@ -152,6 +154,7 @@ public class RPlayer{
 		player.setExp(0);
 		player.getActivePotionEffects().clear();
 		player.setGameMode(GameMode.SURVIVAL);
+		this.disguise();
 	}
 	
 	public void setEndState() {
@@ -164,6 +167,7 @@ public class RPlayer{
 		player.getActivePotionEffects().clear();
 		player.setGameMode(GameMode.SURVIVAL);
 		player.setFoodLevel(20);//set max food level
+		this.unDisguise();
 	}
 	
 	public void addKill(){
