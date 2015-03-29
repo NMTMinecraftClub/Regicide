@@ -467,8 +467,8 @@ public class RegicideGame implements Listener {
 	public void onLogout(PlayerQuitEvent e) {
 		if (getPlayer(e.getPlayer()) != null) {
 			System.out.println("got a player!");
-			removePlayer(e.getPlayer());
 			board.removePlayer(getPlayer(e.getPlayer()));
+			removePlayer(e.getPlayer());
 		}
 	}
 	
