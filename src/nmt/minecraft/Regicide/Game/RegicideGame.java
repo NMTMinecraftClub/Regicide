@@ -1,7 +1,6 @@
 package nmt.minecraft.Regicide.Game;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -154,7 +153,6 @@ public class RegicideGame implements Listener {
 		
 		board.displayScoreboard(players.values());
 		board.updateKing(king);
-		
 	}
 	
 	private void makeRandomKing(){
@@ -518,6 +516,7 @@ public class RegicideGame implements Listener {
 		play.setFireTicks(1);
 		play.setFoodLevel(20);
 		play.setExhaustion(0);
+		player.disguise(); //changedisguise
 		
 	}
 	
