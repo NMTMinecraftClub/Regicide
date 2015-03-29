@@ -517,7 +517,7 @@ public class RegicideGame implements Listener {
 		play.setFireTicks(1);
 		play.setFoodLevel(20);
 		play.setExhaustion(0);
-		player.disguise(); //changedisguise
+		player.disguise(); //change disguise
 		
 	}
 	
