@@ -20,12 +20,14 @@ public class RegicideTabCompleter implements TabCompleter{
 				List<String> tmpList;
 				 tmpList = RegicideCommands.getCommandList();//get the list of commands
 				 //only put the ones that start with the given
+				 
 				 if(args[0].isEmpty()){
 					 return tmpList;
 				 }
 				 
 				 for(String tmpString : tmpList){
-					 if(tmpString.startsWith(args[0])){
+					 String incomplete = args[0].toLowerCase();
+					 if(startsWithIgnoreCase(tmpString,incomplete)){
 						 list.add(tmpString);
 					 }
 				 }
@@ -38,6 +40,12 @@ public class RegicideTabCompleter implements TabCompleter{
 			return list;
 		}
 		return null;
+	}
+	
+	private static boolean startsWithIgnoreCase(String string1, String string2){
+		string1 = string1.toLowerCase();
+		string2 = string2.toLowerCase();
+		return string1.startsWith(string2);
 	}
 
 }

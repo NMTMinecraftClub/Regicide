@@ -485,7 +485,7 @@ public class RegicideGame implements Listener {
 		
 		Player play = player.getPlayer();
 		getPlayer(play).downgrade();
-		
+		getPlayer(play).clearPotionEffects();
 		play.setHealth(play.getMaxHealth());
 		
 		//player.die();
