@@ -240,6 +240,7 @@ public class RegicideGame implements Listener {
 	 */
 	public void addPlayer(Player player) {
 		addPlayer(player.getUniqueId());
+		player.sendMessage(ChatColor.GREEN+ "You have sucessfully joined "+this.name+ChatColor.RESET);
 	}
 	
 	/**
@@ -248,7 +249,7 @@ public class RegicideGame implements Listener {
 	 */
 	public void addPlayer(UUID player) {
 		if (!isOpen) {
-			Bukkit.getPlayer(player).sendMessage(ChatColor.DARK_RED + "Game is not yet open, or has already closed!" + ChatColor.RESET);
+			Bukkit.getPlayer(player).sendMessage(ChatColor.DARK_RED + "ERROR: "+ChatColor.RESET+"Game is not yet open, or has already closed!");
 			return;
 		}
 		
