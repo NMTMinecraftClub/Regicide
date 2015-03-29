@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 public class RegicideTabCompleter implements TabCompleter{
-	//public static RegicidePlugin plugin = RegicidePlugin.plugin; //not sure if this is needed
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("regicide")){
@@ -26,7 +25,6 @@ public class RegicideTabCompleter implements TabCompleter{
 			}
 			return list;
 		}
-		
 		return null;
 	}
 
