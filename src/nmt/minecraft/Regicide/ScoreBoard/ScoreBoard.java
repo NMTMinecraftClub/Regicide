@@ -78,5 +78,6 @@ public class ScoreBoard {
 	
 	public void removePlayer(RPlayer player) {
 		board.resetScores(player.getPlayer().getDisplayName());
+		player.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 	}
 }

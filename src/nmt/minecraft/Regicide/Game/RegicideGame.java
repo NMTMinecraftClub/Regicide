@@ -317,6 +317,7 @@ public class RegicideGame implements Listener {
 			}
 		}
 		
+		board.removePlayer(player);
 		player.setEndState();
 		
 		return true;
