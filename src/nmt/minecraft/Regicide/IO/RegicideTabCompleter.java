@@ -13,6 +13,7 @@ import org.bukkit.command.TabCompleter;
 public class RegicideTabCompleter implements TabCompleter{
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+		System.out.println("Alias: " + alias);
 		if(cmd.getName().equalsIgnoreCase("regicide")){
 			List<String> list=new ArrayList<String>();
 			if(args.length == 1){

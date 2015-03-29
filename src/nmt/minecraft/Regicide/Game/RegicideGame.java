@@ -508,6 +508,8 @@ public class RegicideGame implements Listener {
 		player.teleport(getSpawnLocation());
 		play.getActivePotionEffects().clear();
 		play.setFireTicks(1);
+		play.setFoodLevel(20);
+		play.setExhaustion(0);
 		
 	}
 }
