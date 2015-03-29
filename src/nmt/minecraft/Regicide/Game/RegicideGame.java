@@ -265,7 +265,23 @@ public class RegicideGame implements Listener {
 	}
 	
 	public boolean removePlayer(RPlayer player) {
-		return (players.remove(player) != null);
+		RPlayer plays = players.remove(player);
+		if (plays == null) {
+			return false;
+		}
+		if (plays.isKing()) {
+
+			if (plays.getLastHitBy() == null) {
+				makeRandomKing();
+			}
+			else {
+				this.king = plays.getLastHitBy();
+				king.makeKing();
+				board.updateKing(king);
+			}
+		}
+		
+		return true;
 	}
 	
 	/**
