@@ -51,6 +51,7 @@ public class RegicideCommands implements CommandExecutor{
 			sender.sendMessage(blueChat + "setSpawn " + goldChat + " [game name]" + resetChat + " sets another spawn point for the specified game");
 			sender.sendMessage(blueChat + "setLobby " + goldChat + " [game name]" + resetChat + " sets the lobby location");
 			sender.sendMessage(blueChat + "setExit  " + goldChat + " [game name]" + resetChat + " sets the exit location of a game");
+			sender.sendMessage(blueChat + "open     " + goldChat + " [game name]" + resetChat + " opens a game for registration");
 			sender.sendMessage(blueChat + "leave    " + resetChat + " leave regicide");
 			return true;
 		}
@@ -96,6 +97,11 @@ public class RegicideCommands implements CommandExecutor{
 			return true;
 		}
 		
+		//Open Game
+		if (args[0].equalsIgnoreCase("open")) {
+			this.openGame(sender, args);
+		}
+		
 		//Leave Game
 		if (args[0].equalsIgnoreCase("leave")) {
 			this.leaveGame(sender);
@@ -116,7 +122,7 @@ public class RegicideCommands implements CommandExecutor{
 	}
 	
 	public static List<String> getCommandList(){
-		String[] commands = {"register", "setLobby", "setSpawn", "setExit", "start", "leave", "setExit", "help"};
+		String[] commands = {"register", "setLobby", "setSpawn", "setExit", "start", "leave", "setExit", "open", "help"};
 		return Arrays.asList(commands);
 	}
 	
