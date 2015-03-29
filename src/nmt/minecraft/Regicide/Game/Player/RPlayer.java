@@ -1,5 +1,7 @@
 package nmt.minecraft.Regicide.Game.Player;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.UUID;
 
 import me.libraryaddict.disguise.DisguiseAPI;
@@ -21,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.potion.PotionEffect;
 
 public class RPlayer{
 	
@@ -188,6 +191,15 @@ public class RPlayer{
 		inventory.remove(Material.GOLD_SWORD);
 		
 		inventory.addItem(new ItemStack(sword,1));
+	}
+	
+	public void clearPotionEffects(){
+		Collection<PotionEffect> list = player.getActivePotionEffects();
+		Iterator<PotionEffect> it = player.getActivePotionEffects().iterator();
+		
+		while(it.hasNext()){
+			list.remove(it.next());
+		}
 	}
 	
 }
