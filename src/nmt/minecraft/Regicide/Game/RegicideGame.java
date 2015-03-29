@@ -76,6 +76,7 @@ public class RegicideGame implements Listener {
 	
 	private boolean isOpen;
 	
+	private Location exitLocation;
 	
 	/**
 	 * Create a blank regicide game.
@@ -86,7 +87,8 @@ public class RegicideGame implements Listener {
 		players = new HashMap<UUID, RPlayer>();
 		spawnLocations = new LinkedList<Location>();
 		lobbyLocation = null;
-				
+		exitLocation = null;
+		
 		board = new ScoreBoard();
 		
 		Bukkit.getPluginManager().registerEvents(this, RegicidePlugin.regicidePlugin);
@@ -123,6 +125,11 @@ public class RegicideGame implements Listener {
 		
 		if (players.size() <= 0) {
 			RegicidePlugin.regicidePlugin.getLogger().severe("Unable to start game because there are no registered players!");
+			return;
+		}
+		
+		if(this.exitLocation == null){
+			RegicidePlugin.regicidePlugin.getLogger().severe("Unable to start game because there is no exit Location!");
 			return;
 		}
 		
@@ -439,7 +446,7 @@ public class RegicideGame implements Listener {
 				
 				//TODO if the player is on fire put them out
 				player.getActivePotionEffects().clear();
-				player.setFireTicks(0);
+				player.setFireTicks(1);
 				
 				//lose king if you die
 				RPlayer rplayer = getPlayer(player);
@@ -487,5 +494,9 @@ public class RegicideGame implements Listener {
 			removePlayer(e.getPlayer());
 			board.removePlayer(getPlayer(e.getPlayer()));
 		}
+	}
+	
+	public void setExitLocation(Location exit){
+		this.exitLocation = exit;
 	}
 }
