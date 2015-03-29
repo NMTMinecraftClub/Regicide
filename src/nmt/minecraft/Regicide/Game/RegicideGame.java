@@ -71,7 +71,7 @@ public class RegicideGame implements Listener {
 	
 	private GameTimer timer;
 	
-	private long endTime = 600;
+	private long endTime = 120;
 	
 	private ScoreBoard board;
 	
@@ -306,7 +306,7 @@ public class RegicideGame implements Listener {
 		if (player.isKing()) {
 
 			System.out.println("got a king!");
-			if (plays.getLastHitBy() == null) {
+			if (plays.getLastHitBy() == null || getPlayer(plays.getLastHitBy().getPlayer()) != null) {
 				makeRandomKing();
 				board.updateKing(king);
 			}
