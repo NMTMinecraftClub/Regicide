@@ -24,6 +24,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -264,7 +265,23 @@ public class RegicideGame implements Listener {
 	}
 	
 	public boolean removePlayer(RPlayer player) {
-		return (players.remove(player) != null);
+		RPlayer plays = players.remove(player);
+		if (plays == null) {
+			return false;
+		}
+		if (plays.isKing()) {
+
+			if (plays.getLastHitBy() == null) {
+				makeRandomKing();
+			}
+			else {
+				this.king = plays.getLastHitBy();
+				king.makeKing();
+				board.updateKing(king);
+			}
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -308,6 +325,8 @@ public class RegicideGame implements Listener {
 		
 		players.clear();
 		
+		RegicidePlugin.regicidePlugin.endGame(this);
+		
 		//TODO PUT FINISHING STUFF
 	}
 	
@@ -327,6 +346,11 @@ public class RegicideGame implements Listener {
 		
 		Player player = (Player) e.getEntity();
 		RPlayer rplay = getPlayer(player);
+		
+		if (rplay == null) {
+			return; 
+			//not part of this game!!!!!!
+		}
 		
 		rplay.setHitBy(getPlayer((Player) e.getDamager()));
 		
@@ -429,6 +453,17 @@ public class RegicideGame implements Listener {
 			}
 		}else if(e.getEntity() instanceof Villager){
 			e.setCancelled(true);
+		}
+	}
+	
+	/**
+	 * Catch player logout, and remove the rplayer associated with them
+	 * @param e
+	 */
+	@EventHandler
+	public void onLogout(PlayerQuitEvent e) {
+		if (getPlayer((Player) e) != null) {
+			removePlayer((Player) e);
 		}
 	}
 }
