@@ -294,6 +294,13 @@ public class RegicideGame implements Listener {
 			System.out.println("Not a player!");
 			return false;
 		}
+		
+		if (exitLocation == null) {
+			RegicidePlugin.regicidePlugin.getLogger().warning("No exit location has been set!");
+		} else {
+			player.teleport(exitLocation);
+		}
+		
 		if (player.isKing()) {
 
 			System.out.println("got a king!");
@@ -350,7 +357,9 @@ public class RegicideGame implements Listener {
 			player.getPlayer().sendMessage("Game now ending. This is lame put more fancy ending!");
 		}
 		
-		players.clear();
+		for (RPlayer player : players.values()) {
+			removePlayer(player);
+		}
 		
 		RegicidePlugin.regicidePlugin.endGame(this);
 		
