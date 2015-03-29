@@ -255,6 +255,7 @@ public class RegicideGame implements Listener {
 		}
 		
 		players.put(player, new RPlayer(player));
+		getPlayer(player).teleport(getLobbyLocation());
 	}
 	
 	/**
