@@ -303,6 +303,7 @@ public class RegicideGame implements Listener {
 			player.teleport(exitLocation);
 		}
 		
+		if (isRunning)
 		if (player.isKing()) {
 
 			System.out.println("got a king!");
