@@ -328,6 +328,11 @@ public class RegicideGame implements Listener {
 		Player player = (Player) e.getEntity();
 		RPlayer rplay = getPlayer(player);
 		
+		if (rplay == null) {
+			return; 
+			//not part of this game!!!!!!
+		}
+		
 		rplay.setHitBy(getPlayer((Player) e.getDamager()));
 		
 		if (e.getDamage() >= player.getHealth()) {
