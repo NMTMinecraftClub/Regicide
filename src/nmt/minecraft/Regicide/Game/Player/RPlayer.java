@@ -69,6 +69,7 @@ public class RPlayer{
 	 * Disguises the underlying player as his registered disguise -- a villager
 	 */
 	public void disguise() {
+		DisguiseAPI.undisguiseToAll(this.player);
 		disguise = new MobDisguise(DisguiseType.VILLAGER, true);
 		DisguiseAPI.disguiseToAll(this.player, disguise);
 	}
