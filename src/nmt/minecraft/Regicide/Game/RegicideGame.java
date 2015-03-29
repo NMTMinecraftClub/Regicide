@@ -240,7 +240,6 @@ public class RegicideGame implements Listener {
 	 */
 	public void addPlayer(Player player) {
 		addPlayer(player.getUniqueId());
-		player.sendMessage(ChatColor.GREEN+ "You have sucessfully joined "+this.name+ChatColor.RESET);
 	}
 	
 	/**
@@ -259,6 +258,7 @@ public class RegicideGame implements Listener {
 		
 		players.put(player, new RPlayer(player));
 		getPlayer(player).teleport(getLobbyLocation());
+		getPlayer(player).getPlayer().sendMessage(ChatColor.GREEN+ "You have sucessfully joined "+this.name+ChatColor.RESET);
 	}
 	
 	/**
