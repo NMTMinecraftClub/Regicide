@@ -458,7 +458,7 @@ public class RegicideGame implements Listener {
 			Player player = (Player)e.getEntity();//if the thing on fire is a player in the game, don't allow it to burn
 			if(getPlayer(player) != null){
 				e.setCancelled(true);
-				player.setFireTicks(0);
+				player.setFireTicks(1);
 			}
 		}else if(e.getEntity() instanceof Villager){
 			e.setCancelled(true);
