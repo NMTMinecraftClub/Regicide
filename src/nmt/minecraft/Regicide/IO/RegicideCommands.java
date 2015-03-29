@@ -190,7 +190,7 @@ public class RegicideCommands implements CommandExecutor{
 					return false;
 				}
 				
-				sender.sendMessage("Started Game Instance: " + g.getName());
+				sender.sendMessage(aquaChat + "Started Game Instance: " + goldChat +  g.getName() + resetChat);
 				RegicidePlugin.regicidePlugin.getLogger().info("Started Game: " + g.getName());
 				g.startGame();
 				return true;

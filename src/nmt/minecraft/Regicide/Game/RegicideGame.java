@@ -11,6 +11,7 @@ import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -246,7 +247,7 @@ public class RegicideGame implements Listener {
 	 */
 	public void addPlayer(UUID player) {
 		if (!isOpen) {
-			Bukkit.getPlayer(player).sendMessage("Game is not yet open, or has already closed!");
+			Bukkit.getPlayer(player).sendMessage(ChatColor.DARK_RED + "Game is not yet open, or has already closed!" + ChatColor.RESET);
 			return;
 		}
 		
