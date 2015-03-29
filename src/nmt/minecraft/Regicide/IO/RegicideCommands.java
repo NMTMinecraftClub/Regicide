@@ -5,6 +5,7 @@ import java.util.List;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
+import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -192,6 +193,12 @@ public class RegicideCommands implements CommandExecutor{
 				
 				sender.sendMessage(aquaChat + "Started Game Instance: " + goldChat +  g.getName() + resetChat);
 				RegicidePlugin.regicidePlugin.getLogger().info("Started Game: " + g.getName());
+				sender.sendMessage(greenChat + "Started: " + g.getName() + resetChat);
+				List<RPlayer> gamePlayers = g.getPlayers();
+				for (RPlayer player : gamePlayers) {
+					Player p = player.getPlayer();
+					p.sendMessage(goldChat + "The Game Has Begun!" + resetChat);
+				}
 				g.startGame();
 				return true;
 			}
@@ -225,7 +232,7 @@ public class RegicideCommands implements CommandExecutor{
 			}
 		}
 		
-		sender.sendMessage(redChat + "Unable to locate instance: " + args[1] + resetChat);		
+		sender.sendMessage(redChat + "Unable to locate instance: " + goldChat + args[1] + resetChat);		
 		return false;
 	}
 	
@@ -257,7 +264,7 @@ public class RegicideCommands implements CommandExecutor{
 			}
 		}
 		
-		sender.sendMessage(redChat + "Unable to locate instance: " + args[1] + resetChat);		
+		sender.sendMessage(redChat + "Unable to locate instance: " + goldChat + args[1] + resetChat);		
 		return false;
 		
 	}
@@ -288,7 +295,7 @@ public class RegicideCommands implements CommandExecutor{
 			if (game.getName().equalsIgnoreCase(args[1])) {
 				//Check to see if the game is running
 				if (game.getIsRunning()) {
-					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + game.getName() + " is already running!" + resetChat);
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!" + resetChat);
 					return false;
 				}
 				//Game is not running
@@ -323,7 +330,7 @@ public class RegicideCommands implements CommandExecutor{
 			}
 		}
 		
-		sender.sendMessage(redChat + "Unable to locate instance: " + args[1] + resetChat);		
+		sender.sendMessage(redChat + "Unable to locate instance: " + goldChat + args[1] + resetChat);		
 		return false;
 		
 	}
