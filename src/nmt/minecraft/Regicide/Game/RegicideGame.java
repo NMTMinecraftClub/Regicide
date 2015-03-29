@@ -74,6 +74,8 @@ public class RegicideGame implements Listener {
 	
 	private ScoreBoard board;
 	
+	private boolean isOpen;
+	
 	private Location exitLocation;
 	
 	/**
@@ -90,6 +92,11 @@ public class RegicideGame implements Listener {
 		board = new ScoreBoard();
 		
 		Bukkit.getPluginManager().registerEvents(this, RegicidePlugin.regicidePlugin);
+		isOpen = false;
+	}
+	
+	public void open() {
+		this.isOpen = true;
 	}
 
 	
@@ -127,6 +134,7 @@ public class RegicideGame implements Listener {
 		}
 		
 		isRunning = true;
+		isOpen = false;
 		
 		//make players invis 
 		makePlayersInvisible();
@@ -151,6 +159,10 @@ public class RegicideGame implements Listener {
 		int kingIndex;
 		Random rand = new Random();
 		kingIndex = rand.nextInt(players.size());
+		
+		if (king != null) {
+			king.setIsKing(false);
+		}
 		
 		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
 		king.makeKing();
@@ -233,6 +245,11 @@ public class RegicideGame implements Listener {
 	 * @param player
 	 */
 	public void addPlayer(UUID player) {
+		if (!isOpen) {
+			Bukkit.getPlayer(player).sendMessage("Game is not yet open, or has already closed!");
+			return;
+		}
+		
 		if (players.containsKey(player)) {
 			return;
 		}
@@ -272,14 +289,24 @@ public class RegicideGame implements Listener {
 	}
 	
 	public boolean removePlayer(RPlayer player) {
-		RPlayer plays = players.remove(player);
+		RPlayer plays = players.remove(player.getPlayer().getUniqueId());
 		if (plays == null) {
+			System.out.println("Not a player!");
 			return false;
 		}
-		if (plays.isKing()) {
+		
+		if (exitLocation == null) {
+			RegicidePlugin.regicidePlugin.getLogger().warning("No exit location has been set!");
+		} else {
+			player.teleport(exitLocation);
+		}
+		
+		if (player.isKing()) {
 
+			System.out.println("got a king!");
 			if (plays.getLastHitBy() == null) {
 				makeRandomKing();
+				board.updateKing(king);
 			}
 			else {
 				this.king = plays.getLastHitBy();
@@ -330,7 +357,9 @@ public class RegicideGame implements Listener {
 			player.getPlayer().sendMessage("Game now ending. This is lame put more fancy ending!");
 		}
 		
-		players.clear();
+		for (RPlayer player : players.values()) {
+			removePlayer(player);
+		}
 		
 		RegicidePlugin.regicidePlugin.endGame(this);
 		
@@ -469,8 +498,10 @@ public class RegicideGame implements Listener {
 	 */
 	@EventHandler
 	public void onLogout(PlayerQuitEvent e) {
-		if (getPlayer((Player) e) != null) {
-			removePlayer((Player) e);
+		if (getPlayer(e.getPlayer()) != null) {
+			System.out.println("got a player!");
+			removePlayer(e.getPlayer());
+			board.removePlayer(getPlayer(e.getPlayer()));
 		}
 	}
 	
