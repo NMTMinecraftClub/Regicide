@@ -163,6 +163,7 @@ public class RPlayer{
 		player.setExp(0);
 		player.getActivePotionEffects().clear();
 		player.setGameMode(GameMode.SURVIVAL);
+		player.setFoodLevel(20);//set max food level
 	}
 	
 	public void addKill(){
