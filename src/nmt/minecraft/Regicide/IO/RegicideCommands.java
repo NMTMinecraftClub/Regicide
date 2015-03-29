@@ -7,6 +7,7 @@ import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,6 +20,12 @@ import org.bukkit.entity.Player;
  *
  */
 public class RegicideCommands implements CommandExecutor{
+	private String blueChat = ChatColor.BLUE+"";
+	private String goldChat = ChatColor.GOLD+"";
+	private String greenChat = ChatColor.GREEN+"";
+	private String redChat = ChatColor.RED+"";
+	private String boldChat = ChatColor.BOLD+"";
+	private String resetChat = ChatColor.RESET+"";
 	/**
 	 * This method determines how a sent command is to be interpreted.
 	 */
@@ -32,6 +39,17 @@ public class RegicideCommands implements CommandExecutor{
 		if(args.length == 0){
 			sender.sendMessage("Something went wrong... We need more arguments");
 			sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
+			return false;
+		}
+		//The help menu
+		if (args[0].equalsIgnoreCase("help")) {
+			sender.sendMessage(greenChat + boldChat + "===Help===" + resetChat);
+			sender.sendMessage("Usage: " + redChat + "/regicide " + blueChat + "[command] " + goldChat + "[command arguments]" + resetChat);
+			sender.sendMessage(greenChat + boldChat + "===Commands===" + resetChat);
+			sender.sendMessage(blueChat + "register " + goldChat + " [game name]" + resetChat + " registers a new instance of Regicide");
+			sender.sendMessage(blueChat + "start    " + goldChat + " [game name]" + resetChat + " starts the specified game");
+			sender.sendMessage(blueChat + "setSpawn " + goldChat + " [game name]" + resetChat + " sets another spawn point for the specified game");
+			sender.sendMessage(blueChat + "setLobby " + goldChat + " [game name]" + resetChat + "sets the lobby location");
 			return false;
 		}
 		
@@ -80,7 +98,7 @@ public class RegicideCommands implements CommandExecutor{
 	}
 	
 	public static List<String> getCommandList(){
-		String[] commands = {"register", "setLobby", "setSpawn", "start"};
+		String[] commands = {"register", "setLobby", "setSpawn", "start", "help"};
 		return Arrays.asList(commands);
 	}
 	
@@ -132,7 +150,7 @@ public class RegicideCommands implements CommandExecutor{
 			}
 		}
 		RegicidePlugin.regicidePlugin.getLogger().info("Warning! Could not find: \"" + gameName + "\" in registered games!");
-		sender.sendMessage("That game is not registered! Make sure you register with /regicide register <game name>g");
+		sender.sendMessage("That game is not registered! Make sure you register with /regicide register <game name>");
 		return true;
 	}
 	

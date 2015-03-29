@@ -21,6 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -311,7 +312,7 @@ public class RegicideGame implements Listener {
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)
-	public void onPlayerDamage(EntityDamageByEntityEvent e) {
+	public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
 			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
 				//TODO check if villager, if so nauseua
@@ -325,6 +326,9 @@ public class RegicideGame implements Listener {
 		}
 		
 		Player player = (Player) e.getEntity();
+		RPlayer rplay = getPlayer(player);
+		
+		rplay.setHitBy(getPlayer((Player) e.getDamager()));
 		
 		if (e.getDamage() >= player.getHealth()) {
 			//player gonna die!
@@ -332,7 +336,6 @@ public class RegicideGame implements Listener {
 			player.setHealth(player.getMaxHealth());
 			
 			//check if they were the king
-			RPlayer rplay = getPlayer(player);
 			if (rplay.isKing()) {
 				//register new king!
 				rplay.die();
@@ -379,7 +382,8 @@ public class RegicideGame implements Listener {
 	
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent e){
-		if(e.getEntity() instanceof Player){
+		if(e.getEntity() instanceof Player && e.getCause() != DamageCause.ENTITY_ATTACK){
+		
 			//if the player is gonna die teleport them and fill they're health
 			Player player = (Player) e.getEntity();
 
@@ -396,14 +400,26 @@ public class RegicideGame implements Listener {
 				RPlayer rplayer = getPlayer(player);
 				if(rplayer.isKing()){
 					rplayer.die();
-					makeRandomKing();
+					//makeRandomKing();
+					//instead of making a random king, we make the last person
+					//who hit them king. unless nobody did then random
+					//to avoid them killing themselves instead of letting someone get king
+					
+					if (rplayer.getLastHitBy() == null) {
+						makeRandomKing();
+					}
+					else {
+						this.king = rplayer.getLastHitBy();
+						king.makeKing();
+						board.updateKing(king);
+					}
 				}
 			}
 		}
 	}
 	
 	@EventHandler
-	public void onThingGettingSetOnFireEvent(EntityCombustEvent e){
+	public void onThingGettingSetOnFireEvent(EntityCombustEvent e) {
 		if(e.getEntity() instanceof Player){
 			Player player = (Player)e.getEntity();//if the thing on fire is a player in the game, don't allow it to burn
 			if(getPlayer(player) != null){

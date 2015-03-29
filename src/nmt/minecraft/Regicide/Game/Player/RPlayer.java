@@ -39,6 +39,8 @@ public class RPlayer{
 	 */
 	private Disguise disguise;
 	
+	private RPlayer lastHitBy;
+	
 	public RPlayer(UUID player) {
 		points = 0;
 		isKing = false;
@@ -67,6 +69,14 @@ public class RPlayer{
 	
 	public Player getPlayer() {
 		return this.player;
+	}
+	
+	public RPlayer getLastHitBy() {
+		return this.lastHitBy;
+	}
+	
+	public void setHitBy(RPlayer play) {
+		this.lastHitBy = play;
 	}
 	
 	
