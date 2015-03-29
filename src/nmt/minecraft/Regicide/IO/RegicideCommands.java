@@ -49,8 +49,8 @@ public class RegicideCommands implements CommandExecutor{
 			sender.sendMessage(blueChat + "register " + goldChat + " [game name]" + resetChat + " registers a new instance of Regicide");
 			sender.sendMessage(blueChat + "start    " + goldChat + " [game name]" + resetChat + " starts the specified game");
 			sender.sendMessage(blueChat + "setSpawn " + goldChat + " [game name]" + resetChat + " sets another spawn point for the specified game");
-			sender.sendMessage(blueChat + "setLobby " + goldChat + " [game name]" + resetChat + "sets the lobby location");
-			return false;
+			sender.sendMessage(blueChat + "setLobby " + goldChat + " [game name]" + resetChat + " sets the lobby location");
+			return true;
 		}
 		
 		//Sender must now be a player
@@ -92,6 +92,9 @@ public class RegicideCommands implements CommandExecutor{
 			return true;
 		}
 		
+		if (args[0].equalsIgnoreCase("leave")) {
+			
+		}
 		sender.sendMessage("Something went wrong...");
 		sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
 		return false;
@@ -193,5 +196,29 @@ public class RegicideCommands implements CommandExecutor{
 		sender.sendMessage("Unable to locate instance: " + args[1]);		
 		return true;
 		
+	}
+	
+	public boolean leaveGame(CommandSender sender) {
+		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
+		for (RegicideGame game : games) {
+			game.removePlayer((Player) sender);
+			sender.sendMessage("You have left Regicide Game " + game.getName());
+		}
+		return true;
+	}
+	
+	public boolean openGame(CommandSender sender, String[] args) {
+		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
+		for (RegicideGame game : games) {
+			if (game.getName().equalsIgnoreCase(args[1])) {
+				//Check to see if game is already open
+				
+			}
+		}
+		return true;
+	}
+	
+	public boolean closeGame(CommandSender sender, String[] args) {
+		return true;
 	}
 }
