@@ -362,15 +362,12 @@ public class RegicideGame implements Listener {
 			player.getPlayer().sendMessage("Game now ending. This is lame put more fancy ending!");
 		}
 		
-		//Changed to iterator for concurrent mod
-		Iterator<RPlayer> it = players.values().iterator();
-		while (it.hasNext()) {
-			removePlayer(it.next());
-		}
+		LinkedList<RPlayer> newList = new LinkedList<RPlayer>(players.values());
 		
-//		for (RPlayer player : players.values()) {
-//			removePlayer(player);
-//		}
+		
+		for (RPlayer player : newList) {
+			removePlayer(player);
+		}
 		
 		RegicidePlugin.regicidePlugin.endGame(this);
 		
