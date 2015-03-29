@@ -55,5 +55,14 @@ public class RegicidePlugin extends JavaPlugin {
 		return this.games;
 	}
 	
+	public void endGame(RegicideGame game) {
+		games.remove(game);
+		
+		if (!game.getIsRunning()) {
+			return;
+		}
+		game.endGame();
+	}
+	
 	
 }
