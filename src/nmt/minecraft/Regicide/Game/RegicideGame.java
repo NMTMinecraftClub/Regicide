@@ -145,11 +145,12 @@ public class RegicideGame implements Listener {
 		Random rand = new Random();
 		kingIndex = rand.nextInt(players.size());
 		
-		king.setIsKing(false);
+		if (king != null) {
+			king.setIsKing(false);
+		}
 		
 		king = new LinkedList<RPlayer>(players.values()).get(kingIndex);
 		king.makeKing();
-		board.updateKing(king);
 	}
 
 	public String getName() {
@@ -278,6 +279,7 @@ public class RegicideGame implements Listener {
 			System.out.println("got a king!");
 			if (plays.getLastHitBy() == null) {
 				makeRandomKing();
+				board.updateKing(king);
 			}
 			else {
 				this.king = plays.getLastHitBy();
@@ -470,6 +472,7 @@ public class RegicideGame implements Listener {
 		if (getPlayer(e.getPlayer()) != null) {
 			System.out.println("got a player!");
 			removePlayer(e.getPlayer());
+			board.removePlayer(getPlayer(e.getPlayer()));
 		}
 	}
 }
