@@ -1,6 +1,7 @@
 package nmt.minecraft.Regicide.Game;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -317,6 +318,8 @@ public class RegicideGame implements Listener {
 			}
 		}
 		
+		player.setEndState();
+		
 		return true;
 	}
 	
@@ -359,9 +362,15 @@ public class RegicideGame implements Listener {
 			player.getPlayer().sendMessage("Game now ending. This is lame put more fancy ending!");
 		}
 		
-		for (RPlayer player : players.values()) {
-			removePlayer(player);
+		//Changed to iterator for concurrent mod
+		Iterator<RPlayer> it = players.values().iterator();
+		while (it.hasNext()) {
+			removePlayer(it.next());
 		}
+		
+//		for (RPlayer player : players.values()) {
+//			removePlayer(player);
+//		}
 		
 		RegicidePlugin.regicidePlugin.endGame(this);
 		
