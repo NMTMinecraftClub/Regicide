@@ -99,12 +99,22 @@ public class RegicideCommands implements CommandExecutor{
 		
 		//Open Game
 		if (args[0].equalsIgnoreCase("open")) {
+			if(args.length != 2){
+				sender.sendMessage("Wrong number of arguments: /regicide open [name]");
+				return false;
+			}
 			this.openGame(sender, args);
+			return true;
 		}
 		
 		//Leave Game
 		if (args[0].equalsIgnoreCase("leave")) {
+			if(args.length != 1){
+				sender.sendMessage("Wrong number of arguments: /regicide leave");
+				return false;
+			}
 			this.leaveGame(sender);
+			return true;
 		}
 		
 		//Set Game Exit
