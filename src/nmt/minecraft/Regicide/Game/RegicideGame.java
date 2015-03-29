@@ -513,4 +513,8 @@ public class RegicideGame implements Listener {
 		play.setExhaustion(0);
 		
 	}
+	
+	public Location getExitLocation(){
+		return this.exitLocation;
+	}
 }

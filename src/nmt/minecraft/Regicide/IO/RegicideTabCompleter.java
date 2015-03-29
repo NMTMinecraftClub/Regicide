@@ -17,7 +17,6 @@ public class RegicideTabCompleter implements TabCompleter{
 		if(cmd.getName().equalsIgnoreCase("regicide")){
 			List<String> list=new ArrayList<String>();
 			if(args.length == 1){
-				System.out.println("ARGs[0]: " + args[0]);
 				List<String> tmpList;
 				 tmpList = RegicideCommands.getCommandList();//get the list of commands
 				 //only put the ones that start with the given
