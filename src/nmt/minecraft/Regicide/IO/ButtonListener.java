@@ -2,7 +2,9 @@ package nmt.minecraft.Regicide.IO;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
+import nmt.minecraft.Regicide.Game.RegicideGameEndEvent;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,6 +37,9 @@ public class ButtonListener implements Listener{
 	 */
 	@EventHandler
 	public void blockActivated(PlayerInteractEvent e) {
+		if (gameInstance == null) {
+			return;
+		}
 		if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			return;
 		}
@@ -49,5 +54,11 @@ public class ButtonListener implements Listener{
 		}
 	
 		
+	}
+	
+
+	@EventHandler
+	public void onGameEnd(RegicideGameEndEvent e) {
+		gameInstance = null;
 	}
 }
