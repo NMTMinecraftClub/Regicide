@@ -2,6 +2,7 @@ package nmt.minecraft.Regicide.Game;
 
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -30,7 +31,7 @@ public class GameTimer extends BukkitRunnable {
 		time++;
 		
 		if (time == endTime) {
-			game.endGame();
+			Bukkit.getPluginManager().callEvent(new RegicideGameEndEvent(game));
 			this.cancel();
 			return;
 		}
