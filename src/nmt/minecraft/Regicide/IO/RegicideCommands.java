@@ -149,6 +149,7 @@ public class RegicideCommands implements CommandExecutor{
 			sender.sendMessage(redChat + "Not the correct number of arguments: /regicide register <game name>" + resetChat);
 			return false;
 		}
+		
 		List<RegicideGame> Games = RegicidePlugin.regicidePlugin.getGames();
 		//Check to see if a Game with the same name already exists
 		for (RegicideGame g : Games) {
