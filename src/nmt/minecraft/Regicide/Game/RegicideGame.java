@@ -23,12 +23,11 @@ import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 /**
  * A running instance of a regicide game.
@@ -387,7 +386,9 @@ public class RegicideGame implements Listener {
 				//TODO check if villager, if so nauseua
 				Player player = (Player)e.getDamager();
 				if(getPlayer(player) != null){
-					player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
+					//alert other players
+					getPlayer(player).alertPlayers();
+					//player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
 				}
 				e.setCancelled(true);
 			}
@@ -497,7 +498,6 @@ public class RegicideGame implements Listener {
 		
 		Player play = player.getPlayer();
 		getPlayer(play).downgrade();
-		getPlayer(play).clearPotionEffects();
 		play.setHealth(play.getMaxHealth());
 		
 		//player.die();
@@ -519,10 +519,7 @@ public class RegicideGame implements Listener {
 		
 		//teleport needs to come after the fireworks in the die call
 		player.teleport(getSpawnLocation());
-		
-		for (PotionEffect e : play.getActivePotionEffects()) {
-			play.removePotionEffect(e.getType());
-		}
+		player.clearPotionEffects();
 		
 		play.setFireTicks(1);
 		play.setFoodLevel(20);
@@ -541,4 +538,21 @@ public class RegicideGame implements Listener {
 			endGame();
 		}
 	}
+	
+	public void onPlayerDropItem(PlayerDropItemEvent e){
+		e.setCancelled(true);
+		//TODO: we will need to update the inventory here to prevent disappearing items, example code below
+	}
+	/*
+	public static void doInventoryUpdate(final Player player, Plugin plugin) {
+		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+ 
+			@SuppressWarnings("deprecation")
+			@Override
+			public void run() {
+				player.updateInventory();
+			}
+ 
+		}, 1L);
+	}*/
 }

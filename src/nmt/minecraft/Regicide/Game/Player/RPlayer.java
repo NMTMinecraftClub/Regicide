@@ -1,7 +1,5 @@
 package nmt.minecraft.Regicide.Game.Player;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.UUID;
 
 import me.libraryaddict.disguise.DisguiseAPI;
@@ -177,14 +175,16 @@ public class RPlayer{
 	}
 	
 	private void upgrade(){
+		//TODO change this to use kill count to judge if the player should upgrade
 		if(this.upgradeLevel != levels.length-1 && this.isKing == false){
-			//if not at the top level, go to the next level
-			this.upgradeLevel++;
-			this.switchSword(levels[this.upgradeLevel]);
+			//if not at the top level or the king, go to the next level
+				this.upgradeLevel++;
+				this.switchSword(levels[this.upgradeLevel]);
 		}
 	}
 	
 	public void downgrade(){
+		this.killCount = 0;
 		this.upgradeLevel = 0;
 		this.switchSword(levels[this.upgradeLevel]);
 	}
@@ -200,12 +200,26 @@ public class RPlayer{
 	}
 	
 	public void clearPotionEffects(){
-		Collection<PotionEffect> list = player.getActivePotionEffects();
-		Iterator<PotionEffect> it = player.getActivePotionEffects().iterator();
-		
-		while(it.hasNext()){
-			list.remove(it.next());
+		for (PotionEffect e : player.getActivePotionEffects()) {
+			player.removePotionEffect(e.getType());
 		}
+	}
+	
+	public void alertPlayers(){
+		//set off firework
+		Firework firework = this.player.getWorld().spawn(this.player.getLocation(), Firework.class);
+		FireworkMeta fm = firework.getFireworkMeta();
+        fm.addEffect(FireworkEffect.builder()
+            .flicker(false)
+            .trail(true)
+            .with(Type.CREEPER)
+            .withColor(Color.GREEN)
+            .withFade(Color.RED)
+            .withFade(Color.PURPLE)
+            .build());
+        fm.setPower(1);
+        firework.setFireworkMeta(fm);
+        //put in a waiting period between fireworks
 	}
 	
 }
