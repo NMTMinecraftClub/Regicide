@@ -1,5 +1,6 @@
 package nmt.minecraft.Regicide.Game.Player;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import me.libraryaddict.disguise.DisguiseAPI;
@@ -21,6 +22,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
 public class RPlayer{
@@ -195,8 +197,21 @@ public class RPlayer{
 			inventory.remove(tmp);
 		}
 		inventory.remove(Material.GOLD_SWORD);
+		ItemStack swordItem = new ItemStack(sword,1);
 		
-		inventory.addItem(new ItemStack(sword,1));
+		if(sword == Material.GOLD_SWORD){
+			ItemMeta scepter = swordItem.getItemMeta();
+			scepter.setDisplayName(ChatColor.GOLD+"Royal Scepter");
+			ArrayList<String> lore = new ArrayList<String>();
+			lore.add("The Royal Scepter");
+			lore.add("passed down through the ages");
+			lore.add("from "+ChatColor.GREEN+"Eric the green"+ChatColor.RESET+" to you");
+			
+			scepter.setLore(lore);//just trying this out cuz y not
+			swordItem.setItemMeta(scepter);
+		}
+		
+		inventory.addItem(swordItem);
 	}
 	
 	public void clearPotionEffects(){
