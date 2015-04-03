@@ -29,6 +29,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * A running instance of a regicide game.
@@ -389,6 +391,7 @@ public class RegicideGame implements Listener {
 				if(getPlayer(player) != null){
 					//alert other players
 					getPlayer(player).alertPlayers();
+					player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5,1));
 					//player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
 				}
 				
@@ -451,7 +454,7 @@ public class RegicideGame implements Listener {
 	public void onPlayerDamage(EntityDamageEvent e){
 		if(e.getEntity() instanceof Player && e.getCause() != DamageCause.ENTITY_ATTACK){
 		
-			//if the player is gonna die teleport them and fill thei health
+			//if the player is gonna die teleport them and fill their health
 			Player player = (Player) e.getEntity();
 
 			if(getPlayer(player) != null && e.getDamage() >= player.getHealth()){
