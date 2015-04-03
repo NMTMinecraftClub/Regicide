@@ -492,6 +492,7 @@ public class RegicideGame implements Listener {
 			Player player = (Player) e.getEntity();
 
 			if(getPlayer(player) != null && e.getDamage() >= player.getHealth()){
+				System.out.println("Cancel damage event: " + player.getName());
 				e.setCancelled(true);
 
 				this.killPlayer(getPlayer(player));
@@ -511,6 +512,7 @@ public class RegicideGame implements Listener {
 		if(e.getEntity() instanceof Player){
 			Player player = (Player)e.getEntity();//if the thing on fire is a player in the game, don't allow it to burn
 			if(getPlayer(player) != null){
+				System.out.println("Cancel combust event for: " + player.getName());
 				e.setCancelled(true);
 				player.setFireTicks(1);
 			}
