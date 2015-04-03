@@ -405,15 +405,17 @@ public class RegicideGame implements Listener {
 	public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
 			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
-				//TODO check if villager, if so nauseua
-				Player player = (Player)e.getDamager();
-				if(getPlayer(player) != null){
-					//alert other players
-					getPlayer(player).alertPlayers();
-					//player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
+				if(getVillager((Villager)e.getEntity()) != null){
+					//TODO check if villager, if so nauseua
+					Player player = (Player)e.getDamager();
+					if(getPlayer(player) != null){
+						//alert other players
+						getPlayer(player).alertPlayers();
+						//player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
+					}
+					
+					e.setCancelled(true);
 				}
-				
-				e.setCancelled(true);
 			}
 			return;
 		}
@@ -497,7 +499,7 @@ public class RegicideGame implements Listener {
 		}else if(e.getEntity() instanceof Villager){
 			Villager villager = (Villager) e.getEntity();
 			RegicideVillager vill = getVillager(villager);
-			if(vill != null){
+			if(vill != null && villager.getHealth() - e.getDamage() <= 0){
 				vill.rebirth();
 			}
 		}
