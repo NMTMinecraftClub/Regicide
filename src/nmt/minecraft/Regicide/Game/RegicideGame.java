@@ -390,7 +390,7 @@ public class RegicideGame implements Listener {
 				if(getPlayer(player) != null){
 					//alert other players
 					getPlayer(player).alertPlayers();
-					player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 200,1));
+					player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5,1));
 					//player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
 				}
 				e.setCancelled(true);
