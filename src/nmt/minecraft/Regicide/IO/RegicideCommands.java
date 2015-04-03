@@ -149,9 +149,9 @@ public class RegicideCommands implements CommandExecutor{
 		
 		if (args.length != 2) {
 			sender.sendMessage(redChat + "Error! " + resetChat);
-			sender.sendMessage("Not the correct number of arguments: " + redChat + 
+			sender.sendMessage("Incorrect number of arguments: " + redChat + 
 								"/regicide " + blueChat + "register " + goldChat + 
-								" <game name>" + resetChat);
+								" [game name]" + resetChat);
 			return false;
 		}
 		
@@ -184,6 +184,10 @@ public class RegicideCommands implements CommandExecutor{
 	 */
 	public boolean startGame(CommandSender sender, String[] args) {
 		if (args.length > 2 || args.length == 0) {
+			sender.sendMessage(redChat + "Error!" + resetChat);
+			sender.sendMessage("Incorrect number of arguments: " + redChat +
+								"/regicide " + blueChat + "start " + goldChat +
+								"[game name]" + resetChat);
 			return false;
 		}
 		String gameName = args[1];
