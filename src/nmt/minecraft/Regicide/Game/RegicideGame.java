@@ -479,11 +479,7 @@ public class RegicideGame implements Listener {
 			}
 		}else if(e.getEntity() instanceof Villager){
 			Villager villager = (Villager) e.getEntity();
-			if(villager.getHealth() - e.getDamage() <= 0 ){
-				//if a villager is gonna die recycle them to a spawnpoint
-				villager.setHealth(villager.getMaxHealth());
-				villager.teleport(getSpawnLocation());
-			}
+			getVillager(villager).rebirth();
 		}
 		
 	}
