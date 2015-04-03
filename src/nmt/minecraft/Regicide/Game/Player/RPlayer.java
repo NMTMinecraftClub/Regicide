@@ -24,6 +24,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class RPlayer{
 	
@@ -224,6 +225,7 @@ public class RPlayer{
 		//set off firework
 		Firework firework = this.player.getWorld().spawn(this.player.getLocation(), Firework.class);
 		FireworkMeta fm = firework.getFireworkMeta();
+		this.player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5,1));
         fm.addEffect(FireworkEffect.builder()
             .flicker(false)
             .trail(true)
