@@ -234,7 +234,7 @@ public class RegicideCommands implements CommandExecutor{
 			if (game.getName().equalsIgnoreCase(args[1])) {
 				//Check to see if game is already running
 				if (game.getIsRunning()) {
-					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + game.getName() + " is already running!" + resetChat);
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!");
 					return false;
 				}
 				Location loc = ((Player) sender).getLocation();
@@ -266,7 +266,7 @@ public class RegicideCommands implements CommandExecutor{
 			if (game.getName().equalsIgnoreCase(args[1])) {
 				//Check to see if game is already running
 				if (game.getIsRunning()) {
-					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + game.getName() + " is already running!" + resetChat);
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!");
 					return false;
 				}
 				Location loc = ((Player) sender).getLocation();

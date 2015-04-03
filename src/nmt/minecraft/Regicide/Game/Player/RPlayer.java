@@ -157,6 +157,7 @@ public class RPlayer{
 		player.getActivePotionEffects().clear();
 		player.setGameMode(GameMode.SURVIVAL);
 		this.disguise();
+		this.clearPotionEffects();
 	}
 	
 	public void setEndState() {
@@ -170,6 +171,7 @@ public class RPlayer{
 		player.setGameMode(GameMode.SURVIVAL);
 		player.setFoodLevel(20);//set max food level
 		this.unDisguise();
+		this.clearPotionEffects();
 	}
 	
 	public void addKill(){
@@ -225,7 +227,7 @@ public class RPlayer{
 		//set off firework
 		Firework firework = this.player.getWorld().spawn(this.player.getLocation(), Firework.class);
 		FireworkMeta fm = firework.getFireworkMeta();
-		this.player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5,1));
+		this.player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100,1));
         fm.addEffect(FireworkEffect.builder()
             .flicker(false)
             .trail(true)
