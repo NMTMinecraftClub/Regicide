@@ -17,17 +17,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -168,7 +171,7 @@ public class RegicideGame implements Listener {
 		board.displayScoreboard(players.values());
 		board.updateKing(king);
 		
-		spawnVillagers(Math.max(players.size() * 5, 100));
+		spawnVillagers(Math.min(players.size() * 5, 100));
 	}
 	
 	private void makeRandomKing(){
@@ -452,6 +455,8 @@ public class RegicideGame implements Listener {
 		if (e.isCancelled()) {
 			return;
 		}
+		
+		
 		if (e.getItem() != null)
 		if (e.getItem().getType() != Material.COOKED_BEEF || e.getPlayer().getFoodLevel() >= 19.9f) {
 			//not eating OR already full
@@ -463,6 +468,18 @@ public class RegicideGame implements Listener {
 		//WrapperPlayerServerWorldParticles particle = new WrapperPlayerServerWorldParticles();
 		
 		
+	}
+	
+	@EventHandler
+	public void EntityInteract(PlayerInteractEntityEvent e) {
+		if (e.isCancelled()) {
+			return;
+		}
+		
+		if (e.getRightClicked().getType() == EntityType.VILLAGER)
+		if (getPlayer(e.getPlayer()) != null) {
+			e.setCancelled(true);
+		}
 	}
 	
 	@EventHandler
