@@ -1,13 +1,16 @@
 package nmt.minecraft.Regicide.Game;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
+import nmt.minecraft.Regicide.Game.Player.RegicideVillager;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
 import org.bukkit.Bukkit;
@@ -50,6 +53,11 @@ public class RegicideGame implements Listener {
 	private List<Location> spawnLocations;
 	
 	/**
+	 * Keep track of all villagers related to this game instance
+	 */
+	private Set<RegicideVillager> villagers;
+	
+	/**
 	 * Is this game running? find out by querying the isRunning variable!<br /.
 	 * A running game is one that is open to players joining -- it hasn't started yet.<br />
 	 * TODO include option for players to join after a match has started?
@@ -84,7 +92,11 @@ public class RegicideGame implements Listener {
 	public RegicideGame(String name) {
 		this.name = name;
 		this.isRunning = false;
+		
 		players = new HashMap<UUID, RPlayer>();
+		villagers = new HashSet<RegicideVillager>();
+		
+		
 		spawnLocations = new LinkedList<Location>();
 		lobbyLocation = null;
 		exitLocation = null;
@@ -152,6 +164,8 @@ public class RegicideGame implements Listener {
 		
 		board.displayScoreboard(players.values());
 		board.updateKing(king);
+		
+		spawnVillagers(Math.max(players.size() * 5, 100));
 	}
 	
 	private void makeRandomKing(){
@@ -376,6 +390,8 @@ public class RegicideGame implements Listener {
 		
 		RegicidePlugin.regicidePlugin.endGame(this);
 		
+		removeVillagers();
+		
 		//TODO PUT FINISHING STUFF
 	}
 	
@@ -555,4 +571,19 @@ public class RegicideGame implements Listener {
  
 		}, 1L);
 	}*/
+	
+	
+	private void spawnVillagers(int count) {
+		for (int i = 0; i < count; i++) {
+			villagers.add(new RegicideVillager(this));
+		}
+	}
+	
+	private void removeVillagers() {
+		for (RegicideVillager vil : villagers) {
+			vil.remove();
+		}
+	}
+	
+	
 }
