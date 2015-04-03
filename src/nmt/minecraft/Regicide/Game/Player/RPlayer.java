@@ -152,6 +152,7 @@ public class RPlayer{
 		player.setHealth(player.getMaxHealth());
 		player.closeInventory();
 		player.getInventory().clear();
+		player.getInventory().setArmorContents(null);
 		player.getInventory().addItem(new ItemStack(Material.WOOD_SWORD,1));
 		player.setExp(0);
 		player.getActivePotionEffects().clear();
