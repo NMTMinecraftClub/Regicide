@@ -590,13 +590,15 @@ public class RegicideGame implements Listener {
 	 * @param e
 	 */
 	public void onPlayerDropItem(PlayerDropItemEvent e){
-		e.setCancelled(true);
-		//TODO: we will need to update the inventory here to prevent disappearing items, example code below
-		ItemStack thrown = e.getItemDrop().getItemStack().clone();
-		e.getPlayer().getInventory().addItem(thrown);
-		
-		//delete the dropped item
-		e.getItemDrop().remove();
+		Player player = e.getPlayer();
+		if(getPlayer(player)!= null){
+			e.setCancelled(true);
+			//TODO: we will need to update the inventory here to prevent disappearing items, example code below
+			ItemStack thrown = e.getItemDrop().getItemStack().clone();
+			player.getInventory().addItem(thrown);
+			//delete the dropped item
+			e.getItemDrop().remove();
+		}
 	}
 	/*
 	public static void doInventoryUpdate(final Player player, Plugin plugin) {
