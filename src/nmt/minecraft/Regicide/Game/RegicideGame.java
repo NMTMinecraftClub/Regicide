@@ -606,5 +606,20 @@ public class RegicideGame implements Listener {
 		}
 	}
 	
+	/**
+	 * Returns the regicide villager from the bukkit villager entity
+	 * @param v
+	 * @return the REgicideVillager wrapper or null if none exist
+	 */
+	public RegicideVillager getVillager(Villager v) {
+		for (RegicideVillager vil : villagers) {
+			if (vil.getVillager().equals(v)) {
+				return vil;
+			}
+		}
+		
+		return null;
+	}
+	
 	
 }
