@@ -592,8 +592,10 @@ public class RegicideGame implements Listener {
 	 * @param e
 	 */
 	public void onPlayerDropItem(PlayerDropItemEvent e){
+		System.out.println("Player "+e.getPlayer().getName()+" Dropped an item "+e.getItemDrop().toString());
 		Player player = e.getPlayer();
 		if(getPlayer(player)!= null){
+			player.sendMessage("Naughty Naughty... don't throw away items people give you!!!!");
 			e.setCancelled(true);
 			//TODO: we will need to update the inventory here to prevent disappearing items, example code below
 			ItemStack thrown = e.getItemDrop().getItemStack().clone();
