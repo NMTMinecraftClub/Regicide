@@ -21,6 +21,10 @@ public class RegicideVillager {
 		villager = (Villager) spawnLoc.getWorld().spawnEntity(spawnLoc, EntityType.VILLAGER);
 	}
 	
+	public Villager getVillager() {
+		return villager;
+	}
+	
 	/**
 	 * Recreate this villager with random skin and everything.
 	 * This method is safe to call even if a villager still is living.
