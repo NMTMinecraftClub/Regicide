@@ -479,7 +479,10 @@ public class RegicideGame implements Listener {
 			}
 		}else if(e.getEntity() instanceof Villager){
 			Villager villager = (Villager) e.getEntity();
-			getVillager(villager).rebirth();
+			RegicideVillager vill = getVillager(villager);
+			if(vill != null){
+				vill.rebirth();
+			}
 		}
 		
 	}
