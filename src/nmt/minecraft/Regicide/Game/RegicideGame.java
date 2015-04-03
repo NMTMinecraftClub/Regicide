@@ -591,6 +591,7 @@ public class RegicideGame implements Listener {
 	 * When the player attempts to drop an item, stop 
 	 * @param e
 	 */
+	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent e){
 		System.out.println("Player "+e.getPlayer().getName()+" Dropped an item "+e.getItemDrop().toString());
 		Player player = e.getPlayer();
