@@ -505,19 +505,19 @@ public class RegicideGame implements Listener {
 		
 	}
 	
-	@EventHandler
-	public void onThingGettingSetOnFireEvent(EntityCombustEvent e) {
-		if(e.getEntity() instanceof Player){
-			Player player = (Player)e.getEntity();//if the thing on fire is a player in the game, don't allow it to burn
-			if(getPlayer(player) != null){
-				System.out.println("Cancel combust event for: " + player.getName());
-				e.setCancelled(true);
-				player.setFireTicks(1);
-			}
-		}else if(e.getEntity() instanceof Villager){
-			e.setCancelled(true);
-		}
-	}
+//	@EventHandler
+//	public void onThingGettingSetOnFireEvent(EntityCombustEvent e) {
+//		if(e.getEntity() instanceof Player){
+//			Player player = (Player)e.getEntity();//if the thing on fire is a player in the game, don't allow it to burn
+//			if(getPlayer(player) != null){
+//				System.out.println("Cancel combust event for: " + player.getName());
+//				e.setCancelled(true);
+//				player.setFireTicks(1);
+//			}
+//		}else if(e.getEntity() instanceof Villager){
+//			e.setCancelled(true);
+//		}
+//	}
 	
 	/**
 	 * Catch player logout, and remove the rplayer associated with them
