@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
@@ -390,6 +391,7 @@ public class RegicideGame implements Listener {
 					getPlayer(player).alertPlayers();
 					//player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
 				}
+				
 				e.setCancelled(true);
 			}
 			return;
@@ -457,7 +459,15 @@ public class RegicideGame implements Listener {
 
 				this.killPlayer(getPlayer(player));
 			}
+		}else if(e.getEntity() instanceof Villager){
+			Villager villager = (Villager) e.getEntity();
+			if(villager.getHealth() - e.getDamage() <= 0 ){
+				//if a villager is gonna die recycle them to a spawnpoint
+				villager.setHealth(villager.getMaxHealth());
+				villager.teleport(getSpawnLocation());
+			}
 		}
+		
 	}
 	
 	@EventHandler
@@ -539,9 +549,18 @@ public class RegicideGame implements Listener {
 		}
 	}
 	
+	/**
+	 * When the player attempts to drop an item, stop 
+	 * @param e
+	 */
 	public void onPlayerDropItem(PlayerDropItemEvent e){
 		e.setCancelled(true);
 		//TODO: we will need to update the inventory here to prevent disappearing items, example code below
+		ItemStack thrown = e.getItemDrop().getItemStack().clone();
+		e.getPlayer().getInventory().addItem(thrown);
+		
+		//delete the dropped item
+		e.getItemDrop().remove();
 	}
 	/*
 	public static void doInventoryUpdate(final Player player, Plugin plugin) {
