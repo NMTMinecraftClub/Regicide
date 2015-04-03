@@ -1,5 +1,7 @@
 package nmt.minecraft.Regicide.Game;
 
+import java.util.List;
+
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
 import org.bukkit.Bukkit;
@@ -29,7 +31,13 @@ public class GameTimer extends BukkitRunnable {
 	@Override
 	public void run() {
 		time++;
-		
+		if ((endTime - time) % 30 == 0) {
+			List<RPlayer> Players = game.getPlayers();
+			for (RPlayer p : Players) {
+				long timeRemaining = endTime - time;
+				p.getPlayer().sendMessage((ChatColor.GOLD+"") + timeRemaining + (ChatColor.AQUA+"") + ": remaining!" + ChatColor.RESET+"");
+			}
+		}
 		if (time == endTime) {
 			Bukkit.getPluginManager().callEvent(new RegicideGameEndEvent(game));
 			this.cancel();
