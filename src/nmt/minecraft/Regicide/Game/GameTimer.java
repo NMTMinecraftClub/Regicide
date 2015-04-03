@@ -6,6 +6,7 @@ import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -31,11 +32,19 @@ public class GameTimer extends BukkitRunnable {
 	@Override
 	public void run() {
 		time++;
-		if ((endTime - time) % 30 == 0) {
-			List<RPlayer> Players = game.getPlayers();
+		long timeRemaining = endTime - time;
+		List<RPlayer> Players = game.getPlayers();
+		//Long term count down timer
+		if (timeRemaining > 10 && timeRemaining % 30 == 0) {
 			for (RPlayer p : Players) {
-				long timeRemaining = endTime - time;
-				p.getPlayer().sendMessage((ChatColor.GOLD+"") + timeRemaining + (ChatColor.AQUA+"") + ": remaining!" + ChatColor.RESET+"");
+				p.getPlayer().sendMessage((ChatColor.GOLD+"") + timeRemaining + (ChatColor.AQUA+"") + " seconds remaining!" + ChatColor.RESET+"");
+			}
+		}
+		//Count down Timer for Last 10 Seconds
+		if (timeRemaining < 10 && timeRemaining > 0) {
+			for (RPlayer p : Players) {
+				p.getPlayer().sendMessage((ChatColor.GOLD+"") + timeRemaining + (ChatColor.AQUA+"") + " seconds remaining!" + ChatColor.RESET+"");
+				p.getPlayer().playSound(p.getPlayer().getLocation(), Sound.CLICK, 1,0);
 			}
 		}
 		if (time == endTime) {
