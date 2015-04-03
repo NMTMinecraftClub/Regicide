@@ -10,6 +10,7 @@ import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -199,18 +200,29 @@ public class RegicideCommands implements CommandExecutor{
 					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + g.getName() + " is already running!" + resetChat);
 					return false;
 				}
+				//Check to see if the game has an exit location
 				if(g.getExitLocation() == null){
 					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + g.getName() + " has no exit location!" + resetChat);
 					return false;
+				}
+				//Check to see if game actually has players in it.
+				if(g.getPlayers().isEmpty()) {
+					//Game is Empty!
+					sender.sendMessage(redChat + "Warning!" + resetChat);
+					sender.sendMessage("No players are registered for: " + goldChat + g.getName());
+					return true;
 				}
 				sender.sendMessage(aquaChat + "Started Game Instance: " + goldChat +  g.getName() + resetChat);
 
 				RegicidePlugin.regicidePlugin.getLogger().info("Started Game: " + g.getName());
 				sender.sendMessage(greenChat + "Started: " + g.getName() + resetChat);
+				
+				//Notify Players that the game is starting
 				List<RPlayer> gamePlayers = g.getPlayers();
 				for (RPlayer player : gamePlayers) {
 					Player p = player.getPlayer();
 					p.sendMessage(goldChat + "The Game Has Begun!" + resetChat);
+					p.playSound(p.getLocation(), Sound.AMBIENCE_THUNDER, 1, 0);
 				}
 				g.startGame();
 				return true;
@@ -239,8 +251,8 @@ public class RegicideCommands implements CommandExecutor{
 				}
 				Location loc = ((Player) sender).getLocation();
 				game.addSpawnLocation(loc);
-				
-				sender.sendMessage(greenChat + "Successfully registered starting position!" + resetChat);
+				sender.sendMessage(greenChat + "Successfully registered starting position for: "+ game.getName() + resetChat);
+				sender.sendMessage(aquaChat + "Number of Spawn Points: " + goldChat + game.getSpawnLocations().size() + resetChat);
 				return true;
 			}
 		}
@@ -272,7 +284,7 @@ public class RegicideCommands implements CommandExecutor{
 				Location loc = ((Player) sender).getLocation();
 				game.setLobbyLocation(loc);
 				
-				sender.sendMessage(greenChat + "Successfully registered lobby position!" + resetChat);
+				sender.sendMessage(greenChat + "Successfully registered lobby position for: " + goldChat + game.getName() + resetChat);
 				return true;
 			}
 		}
@@ -316,7 +328,7 @@ public class RegicideCommands implements CommandExecutor{
 				}
 				//Game is not running
 				game.open();
-				sender.sendMessage(greenChat + "Successfully opened game: " + game.getName() + resetChat);
+				sender.sendMessage(greenChat + "Successfully opened game: " + goldChat + game.getName() + resetChat);
 			}
 		}
 		return true;
