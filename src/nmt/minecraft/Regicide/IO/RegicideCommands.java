@@ -148,7 +148,10 @@ public class RegicideCommands implements CommandExecutor{
 	public boolean registerGame(CommandSender sender, String[] args) {
 		
 		if (args.length != 2) {
-			sender.sendMessage(redChat + "Not the correct number of arguments: /regicide register <game name>" + resetChat);
+			sender.sendMessage(redChat + "Error! " + resetChat);
+			sender.sendMessage("Not the correct number of arguments: " + redChat + 
+								"/regicide " + blueChat + "register " + goldChat + 
+								" <game name>" + resetChat);
 			return false;
 		}
 		
