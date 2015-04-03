@@ -413,7 +413,7 @@ public class RegicideGame implements Listener {
 						getPlayer(player).alertPlayers();
 						//player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
 					}
-					
+					System.out.println("Cancel damage for: " + player.getName());
 					e.setCancelled(true);
 				}
 			}
