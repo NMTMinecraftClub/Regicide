@@ -21,6 +21,8 @@ import org.bukkit.entity.Player;
  *
  */
 public class RegicideCommands implements CommandExecutor{
+	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", "start", "leave", "open", "help"};
+
 	private String aquaChat = ChatColor.AQUA+"";
 	private String blueChat = ChatColor.BLUE+"";
 	private String goldChat = ChatColor.GOLD+"";
@@ -134,8 +136,7 @@ public class RegicideCommands implements CommandExecutor{
 	}
 	
 	public static List<String> getCommandList(){
-		String[] commands = {"register", "setLobby", "setSpawn", "setExit", "start", "leave", "open", "help"};
-		return Arrays.asList(commands);
+		return Arrays.asList(commandList);
 	}
 	
 	/**

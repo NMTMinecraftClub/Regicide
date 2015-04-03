@@ -1,7 +1,6 @@
 package nmt.minecraft.Regicide.Game.Player;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import me.libraryaddict.disguise.DisguiseAPI;
@@ -23,6 +22,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
 public class RPlayer{
@@ -177,14 +177,16 @@ public class RPlayer{
 	}
 	
 	private void upgrade(){
+		//TODO change this to use kill count to judge if the player should upgrade
 		if(this.upgradeLevel != levels.length-1 && this.isKing == false){
-			//if not at the top level, go to the next level
-			this.upgradeLevel++;
-			this.switchSword(levels[this.upgradeLevel]);
+			//if not at the top level or the king, go to the next level
+				this.upgradeLevel++;
+				this.switchSword(levels[this.upgradeLevel]);
 		}
 	}
 	
 	public void downgrade(){
+		this.killCount = 0;
 		this.upgradeLevel = 0;
 		this.switchSword(levels[this.upgradeLevel]);
 	}
@@ -195,17 +197,44 @@ public class RPlayer{
 			inventory.remove(tmp);
 		}
 		inventory.remove(Material.GOLD_SWORD);
+		ItemStack swordItem = new ItemStack(sword,1);
 		
-		inventory.addItem(new ItemStack(sword,1));
+		if(sword == Material.GOLD_SWORD){
+			ItemMeta scepter = swordItem.getItemMeta();
+			scepter.setDisplayName(ChatColor.GOLD+"Royal Scepter");
+			ArrayList<String> lore = new ArrayList<String>();
+			lore.add("The Royal Scepter");
+			lore.add("passed down through the ages");
+			lore.add("from "+ChatColor.GREEN+"Eric the green"+ChatColor.RESET+" to you");
+			
+			scepter.setLore(lore);//just trying this out cuz y not
+			swordItem.setItemMeta(scepter);
+		}
+		
+		inventory.addItem(swordItem);
 	}
 	
 	public void clearPotionEffects(){
-		Collection<PotionEffect> list = player.getActivePotionEffects();
-		Iterator<PotionEffect> it = player.getActivePotionEffects().iterator();
-		
-		while(it.hasNext()){
-			list.remove(it.next());
+		for (PotionEffect e : player.getActivePotionEffects()) {
+			player.removePotionEffect(e.getType());
 		}
+	}
+	
+	public void alertPlayers(){
+		//set off firework
+		Firework firework = this.player.getWorld().spawn(this.player.getLocation(), Firework.class);
+		FireworkMeta fm = firework.getFireworkMeta();
+        fm.addEffect(FireworkEffect.builder()
+            .flicker(false)
+            .trail(true)
+            .with(Type.CREEPER)
+            .withColor(Color.GREEN)
+            .withFade(Color.RED)
+            .withFade(Color.PURPLE)
+            .build());
+        fm.setPower(1);
+        firework.setFireworkMeta(fm);
+        //put in a waiting period between fireworks
 	}
 	
 }
