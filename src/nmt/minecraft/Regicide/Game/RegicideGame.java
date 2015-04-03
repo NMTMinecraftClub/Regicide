@@ -168,7 +168,7 @@ public class RegicideGame implements Listener {
 		board.displayScoreboard(players.values());
 		board.updateKing(king);
 		
-		spawnVillagers(Math.max(players.size() * 5, 100));
+		spawnVillagers(Math.min(players.size() * 5, 100));
 	}
 	
 	private void makeRandomKing(){
