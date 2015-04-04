@@ -22,7 +22,7 @@ import org.bukkit.entity.Player;
  *
  */
 public class RegicideCommands implements CommandExecutor{
-	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", "start", "leave", "open", "firstPlace", "secondPlace", "thirdPlace", "otherPlace","help"};
+	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", "start", "leave", "open", "firstPlace", "secondPlace", "thirdPlace", "otherPlace", "end","help"};
 
 	private String aquaChat = ChatColor.AQUA+"";
 	private String blueChat = ChatColor.BLUE+"";
@@ -164,8 +164,15 @@ public class RegicideCommands implements CommandExecutor{
 			setOtherPlace(sender, args);
 		}
 		
-		
-		
+		//End Game
+		if (args[0].equalsIgnoreCase("end")) {
+			if (args.length != 2) {
+				sender.sendMessage("Wrong number of arguments: /regicide end [name]");
+				return false;
+			}
+			closeGame(sender,args);
+		}
+
 		sender.sendMessage("Something went wrong...");
 		sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
 		return false;
@@ -345,6 +352,7 @@ public class RegicideCommands implements CommandExecutor{
 		for (RegicideGame game : games) {
 			game.removePlayer((Player) sender);
 			sender.sendMessage(aquaChat + "You have left Regicide Game " + goldChat + game.getName() + resetChat);
+			GameAnnouncer.GameLeave(game, (Player) sender);
 		}
 		return true;
 	}
@@ -370,6 +378,28 @@ public class RegicideCommands implements CommandExecutor{
 				//Game is not running
 				game.open();
 				sender.sendMessage(greenChat + "Successfully opened game: " + goldChat + game.getName() + resetChat);
+				GameAnnouncer.OpenGame(game);
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Force the conclusion of a Regicide Game
+	 * @param sender The sender of the command
+	 * @param args The arguments
+	 * @return
+	 */
+	public boolean closeGame(CommandSender sender, String[] args) {
+		if (args.length < 2) {
+			sender.sendMessage("Please supply the name of the instance that you wish to end!");
+			return false;
+		}
+		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
+		for (RegicideGame game : games) {
+			if (game.getName().equalsIgnoreCase(args[1])) {
+				game.endGame();
+				sender.sendMessage(greenChat + "You ended the game: " + goldChat + game.getName() + resetChat);
 			}
 		}
 		return true;

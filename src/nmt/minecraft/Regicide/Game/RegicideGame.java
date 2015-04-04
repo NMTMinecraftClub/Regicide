@@ -14,6 +14,7 @@ import java.util.UUID;
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.Game.Player.RegicideVillager;
+import nmt.minecraft.Regicide.IO.GameAnnouncer;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
 import org.bukkit.Bukkit;
@@ -283,7 +284,8 @@ public class RegicideGame implements Listener {
 		
 		players.put(player, new RPlayer(player));
 		getPlayer(player).teleport(getLobbyLocation());
-		getPlayer(player).getPlayer().sendMessage(ChatColor.GREEN+ "You have sucessfully joined "+this.name+ChatColor.RESET);
+		GameAnnouncer.GameJoin(this, getPlayer(player));
+		getPlayer(player).getPlayer().sendMessage(ChatColor.GREEN+ "You have sucessfully joined "+ ChatColor.GOLD + this.name + ChatColor.RESET);
 	}
 	
 	/**

@@ -35,16 +35,24 @@ public class GameTimer extends BukkitRunnable {
 		time++;
 		long timeRemaining = endTime - time;
 		List<RPlayer> Players = game.getPlayers();
+		long MinutesRemaining = (long) Math.floor((timeRemaining / 60));
+		long minSecondsRemaining = timeRemaining % 60;
 		//Long term count down timer
 		if (timeRemaining > 10 && timeRemaining % 30 == 0) {
+			String Minutes = ChatColor.GOLD+"" + MinutesRemaining + ChatColor.RESET+"";
+			String Seconds = ChatColor.GREEN+"" + minSecondsRemaining + ChatColor.RESET+"";
 			for (RPlayer p : Players) {
-				p.getPlayer().sendMessage((ChatColor.GOLD+"") + timeRemaining + (ChatColor.AQUA+"") + " seconds remaining!" + ChatColor.RESET+"");
+				p.getPlayer().sendMessage(Minutes + ":" + Seconds + ChatColor.BLUE+"" + " remaining" + ChatColor.RESET);
 			}
 		}
 		//Count down Timer for Last 10 Seconds
 		if (timeRemaining < 10 && timeRemaining > 0) {
 			for (RPlayer p : Players) {
-				p.getPlayer().sendMessage((ChatColor.GOLD+"") + timeRemaining + (ChatColor.AQUA+"") + " seconds remaining!" + ChatColor.RESET+"");
+				if (timeRemaining != 1)
+					p.getPlayer().sendMessage((ChatColor.GOLD+"") + timeRemaining + (ChatColor.AQUA+"") + " seconds remaining!" + ChatColor.RESET+"");
+				else
+					p.getPlayer().sendMessage((ChatColor.GOLD+"") + timeRemaining + (ChatColor.AQUA+"") + " second remaining!" + ChatColor.RESET+"");
+
 				p.getPlayer().playSound(p.getPlayer().getLocation(), Sound.CLICK, 1,0);
 			}
 		}
