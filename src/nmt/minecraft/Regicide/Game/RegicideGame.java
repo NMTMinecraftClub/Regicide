@@ -18,14 +18,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -84,7 +81,7 @@ public class RegicideGame implements Listener {
 	
 	private GameTimer timer;
 	
-	private long endTime = 120;
+	private long endTime = 6000;
 	
 	private ScoreBoard board;
 	
@@ -312,7 +309,6 @@ public class RegicideGame implements Listener {
 	public boolean removePlayer(RPlayer player) {
 		RPlayer plays = players.remove(player.getPlayer().getUniqueId());
 		if (plays == null) {
-			System.out.println("Not a player!");
 			return false;
 		}
 		
@@ -330,7 +326,6 @@ public class RegicideGame implements Listener {
 			}
 			else if (player.isKing()) {
 	
-				System.out.println("got a king!");
 				if (plays.getLastHitBy() == null || getPlayer(plays.getLastHitBy().getPlayer()) != null) {
 					makeRandomKing();
 					board.updateKing(king);
@@ -413,7 +408,6 @@ public class RegicideGame implements Listener {
 						getPlayer(player).alertPlayers();
 						//player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
 					}
-					
 					e.setCancelled(true);
 				}
 			}
@@ -492,7 +486,6 @@ public class RegicideGame implements Listener {
 			Player player = (Player) e.getEntity();
 
 			if(getPlayer(player) != null && e.getDamage() >= player.getHealth()){
-				System.out.println("Cancel damage event: " + player.getName());
 				e.setCancelled(true);
 
 				this.killPlayer(getPlayer(player));
@@ -528,7 +521,6 @@ public class RegicideGame implements Listener {
 	@EventHandler
 	public void onLogout(PlayerQuitEvent e) {
 		if (getPlayer(e.getPlayer()) != null) {
-			System.out.println("got a player!");
 			board.removePlayer(getPlayer(e.getPlayer()));
 			removePlayer(e.getPlayer());
 		}
@@ -591,8 +583,8 @@ public class RegicideGame implements Listener {
 	 * When the player attempts to drop an item, stop 
 	 * @param e
 	 */
+	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent e){
-		System.out.println("Player "+e.getPlayer().getName()+" Dropped an item "+e.getItemDrop().toString());
 		Player player = e.getPlayer();
 		if(getPlayer(player)!= null){
 			player.sendMessage(ChatColor.BOLD+""+ChatColor.BLUE+"Naughty Naughty... don't throw away items people give you!!!!"+ChatColor.RESET);
