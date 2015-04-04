@@ -23,6 +23,7 @@ import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -32,8 +33,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 /**
  * A running instance of a regicide game.
@@ -81,7 +80,9 @@ public class RegicideGame implements Listener {
 	
 	private GameTimer timer;
 	
-	private long endTime = 6000;
+	private static final long endTime = 6000;
+	
+	private static final long scoreInterval = 10;
 	
 	private ScoreBoard board;
 	
@@ -162,7 +163,7 @@ public class RegicideGame implements Listener {
 		
 		makeRandomKing();//make someone the king
 		
-		timer = new GameTimer(this, endTime);
+		timer = new GameTimer(this, endTime, scoreInterval);
 		timer.runTaskTimer(RegicidePlugin.regicidePlugin, 20, 20);
 		
 		board.displayScoreboard(players.values());
@@ -371,6 +372,14 @@ public class RegicideGame implements Listener {
 	public void scorePoint() {
 		king.addPoint();
 		board.updateScore(king, king.getPoints());
+		
+		//check if game is over
+		//if we put point cap (first to n points) put it here
+		
+		if (king.getPoints() > endTime / scoreInterval) {
+			//no way anyone could get as much points to beat it
+			endGame();
+		}
 	}
 	
 	public void endGame() {
@@ -500,19 +509,19 @@ public class RegicideGame implements Listener {
 		
 	}
 	
-//	@EventHandler
-//	public void onThingGettingSetOnFireEvent(EntityCombustEvent e) {
-//		if(e.getEntity() instanceof Player){
-//			Player player = (Player)e.getEntity();//if the thing on fire is a player in the game, don't allow it to burn
-//			if(getPlayer(player) != null){
-//				System.out.println("Cancel combust event for: " + player.getName());
-//				e.setCancelled(true);
-//				player.setFireTicks(1);
-//			}
-//		}else if(e.getEntity() instanceof Villager){
-//			e.setCancelled(true);
-//		}
-//	}
+	@EventHandler
+	public void onThingGettingSetOnFireEvent(EntityCombustEvent e) {
+		if(e.getEntity() instanceof Player){
+			Player player = (Player)e.getEntity();//if the thing on fire is a player in the game, don't allow it to burn
+			if(getPlayer(player) != null){
+				System.out.println("Cancel combust event for: " + player.getName());
+				e.setCancelled(true);
+				player.setFireTicks(1);
+			}
+		}else if(e.getEntity() instanceof Villager){
+			e.setCancelled(true);
+		}
+	}
 	
 	/**
 	 * Catch player logout, and remove the rplayer associated with them
