@@ -304,6 +304,7 @@ public class RegicideCommands implements CommandExecutor{
 		for (RegicideGame game : games) {
 			game.removePlayer((Player) sender);
 			sender.sendMessage(aquaChat + "You have left Regicide Game " + goldChat + game.getName() + resetChat);
+			GameAnnouncer.GameLeave(game, (Player) sender);
 		}
 		return true;
 	}
@@ -329,6 +330,7 @@ public class RegicideCommands implements CommandExecutor{
 				//Game is not running
 				game.open();
 				sender.sendMessage(greenChat + "Successfully opened game: " + goldChat + game.getName() + resetChat);
+				GameAnnouncer.OpenGame(game);
 			}
 		}
 		return true;
