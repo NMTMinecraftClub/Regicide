@@ -58,81 +58,73 @@ public class RegicideCommands implements CommandExecutor{
 			sender.sendMessage(blueChat + "setExit  " + goldChat + " [game name]" + resetChat + " sets the exit location of a game");
 			sender.sendMessage(blueChat + "open     " + goldChat + " [game name]" + resetChat + " opens a game for registration");
 			sender.sendMessage(blueChat + "leave    " + resetChat + " leave regicide");
-			return true;
 		}
 		
 		//Sender must now be a player
 		//Register buttons/games
-		if (args[0].equalsIgnoreCase("register")) {
+		else if (args[0].equalsIgnoreCase("register")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide register [name]");
 				return false;
 			}
 			registerGame(sender, args);
-			return true;
 		}
 		
 		//Start games
-		if (args[0].equalsIgnoreCase("start")) {
+		else if (args[0].equalsIgnoreCase("start")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide start [name]");
 				return false;
 			}
 			startGame(sender, args);
-			return true;
 		}
 		
 		//Set a Game Spawn
-		if (args[0].equalsIgnoreCase("setSpawn")) {
+		else if (args[0].equalsIgnoreCase("setSpawn")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide setSpawn [name]");
 				return false;
 			}
 			setSpawn(sender, args);
-			return true;
 		}
 		
 		//Set Lobby
-		if (args[0].equalsIgnoreCase("setLobby")) {
+		else if (args[0].equalsIgnoreCase("setLobby")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide setLobby [name]");
 				return false;
 			}
 			setLobby(sender, args);
-			return true;
 		}
 		
 		//Open Game
-		if (args[0].equalsIgnoreCase("open")) {
+		else if (args[0].equalsIgnoreCase("open")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide open [name]");
 				return false;
 			}
 			this.openGame(sender, args);
-			return true;
 		}
 		
 		//Leave Game
-		if (args[0].equalsIgnoreCase("leave")) {
+		else if (args[0].equalsIgnoreCase("leave")) {
 			if(args.length != 1){
 				sender.sendMessage("Wrong number of arguments: /regicide leave");
 				return false;
 			}
 			this.leaveGame(sender);
-			return true;
 		}
 		
 		//Set Game Exit
-		if (args[0].equalsIgnoreCase("setExit")) {
+		else if (args[0].equalsIgnoreCase("setExit")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide Exit [name]");
 				return false;
 			}
 			setExit(sender, args);
-			return true;
 		}
 		
-		if(args[0].equalsIgnoreCase("firstPlace")){
+		else if(args[0].equalsIgnoreCase("firstPlace")){
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide firstPlace [name]");
 				return false;
@@ -141,21 +133,21 @@ public class RegicideCommands implements CommandExecutor{
 			setFirstPlace(sender, args);
 		}
 		
-		if(args[0].equalsIgnoreCase("secondPlace")){
+		else if(args[0].equalsIgnoreCase("secondPlace")){
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide firstPlace [name]");
 				return false;
 			}
 			setSecondPlace(sender, args);
 		}
-		if(args[0].equalsIgnoreCase("thirdPlace")){
+		else if(args[0].equalsIgnoreCase("thirdPlace")){
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide firstPlace [name]");
 				return false;
 			}
 			setThirdPlace(sender, args);
 		}
-		if(args[0].equalsIgnoreCase("otherPlace")){
+		else if(args[0].equalsIgnoreCase("otherPlace")){
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide firstPlace [name]");
 				return false;
@@ -165,17 +157,20 @@ public class RegicideCommands implements CommandExecutor{
 		}
 		
 		//End Game
-		if (args[0].equalsIgnoreCase("end")) {
+		else if (args[0].equalsIgnoreCase("end")) {
 			if (args.length != 2) {
 				sender.sendMessage("Wrong number of arguments: /regicide end [name]");
 				return false;
 			}
 			closeGame(sender,args);
 		}
+		else {
+			sender.sendMessage("Something went wrong...");
+			sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
+			return false;
+		}
 
-		sender.sendMessage("Something went wrong...");
-		sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
-		return false;
+		return true;
 	}
 	
 	public static List<String> getCommandList(){
