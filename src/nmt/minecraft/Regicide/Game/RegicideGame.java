@@ -1,5 +1,8 @@
 package nmt.minecraft.Regicide.Game;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -31,6 +34,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -398,7 +402,8 @@ public class RegicideGame implements Listener {
 		}
 		
 		LinkedList<RPlayer> newList = new LinkedList<RPlayer>(players.values());
-		
+		teleportWinners();
+		//TODO need to set a timed delay here
 		
 		for (RPlayer player : newList) {
 			removePlayer(player);
@@ -416,12 +421,10 @@ public class RegicideGame implements Listener {
 		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
 			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
 				if(getVillager((Villager)e.getEntity()) != null){
-					//TODO check if villager, if so nauseua
 					Player player = (Player)e.getDamager();
 					if(getPlayer(player) != null){
 						//alert other players
 						getPlayer(player).alertPlayers();
-						//player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
 					}
 					e.setCancelled(true);
 				}
@@ -545,6 +548,10 @@ public class RegicideGame implements Listener {
 		this.exitLocation = exit;
 	}
 	
+	/**
+	 * kills a player by clearing effects, downgrading their weapons, and teleporting them to a spawnpoint 
+	 * @param player The player to be killed
+	 */
 	public void killPlayer(RPlayer player) {
 		if (!players.containsValue(player)) {
 			//player not in this game!
@@ -555,12 +562,10 @@ public class RegicideGame implements Listener {
 		getPlayer(play).downgrade();
 		play.setHealth(play.getMaxHealth());
 		
-		//player.die();
 		//check if they were the king
 		if (player.isKing()) {
-			//register new king!
 			player.die();
-			//give king to last who hit
+			//give king to last who hit, or make a random one
 			if (player.getLastHitBy() == null) {
 				makeRandomKing();
 			}
@@ -579,7 +584,7 @@ public class RegicideGame implements Listener {
 		play.setFireTicks(1);
 		play.setFoodLevel(20);
 		play.setExhaustion(0);
-		player.disguise(); //change disguise
+		player.disguise();
 		
 	}
 	
@@ -587,6 +592,10 @@ public class RegicideGame implements Listener {
 		return this.exitLocation;
 	}
 	
+	/**
+	 * When the geme ends end the game
+	 * @param e
+	 */
 	@EventHandler
 	public void onGameEnd(RegicideGameEndEvent e) {
 		if (e.getGame().name.equals(name)) {
@@ -595,7 +604,7 @@ public class RegicideGame implements Listener {
 	}
 	
 	/**
-	 * When the player attempts to drop an item, stop 
+	 * When the player attempts to drop an item, stop them 
 	 * @param e
 	 */
 	@EventHandler
@@ -604,33 +613,22 @@ public class RegicideGame implements Listener {
 		if(getPlayer(player)!= null){
 			player.sendMessage(ChatColor.BOLD+""+ChatColor.BLUE+"Naughty Naughty... don't throw away items people give you!!!!"+ChatColor.RESET);
 			e.setCancelled(true);
-			//TODO: we will need to update the inventory here to prevent disappearing items, example code below
-			//ItemStack thrown = e.getItemDrop().getItemStack().clone();
-			//player.getInventory().addItem(thrown);
-			//delete the dropped item
-			//e.getItemDrop().remove();
 		}
 	}
-	/*
-	public static void doInventoryUpdate(final Player player, Plugin plugin) {
-		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
- 
-			@SuppressWarnings("deprecation")
-			@Override
-			public void run() {
-				player.updateInventory();
-			}
- 
-		}, 1L);
-	}*/
 	
-	
+	/**
+	 * Spawns the given number of villagers into the game
+	 * @param count The number of villagers to spawn
+	 */
 	private void spawnVillagers(int count) {
 		for (int i = 0; i < count; i++) {
 			villagers.add(new RegicideVillager(this));
 		}
 	}
 	
+	/**
+	 * removes all villagers from the game
+	 */
 	private void removeVillagers() {
 		for (RegicideVillager vil : villagers) {
 			vil.remove();
@@ -708,5 +706,62 @@ public class RegicideGame implements Listener {
 		this.otherPlace = otherPlace;
 	}
 	
+	/**
+	 * calculates the player rankings
+	 * @return a sorted list of players based on their points
+	 */
+	public ArrayList<RPlayer> calculateWinners(){
+		ArrayList<RPlayer> list = new ArrayList<RPlayer>(players.values());
+		
+		if(list.isEmpty()){
+			return null;
+		}
+		
+		//used to compare things in the list
+		Comparator<RPlayer> comparator = new Comparator<RPlayer>() {
+		    public int compare(RPlayer c1, RPlayer c2) {
+		        return c2.getPoints() - c1.getPoints();
+		    }
+		};
+
+		Collections.sort(list, comparator); // use the comparator to sort the list
+		
+		return list;
+	}
 	
+	/**
+	 * Teleports the game's winners to the winning locations, and everyone else to the observers spot
+	 */
+	public void teleportWinners(){
+		ArrayList<RPlayer> list = calculateWinners();
+		if(list.isEmpty()){
+			System.out.println("Somehow there are no players in this game");
+			return;
+		}
+		
+		for(int i=0; i < list.size(); i++){
+			RPlayer play = list.get(i);
+			if(i == 0){
+				play.teleport(firstPlace);
+			}else if(i==1){
+				play.teleport(secondPlace);
+			}else if(i==2){
+				play.teleport(thirdPlace);
+			}else{
+				play.teleport(otherPlace);
+			}
+		}
+		
+	}
+	
+	/**
+	 * prevent players int the game from picking up items
+	 * @param e the event
+	 */
+	@EventHandler
+	public void onPlayerPickupItem(PlayerPickupItemEvent e){
+		if(getPlayer(e.getPlayer()) != null){
+			e.setCancelled(true);
+		}
+	}
 }
