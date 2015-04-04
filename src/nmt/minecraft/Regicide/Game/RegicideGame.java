@@ -84,7 +84,7 @@ public class RegicideGame implements Listener {
 	
 	private GameTimer timer;
 	
-	private long endTime = 120;
+	private long endTime = 6000;
 	
 	private ScoreBoard board;
 	
