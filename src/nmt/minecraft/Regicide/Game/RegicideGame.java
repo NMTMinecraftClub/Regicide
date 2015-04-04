@@ -312,7 +312,6 @@ public class RegicideGame implements Listener {
 	public boolean removePlayer(RPlayer player) {
 		RPlayer plays = players.remove(player.getPlayer().getUniqueId());
 		if (plays == null) {
-			System.out.println("Not a player!");
 			return false;
 		}
 		
@@ -330,7 +329,6 @@ public class RegicideGame implements Listener {
 			}
 			else if (player.isKing()) {
 	
-				System.out.println("got a king!");
 				if (plays.getLastHitBy() == null || getPlayer(plays.getLastHitBy().getPlayer()) != null) {
 					makeRandomKing();
 					board.updateKing(king);
@@ -413,7 +411,6 @@ public class RegicideGame implements Listener {
 						getPlayer(player).alertPlayers();
 						//player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
 					}
-					System.out.println("Cancel damage for: " + player.getName());
 					e.setCancelled(true);
 				}
 			}
@@ -492,7 +489,6 @@ public class RegicideGame implements Listener {
 			Player player = (Player) e.getEntity();
 
 			if(getPlayer(player) != null && e.getDamage() >= player.getHealth()){
-				System.out.println("Cancel damage event: " + player.getName());
 				e.setCancelled(true);
 
 				this.killPlayer(getPlayer(player));
@@ -528,7 +524,6 @@ public class RegicideGame implements Listener {
 	@EventHandler
 	public void onLogout(PlayerQuitEvent e) {
 		if (getPlayer(e.getPlayer()) != null) {
-			System.out.println("got a player!");
 			board.removePlayer(getPlayer(e.getPlayer()));
 			removePlayer(e.getPlayer());
 		}
@@ -593,7 +588,6 @@ public class RegicideGame implements Listener {
 	 */
 	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent e){
-		System.out.println("Player "+e.getPlayer().getName()+" Dropped an item "+e.getItemDrop().toString());
 		Player player = e.getPlayer();
 		if(getPlayer(player)!= null){
 			player.sendMessage("Naughty Naughty... don't throw away items people give you!!!!");
