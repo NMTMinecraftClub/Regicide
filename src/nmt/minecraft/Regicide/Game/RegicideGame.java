@@ -90,6 +90,8 @@ public class RegicideGame implements Listener {
 	
 	private Location exitLocation;
 	
+	private Location firstPlace, secondPlace, thirdPlace, otherPlace;
+	
 	/**
 	 * Create a blank regicide game.
 	 */
@@ -104,6 +106,10 @@ public class RegicideGame implements Listener {
 		spawnLocations = new LinkedList<Location>();
 		lobbyLocation = null;
 		exitLocation = null;
+		setFirstPlace(null); 
+		secondPlace = null; 
+		thirdPlace = null; 
+		otherPlace = null;
 		
 		board = new ScoreBoard();
 		
@@ -644,6 +650,62 @@ public class RegicideGame implements Listener {
 		}
 		
 		return null;
+	}
+
+	/**
+	 * @return the firstPlace
+	 */
+	public Location getFirstPlace() {
+		return firstPlace;
+	}
+
+	/**
+	 * @param firstPlace the firstPlace to set
+	 */
+	public void setFirstPlace(Location firstPlace) {
+		this.firstPlace = firstPlace;
+	}
+
+	/**
+	 * @return the secondPlace
+	 */
+	public Location getSecondPlace() {
+		return secondPlace;
+	}
+
+	/**
+	 * @param secondPlace the secondPlace to set
+	 */
+	public void setSecondPlace(Location secondPlace) {
+		this.secondPlace = secondPlace;
+	}
+
+	/**
+	 * @return the thirdPlace
+	 */
+	public Location getThirdPlace() {
+		return thirdPlace;
+	}
+
+	/**
+	 * @param thirdPlace the thirdPlace to set
+	 */
+	public void setThirdPlace(Location thirdPlace) {
+		this.thirdPlace = thirdPlace;
+	}
+
+	/**
+	 * @return the otherPlace
+	 */
+	public Location getOtherPlace() {
+		return otherPlace;
+	}
+
+	/**
+	 * @param otherPlace the otherPlace to set
+	 */
+	public void setOtherPlace(Location otherPlace) {
+		this.otherPlace = otherPlace;
 	}
 	
 	
