@@ -35,6 +35,9 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
+import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles.ParticleEffect;
+
 /**
  * A running instance of a regicide game.
  * <p>Responsible for keeping track of players and scores, starting and stopping the game, etc.</p>
@@ -470,9 +473,15 @@ public class RegicideGame implements Listener {
 			return;
 		}
 		
+		if (getPlayer(e.getPlayer()) == null) {
+			return;
+		}
+		
 		//display food particles
-		//e.getPlayer().playEffect(e.getPlayer().getLocation(), Effect., arg2);;
-		//WrapperPlayerServerWorldParticles particle = new WrapperPlayerServerWorldParticles();
+		WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
+		particle.setLocation(e.getPlayer().getEyeLocation());
+		particle.setNumberOfParticles(5);
+		particle.setParticleEffect(ParticleEffect.ICONCRACK);		
 		
 		
 	}
