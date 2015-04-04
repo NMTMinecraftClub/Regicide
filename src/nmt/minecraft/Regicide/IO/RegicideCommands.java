@@ -22,7 +22,7 @@ import org.bukkit.entity.Player;
  *
  */
 public class RegicideCommands implements CommandExecutor{
-	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", "start", "leave", "open", "help"};
+	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", "start", "leave", "open", "help", "end"};
 
 	private String aquaChat = ChatColor.AQUA+"";
 	private String blueChat = ChatColor.BLUE+"";
@@ -130,6 +130,15 @@ public class RegicideCommands implements CommandExecutor{
 			}
 			setExit(sender, args);
 			return true;
+		}
+		
+		//End Game
+		if (args[0].equalsIgnoreCase("end")) {
+			if (args.length != 2) {
+				sender.sendMessage("Wrong number of arguments: /regicide end [name]");
+				return false;
+			}
+			closeGame(sender,args);
 		}
 		sender.sendMessage("Something went wrong...");
 		sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
