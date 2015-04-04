@@ -337,6 +337,27 @@ public class RegicideCommands implements CommandExecutor{
 	}
 	
 	/**
+	 * Force the conclusion of a Regicide Game
+	 * @param sender The sender of the command
+	 * @param args The arguments
+	 * @return
+	 */
+	public boolean closeGame(CommandSender sender, String[] args) {
+		if (args.length < 2) {
+			sender.sendMessage("Please supply the name of the instance that you wish to end!");
+			return false;
+		}
+		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
+		for (RegicideGame game : games) {
+			if (game.getName().equalsIgnoreCase(args[1])) {
+				game.endGame();
+				sender.sendMessage(greenChat + "You ended the game: " + goldChat + game.getName() + resetChat);
+			}
+		}
+		return true;
+	}
+	
+	/**
 	 * This method sets a Game Exit location.
 	 * @param sender The command sender.
 	 * @param args The command arguments.
