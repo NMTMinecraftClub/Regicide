@@ -19,14 +19,15 @@ public class GameTimer extends BukkitRunnable {
 	/**
 	 * How often should score be incremented? IN SECONDS
 	 */
-	private final static int scoreInterval = 10;
+	private long scoreInterval;
 	
 	private long endTime;
 	
-	public GameTimer(RegicideGame game, long endTime) {
+	public GameTimer(RegicideGame game, long endTime, long scoreInterval) {
 		this.time = 0;
 		this.game = game;
 		this.endTime = endTime;  
+		this.scoreInterval = scoreInterval;
 	}
 	
 	@Override

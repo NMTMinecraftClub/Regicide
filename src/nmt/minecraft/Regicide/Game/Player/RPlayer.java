@@ -209,7 +209,7 @@ public class RPlayer{
 			ArrayList<String> lore = new ArrayList<String>();
 			lore.add("The Royal Scepter");
 			lore.add("passed down through the ages");
-			lore.add("from "+ChatColor.GREEN+"Eric the green"+ChatColor.RESET+" to you");
+			lore.add("from "+ChatColor.GREEN+"Eric the green"+ChatColor.DARK_PURPLE+" to you");
 			
 			scepter.setLore(lore);//just trying this out cuz y not
 			swordItem.setItemMeta(scepter);
