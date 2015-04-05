@@ -404,6 +404,10 @@ public class RegicideGame implements Listener {
 		GameAnnouncer.EndGame(this);
 		makePlayersVisable();
 		timer.cancel();
+
+		//TODO PUT FINISHING STUFF
+		EndGameCinematic cine = new EndGameCinematic(this, this.calculateWinners());
+		
 		
 		LinkedList<RPlayer> newList = new LinkedList<RPlayer>(players.values());
 		teleportWinners();
@@ -416,9 +420,6 @@ public class RegicideGame implements Listener {
 		RegicidePlugin.regicidePlugin.endGame(this);
 		
 		removeVillagers();
-		
-		//TODO PUT FINISHING STUFF
-		EndGameCinematic cine = new EndGameCinematic(this, this.calculateWinners());
 		
 	}
 	
