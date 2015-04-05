@@ -34,13 +34,13 @@ public class EatParticleEffect extends BukkitRunnable {
 		this.delay = delay;
 		this.loopTimes = loopTimes;
 		
-		this.runTaskTimer(RegicidePlugin.regicidePlugin, (long) 0.0, delay);
+		this.runTaskTimer(RegicidePlugin.regicidePlugin, (long) 0.1, delay);
 	}
 	
 	
 	@SuppressWarnings("deprecation")
 	public void run() {
-
+		System.out.println("Sending food particles!");
 		//display food particles
 		WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
 		particle.setNumberOfParticles(10);
@@ -54,6 +54,7 @@ public class EatParticleEffect extends BukkitRunnable {
 			}
 			
 			//else display the particles
+			System.out.println("Spam: sending to player: " + player.getPlayer().getName());
 			particle.sendPacket(player.getPlayer());
 		}
 		
