@@ -412,6 +412,7 @@ public class RegicideGame implements Listener {
 		teleportWinners();
 		//TODO need to set a timed delay here
 		
+		GameAnnouncer.EndGame(this);
 		for (RPlayer player : newList) {
 			removePlayer(player);
 		}
