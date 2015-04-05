@@ -402,10 +402,6 @@ public class RegicideGame implements Listener {
 		RegicidePlugin.regicidePlugin.getLogger().info("Game [" + name + "] now stopping!");
 		GameAnnouncer.EndGame(this);
 		makePlayersVisable();
-		for (RPlayer player : players.values()) {
-			player.getPlayer().sendMessage("Game now ending. This is lame put more fancy ending!");
-		}
-		
 		timer.cancel();
 		
 		LinkedList<RPlayer> newList = new LinkedList<RPlayer>(players.values());
