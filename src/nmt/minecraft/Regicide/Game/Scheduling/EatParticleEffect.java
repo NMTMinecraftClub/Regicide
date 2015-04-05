@@ -53,7 +53,7 @@ public class EatParticleEffect extends BukkitRunnable {
 		//display food particles
 		WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
 		particle.setNumberOfParticles(10);
-		particle.setParticleSpeed(rand.nextFloat());
+		particle.setParticleSpeed(rand.nextFloat() * .05f);
 		particle.setLocation(loc);
 		particle.setParticleName("iconcrack_" + Material.COOKED_BEEF.getId());
 		
