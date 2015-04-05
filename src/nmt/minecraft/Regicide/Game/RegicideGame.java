@@ -406,6 +406,8 @@ public class RegicideGame implements Listener {
 			player.getPlayer().sendMessage("Game now ending. This is lame put more fancy ending!");
 		}
 		
+		timer.cancel();
+		
 		LinkedList<RPlayer> newList = new LinkedList<RPlayer>(players.values());
 		teleportWinners();
 		//TODO need to set a timed delay here
