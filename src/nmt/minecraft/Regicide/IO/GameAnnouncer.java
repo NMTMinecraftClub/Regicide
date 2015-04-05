@@ -83,6 +83,7 @@ public class GameAnnouncer {
 			//Add score
 			endScore.append(aquaChat + " " + PlayerScore + resetChat + "\n");
 		}
+		MessageGamePlayers(gameInstance,endScore.toString());
 	}
 	
 	/**
