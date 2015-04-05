@@ -1,12 +1,14 @@
 package nmt.minecraft.Regicide.Game.Scheduling;
 
+import java.util.Random;
+
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
 
@@ -27,6 +29,8 @@ public class EatParticleEffect extends BukkitRunnable {
 	
 	private long index;
 	
+	private Random rand;
+	
 	public EatParticleEffect(RegicideGame game, RPlayer player, long delay, long loopTimes) {
 		targetPlayer = player;
 		this.game = game;
@@ -35,17 +39,22 @@ public class EatParticleEffect extends BukkitRunnable {
 		this.delay = delay;
 		this.loopTimes = loopTimes;
 		
+		rand = new Random();
+		
 		this.runTaskTimer(RegicidePlugin.regicidePlugin, (long) 0.1, delay);
 	}
 	
 	
 	@SuppressWarnings("deprecation")
 	public void run() {
+		
+		Location loc = targetPlayer.getPlayer().getEyeLocation().add(targetPlayer.getPlayer().getLocation().getDirection());
+		
 		//display food particles
 		WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
 		particle.setNumberOfParticles(10);
-		particle.setOffset(new Vector(.1, .1, .1));
-		particle.setLocation(targetPlayer.getPlayer().getEyeLocation().add(targetPlayer.getPlayer().getLocation().getDirection()));
+		particle.setParticleSpeed(rand.nextFloat());
+		particle.setLocation(loc);
 		particle.setParticleName("iconcrack_" + Material.COOKED_BEEF.getId());
 		
 		for (RPlayer player : game.getPlayers()) {
