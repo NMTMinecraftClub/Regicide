@@ -400,7 +400,7 @@ public class RegicideGame implements Listener {
 	public void endGame() {
 		this.isRunning = false;
 		RegicidePlugin.regicidePlugin.getLogger().info("Game [" + name + "] now stopping!");
-		
+		GameAnnouncer.EndGame(this);
 		makePlayersVisable();
 		for (RPlayer player : players.values()) {
 			player.getPlayer().sendMessage("Game now ending. This is lame put more fancy ending!");
@@ -412,7 +412,6 @@ public class RegicideGame implements Listener {
 		teleportWinners();
 		//TODO need to set a timed delay here
 		
-		GameAnnouncer.EndGame(this);
 		for (RPlayer player : newList) {
 			removePlayer(player);
 		}
