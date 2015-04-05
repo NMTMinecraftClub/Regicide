@@ -6,6 +6,7 @@ import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
 
@@ -43,7 +44,7 @@ public class EatParticleEffect extends BukkitRunnable {
 		//display food particles
 		WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
 		particle.setNumberOfParticles(10);
-		particle.setOffset(targetPlayer.getPlayer().getLocation().getDirection().multiply(.1));
+		particle.setOffset(new Vector(.1, .1, .1));
 		particle.setLocation(targetPlayer.getPlayer().getEyeLocation().add(targetPlayer.getPlayer().getLocation().getDirection()));
 		particle.setParticleName("iconcrack_" + Material.COOKED_BEEF.getId());
 		
