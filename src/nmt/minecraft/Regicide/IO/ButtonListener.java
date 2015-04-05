@@ -2,7 +2,7 @@ package nmt.minecraft.Regicide.IO;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
-import nmt.minecraft.Regicide.Game.RegicideGameEndEvent;
+import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

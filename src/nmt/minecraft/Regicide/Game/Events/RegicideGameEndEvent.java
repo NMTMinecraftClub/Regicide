@@ -1,4 +1,6 @@
-package nmt.minecraft.Regicide.Game;
+package nmt.minecraft.Regicide.Game.Events;
+
+import nmt.minecraft.Regicide.Game.RegicideGame;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

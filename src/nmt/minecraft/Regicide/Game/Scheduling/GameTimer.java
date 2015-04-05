@@ -3,7 +3,7 @@ package nmt.minecraft.Regicide.Game.Scheduling;
 import java.util.List;
 
 import nmt.minecraft.Regicide.Game.RegicideGame;
-import nmt.minecraft.Regicide.Game.RegicideGameEndEvent;
+import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
 import org.bukkit.Bukkit;

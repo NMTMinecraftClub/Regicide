@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
+import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.Game.Player.RegicideVillager;
 import nmt.minecraft.Regicide.Game.Scheduling.GameTimer;
