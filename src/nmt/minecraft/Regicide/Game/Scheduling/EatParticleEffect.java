@@ -50,7 +50,7 @@ public class EatParticleEffect extends BukkitRunnable {
 		
 		Location loc = targetPlayer.getPlayer().getEyeLocation().add(targetPlayer.getPlayer().getLocation().getDirection().multiply(.05));
 		
-		//display food particles
+		//display food particlesg
 		WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
 		particle.setNumberOfParticles(10);
 		particle.setParticleSpeed(rand.nextFloat() * .05f);

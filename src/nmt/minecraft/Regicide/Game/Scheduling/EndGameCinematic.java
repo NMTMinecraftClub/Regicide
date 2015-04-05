@@ -96,17 +96,17 @@ public class EndGameCinematic extends BukkitRunnable {
 		}
 		
 		players.get(0).teleport(game.getFirstPlace());
-		if (players.size() > 2) {
+		if (players.size() >= 2) {
 			players.get(1).teleport(game.getSecondPlace());
 		}
-		if (players.size() > 3)
+		if (players.size() >= 3)
 		{
 			players.get(2).teleport(game.getThirdPlace());
 			
 		}
 		
 		//teleport rest of people to other locaton
-		if (players.size() > 4) {
+		if (players.size() >= 4) {
 			for(int i = 3; i < players.size(); i++) {
 				players.get(i).teleport(game.getOtherPlace());
 			}
