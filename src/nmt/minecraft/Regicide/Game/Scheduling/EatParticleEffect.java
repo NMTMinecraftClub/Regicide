@@ -1,5 +1,6 @@
 package nmt.minecraft.Regicide.Game.Scheduling;
 
+import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
@@ -19,12 +20,25 @@ public class EatParticleEffect extends BukkitRunnable {
 	
 	private RegicideGame game;
 	
-	public EatParticleEffect(RegicideGame game, RPlayer player) {
+	private long delay;
+	
+	private long loopTimes;
+	
+	private long index;
+	
+	public EatParticleEffect(RegicideGame game, RPlayer player, long delay, long loopTimes) {
 		targetPlayer = player;
 		this.game = game;
+		this.index = 0;
+		
+		this.delay = delay;
+		this.loopTimes = loopTimes;
+		
+		this.runTaskTimer(RegicidePlugin.regicidePlugin, (long) 0.0, delay);
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	public void run() {
 
 		//display food particles
@@ -41,6 +55,12 @@ public class EatParticleEffect extends BukkitRunnable {
 			
 			//else display the particles
 			particle.sendPacket(player.getPlayer());
+		}
+		
+		
+		index++;
+		if (index >= loopTimes) {
+			this.cancel();
 		}
 	}
 	
