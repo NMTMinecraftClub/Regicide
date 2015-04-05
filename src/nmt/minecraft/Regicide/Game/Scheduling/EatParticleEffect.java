@@ -48,7 +48,7 @@ public class EatParticleEffect extends BukkitRunnable {
 	@SuppressWarnings("deprecation")
 	public void run() {
 		
-		Location loc = targetPlayer.getPlayer().getEyeLocation().add(targetPlayer.getPlayer().getLocation().getDirection());
+		Location loc = targetPlayer.getPlayer().getEyeLocation().add(targetPlayer.getPlayer().getLocation().getDirection().multiply(.05));
 		
 		//display food particles
 		WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
