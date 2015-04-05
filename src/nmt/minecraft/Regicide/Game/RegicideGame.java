@@ -15,6 +15,7 @@ import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.Game.Player.RegicideVillager;
+import nmt.minecraft.Regicide.Game.Scheduling.EatParticleEffect;
 import nmt.minecraft.Regicide.Game.Scheduling.GameTimer;
 import nmt.minecraft.Regicide.IO.GameAnnouncer;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
@@ -464,6 +465,9 @@ public class RegicideGame implements Listener {
 		RPlayer rplayer = getPlayer(player);
 		if(rplayer != null && rplayer.isKing()){
 			player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 1));
+			
+			//display eat food particles
+			EatParticleEffect eff = new EatParticleEffect(this, rplayer, 1, 20);
 		}
 		
 	}
@@ -481,9 +485,7 @@ public class RegicideGame implements Listener {
 			return;
 		}
 		
-		//display food particles
-		//e.getPlayer().playEffect(e.getPlayer().getLocation(), Effect., arg2);;
-		//WrapperPlayerServerWorldParticles particle = new WrapperPlayerServerWorldParticles();
+		
 		
 		
 	}
