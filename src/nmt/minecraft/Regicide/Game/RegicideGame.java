@@ -407,7 +407,7 @@ public class RegicideGame implements Listener {
 
 		//TODO PUT FINISHING STUFF
 		EndGameCinematic cine = new EndGameCinematic(this, this.calculateWinners());
-		
+		cine.run();
 		
 		LinkedList<RPlayer> newList = new LinkedList<RPlayer>(players.values());
 		teleportWinners();
