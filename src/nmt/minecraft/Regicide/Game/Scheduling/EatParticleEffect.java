@@ -40,11 +40,10 @@ public class EatParticleEffect extends BukkitRunnable {
 	
 	@SuppressWarnings("deprecation")
 	public void run() {
-		System.out.println("Sending food particles!");
 		//display food particles
 		WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
 		particle.setNumberOfParticles(10);
-		particle.setOffset(targetPlayer.getPlayer().getLocation().getDirection());
+		particle.setOffset(targetPlayer.getPlayer().getLocation().getDirection().multiply(.1));
 		particle.setLocation(targetPlayer.getPlayer().getEyeLocation().add(targetPlayer.getPlayer().getLocation().getDirection()));
 		particle.setParticleName("iconcrack_" + Material.COOKED_BEEF.getId());
 		
@@ -54,7 +53,6 @@ public class EatParticleEffect extends BukkitRunnable {
 			}
 			
 			//else display the particles
-			System.out.println("Spam: sending to player: " + player.getPlayer().getName());
 			particle.sendPacket(player.getPlayer());
 		}
 		
