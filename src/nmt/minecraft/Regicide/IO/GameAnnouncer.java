@@ -65,16 +65,23 @@ public class GameAnnouncer {
 	 * @param gameInstance The Game Instance that is ending
 	 */
 	public static void EndGame(RegicideGame gameInstance) {
-		//ArrayList<RPlayer> GameMembers = (ArrayList<RPlayer>) gameInstance.getPlayers();
-		ArrayList<RPlayer> TopScorePlayers = new ArrayList<RPlayer>();
-		ArrayList<RPlayer> TopKillPlayers = new ArrayList <RPlayer>();
-		//TODO: Implement Methods to get Top Players!
+		ArrayList<RPlayer> TopScorePlayers;
+		int maxPadding = 12;
+		TopScorePlayers = gameInstance.calculateWinners();
 		StringBuilder endScore = new StringBuilder();
-		endScore.append(greenChat + "End Game Results:" + resetChat);
-		endScore.append("Top Scoring Players!");
-		for (RPlayer p : TopScorePlayers) {
-			Player tmp = p.getPlayer();
-			endScore.append(goldChat + tmp.getName() + greenChat + ": " + p.getPoints() + "\n" + resetChat);
+		endScore.append(greenChat + "End Game Results:" + resetChat + "\n");
+		endScore.append("Top Scoring Players!\n");
+		for (int i = 0; i < 3 && i < TopScorePlayers.size(); i++) {
+			int PlayerScore = TopScorePlayers.get(i).getPoints();
+			String PlayerName = TopScorePlayers.get(i).getPlayer().getName();
+			
+			endScore.append(goldChat + PlayerName + resetChat);
+			//Add padding for name-score alignment
+			for (int j = 0; j < maxPadding - PlayerName.length(); j++) {
+				endScore.append(".");
+			}
+			//Add score
+			endScore.append(aquaChat + " " + PlayerScore + resetChat + "\n");
 		}
 	}
 	
