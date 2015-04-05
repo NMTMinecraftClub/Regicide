@@ -16,6 +16,7 @@ import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.Game.Player.RegicideVillager;
 import nmt.minecraft.Regicide.Game.Scheduling.EatParticleEffect;
+import nmt.minecraft.Regicide.Game.Scheduling.EndGameCinematic;
 import nmt.minecraft.Regicide.Game.Scheduling.GameTimer;
 import nmt.minecraft.Regicide.IO.GameAnnouncer;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
@@ -417,6 +418,8 @@ public class RegicideGame implements Listener {
 		removeVillagers();
 		
 		//TODO PUT FINISHING STUFF
+		EndGameCinematic cine = new EndGameCinematic(this, this.calculateWinners());
+		
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)

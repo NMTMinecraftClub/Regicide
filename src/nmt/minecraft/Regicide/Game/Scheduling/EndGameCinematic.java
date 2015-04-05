@@ -1,16 +1,18 @@
 package nmt.minecraft.Regicide.Game.Scheduling;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class EndGameCinematic extends BukkitRunnable {
 	
-	private List<RPlayer> players;
+	private List<Player> players;
 	
 	private RegicideGame game;
 	
@@ -62,7 +64,7 @@ public class EndGameCinematic extends BukkitRunnable {
 		if (players.isEmpty()) {
 			return;
 		}
-		for (RPlayer player : players) {
+		for (Player player : players) {
 				player.teleport(game.getExitLocation());
 			}
  		}
@@ -75,8 +77,16 @@ public class EndGameCinematic extends BukkitRunnable {
 	 * @param participants
 	 */
 	public EndGameCinematic(RegicideGame game, List<RPlayer> participants) {
-		this.players = participants;
+		this.players = new LinkedList<Player>();
 		this.game = game;
+		
+		if (participants.isEmpty()) {
+			return;
+		}
+		
+		for (RPlayer p : participants) {
+			players.add(p.getPlayer());
+		}
 	}
 	
 	public void run() {
@@ -101,6 +111,8 @@ public class EndGameCinematic extends BukkitRunnable {
 				players.get(i).teleport(game.getOtherPlace());
 			}
 		}
+		
+		new KeepStill();
 		
 		
 	}
