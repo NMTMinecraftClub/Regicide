@@ -58,8 +58,6 @@ public class RPlayer{
 		this.killCount = 0;
 		this.upgradeLevel = 0;
 		this.player = Bukkit.getPlayer(player);
-		
-		//disguise = new MobDisguise(DisguiseType.VILLAGER, true);
 	}
 	
 	public void teleport(Location loc) {

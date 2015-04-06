@@ -115,7 +115,8 @@ public class RegicideGame implements Listener {
 		spawnLocations = new LinkedList<Location>();
 		lobbyLocation = null;
 		exitLocation = null;
-		setFirstPlace(null); 
+		
+		firstPlace = null; 
 		secondPlace = null; 
 		thirdPlace = null; 
 		otherPlace = null;
@@ -410,9 +411,6 @@ public class RegicideGame implements Listener {
 		cine.run();
 		
 		LinkedList<RPlayer> newList = new LinkedList<RPlayer>(players.values());
-		teleportWinners();
-		//TODO need to set a timed delay here
-		
 		for (RPlayer player : newList) {
 			removePlayer(player);
 		}
@@ -735,31 +733,6 @@ public class RegicideGame implements Listener {
 		Collections.sort(list, comparator); // use the comparator to sort the list
 		
 		return list;
-	}
-	
-	/**
-	 * Teleports the game's winners to the winning locations, and everyone else to the observers spot
-	 */
-	public void teleportWinners(){
-		ArrayList<RPlayer> list = calculateWinners();
-		if(list.isEmpty()){
-			System.out.println("Somehow there are no players in this game");
-			return;
-		}
-		
-		for(int i=0; i < list.size(); i++){
-			RPlayer play = list.get(i);
-			if(i == 0){
-				play.teleport(firstPlace);
-			}else if(i==1){
-				play.teleport(secondPlace);
-			}else if(i==2){
-				play.teleport(thirdPlace);
-			}else{
-				play.teleport(otherPlace);
-			}
-		}
-		
 	}
 	
 	/**
