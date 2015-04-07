@@ -562,6 +562,10 @@ public class RegicideCommands implements CommandExecutor{
 	public boolean kickPlayer(CommandSender sender, String[] args) {
 		String gameName = args[1];
 		String playerName = args[2];
+		if (!sender.isOp()) {
+			sender.sendMessage("You are not authorized for this command!");
+			return true;
+		}
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			//Find Game Specified
 			if (game.getName().equalsIgnoreCase(gameName)) {
