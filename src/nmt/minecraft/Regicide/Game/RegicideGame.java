@@ -433,7 +433,7 @@ public class RegicideGame implements Listener {
 					Player player = (Player)e.getDamager();
 					if(getPlayer(player) != null){
 						//alert other players
-						player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 12,1));
+						player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50,1));
 						getPlayer(player).alertPlayers();
 					}
 					e.setCancelled(true);
