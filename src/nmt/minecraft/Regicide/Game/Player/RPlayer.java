@@ -243,5 +243,9 @@ public class RPlayer{
         //put in a waiting period between fireworks
 	}
 	
+	public void doVillagerConcequence(){
+		this.player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 0));
+	}
+	
 }
 

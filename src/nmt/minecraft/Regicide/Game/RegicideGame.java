@@ -457,7 +457,7 @@ public class RegicideGame implements Listener {
 			//if they are being hurt by a player in the game, give them wither
 			if(e.getDamager() instanceof Player && getPlayer((Player)e.getDamager()) != null){
 				RPlayer rplay = getPlayer((Player)e.getDamager());
-				rplay.alertPlayers();//TODO rewrite to give them wither
+				rplay.doVillagerConcequence();
 			}
 			
 			//prevent the villager from being hurt no matter what
