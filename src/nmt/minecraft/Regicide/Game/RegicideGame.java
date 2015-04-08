@@ -423,7 +423,46 @@ public class RegicideGame implements Listener {
 	
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
-		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
+		//if the player is being hurt and they are part of the game
+		if(e.getEntity() instanceof Player && getPlayer((Player)e.getEntity()) != null){
+			if(e.getDamager() instanceof Player && getPlayer((Player)e.getEntity()) != null){
+				RPlayer attacker = getPlayer((Player)e.getDamager());
+				RPlayer player = getPlayer((Player)e.getEntity());
+				player.setHitBy(attacker);
+				
+				//if the player is going to die, kill them
+				if(e.getDamage() >= player.getPlayer().getHealth()){
+					e.setCancelled(true);
+					attacker.addKill();
+					
+					//if the game is not running they are waiting in the lobby
+					if(this.isRunning == false){
+						//TODO add a location to kill player
+						player.teleport(lobbyLocation);
+						player.getPlayer().setHealth(player.getPlayer().getMaxHealth());
+						player.getPlayer().setExhaustion(20);
+					}else{
+						killPlayer(player);
+					}
+					
+				}
+				
+			}else{
+				e.setCancelled(true);//prevent the players from being killed by anything other than other players in the game
+			}
+		}//if a villager who is part of the game is being hurt
+		else if(e.getEntity() instanceof Villager && getVillager((Villager)e.getEntity()) != null){
+			
+			//if they are being hurt by a player in the game, give them wither
+			if(e.getDamager() instanceof Player && getPlayer((Player)e.getDamager()) != null){
+				RPlayer rplay = getPlayer((Player)e.getDamager());
+				rplay.alertPlayers();//TODO rewrite to give them wither
+			}
+			
+			//prevent the villager from being hurt no matter what
+			e.setCancelled(true);
+		}
+		/*if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
 			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
 				if(getVillager((Villager)e.getEntity()) != null){
 					Player player = (Player)e.getDamager();
@@ -445,22 +484,23 @@ public class RegicideGame implements Listener {
 			//not part of this game!!!!!!
 		}
 		
-		
-		rplay.setHitBy(getPlayer((Player) e.getDamager()));
+		if(e.getDamager() instanceof Player){
+			rplay.setHitBy(getPlayer((Player) e.getDamager()));
+		}
 		
 		if (e.getDamage() >= player.getHealth()) {
 			//player gonna die!
 			getPlayer((Player) e.getDamager()).addKill();
 			e.setCancelled(true);
-			if(this.isRunning == false){
+			if(this.isRunning == false && getPlayer(player) != null){
 				//means the player is waiting in the lobby
 				//so tp them back to the lobby and set health and hunger
 				rplay.teleport(lobbyLocation);
-				rplay.getPlayer().setHealth(rplay.getPlayer().getMaxHealth());
+				player.setHealth(player.getMaxHealth());
 				player.setExhaustion(20);
 			}
 			killPlayer(rplay);
-		}
+		}*/
 	}
 	
 	/**
