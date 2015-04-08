@@ -33,11 +33,14 @@ public class EndGameCinematic extends BukkitRunnable {
 			if (players.isEmpty()) {
 				return;
 			}
-			
+			//Teleport 1st Place winner
 			players.get(0).teleport(game.getFirstPlace());
+			
+			//If there is a second place winner, teleport the player.
 			if (players.size() >= 2) {
 				players.get(1).teleport(game.getSecondPlace());
 			}
+			//If there is a third place winner, teleport the player.
 			if (players.size() >= 3)
 			{
 				players.get(2).teleport(game.getThirdPlace());
@@ -65,7 +68,8 @@ public class EndGameCinematic extends BukkitRunnable {
 			return;
 		}
 		for (Player player : players) {
-				player.teleport(game.getExitLocation());
+				//player.teleport(game.getExitLocation());
+				player.teleport(game.getOtherPlace());
 			}
  		}
 	}
