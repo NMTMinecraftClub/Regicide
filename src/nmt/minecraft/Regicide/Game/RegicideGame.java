@@ -425,6 +425,11 @@ public class RegicideGame implements Listener {
 		
 	}
 	
+	/**
+	 * This method handles Player Damage to Entities
+	 * @param e
+	 * TODO Ensure that the Wither is properly balanced.
+	 */
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
