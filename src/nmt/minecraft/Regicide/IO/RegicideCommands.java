@@ -22,7 +22,9 @@ import org.bukkit.entity.Player;
  *
  */
 public class RegicideCommands implements CommandExecutor{
-	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", "start", "leave", "open", "firstPlace", "secondPlace", "thirdPlace", "otherPlace", "end","help"};
+	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", 
+		"start", "leave", "open", "firstPlace", "secondPlace", "thirdPlace", "otherPlace",
+		"end","help", "kick"};
 
 	private String aquaChat = ChatColor.AQUA+"";
 	private String blueChat = ChatColor.BLUE+"";
@@ -163,6 +165,12 @@ public class RegicideCommands implements CommandExecutor{
 				return false;
 			}
 			closeGame(sender,args);
+		}
+		else if (args[0].equalsIgnoreCase("kick")) {
+			if(args.length != 3) {
+				sender.sendMessage("Wrong number of arguments: /regicide kick [game] [player name]");
+			}
+			
 		}
 		else {
 			sender.sendMessage("Something went wrong...");
@@ -543,5 +551,37 @@ public class RegicideCommands implements CommandExecutor{
 		sender.sendMessage(redChat + "Unable to locate instance: " + goldChat + args[1] + resetChat);		
 		return false;
 		
+	}
+	
+	/**
+	 * This method kicks a player from a game.
+	 * @param sender The sender of the argument.
+	 * @param args The command arguments.
+	 * @return
+	 */
+	public boolean kickPlayer(CommandSender sender, String[] args) {
+		String gameName = args[1];
+		String playerName = args[2];
+		if (!sender.isOp()) {
+			sender.sendMessage("You are not authorized for this command!");
+			return true;
+		}
+		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
+			//Find Game Specified
+			if (game.getName().equalsIgnoreCase(gameName)) {
+				//Find Player
+				List<RPlayer> players = game.getPlayers();
+				for (RPlayer player : players) {
+					//Remove player
+					if (player.getPlayer().getName().equals(playerName)) {
+						sender.sendMessage("Successfully removed: " + goldChat + playerName + 
+								resetChat + " from: " + aquaChat + gameName + resetChat);
+						game.removePlayer(player);
+						player.getPlayer().sendMessage("You have been kicked from: " + goldChat + gameName + resetChat);
+					}
+				}
+			}
+		}
+		return true;
 	}
 }
