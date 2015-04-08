@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -89,7 +90,7 @@ public class RegicideGame implements Listener {
 	
 	private GameTimer timer;
 	
-	private static final long endTime = 6000;
+	private static final long endTime = 600;
 	
 	private static final long scoreInterval = 10;
 	
@@ -186,6 +187,12 @@ public class RegicideGame implements Listener {
 		board.updateKing(king);
 		
 		spawnVillagers(Math.min(players.size() * 5, 100));
+		
+		//set the time to day
+		Iterator<RPlayer> it = players.values().iterator();
+		if(it.hasNext()){
+			it.next().getPlayer().getLocation().getWorld().setTime(0);
+		}
 	}
 	
 	private void makeRandomKing(){
@@ -463,7 +470,9 @@ public class RegicideGame implements Listener {
 			//prevent the villager from being hurt no matter what
 			e.setCancelled(true);
 		}
-		/*if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
+		/*
+		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
+		 
 			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
 				if(getVillager((Villager)e.getEntity()) != null){
 					Player player = (Player)e.getDamager();
@@ -501,7 +510,8 @@ public class RegicideGame implements Listener {
 				player.setExhaustion(20);
 			}
 			killPlayer(rplay);
-		}*/
+		}
+		//*/
 	}
 	
 	/**
