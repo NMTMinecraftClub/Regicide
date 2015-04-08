@@ -42,8 +42,6 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 /**
  * A running instance of a regicide game.
@@ -423,11 +421,6 @@ public class RegicideGame implements Listener {
 		
 	}
 	
-	/**
-	 * This method handles Player Damage to Entities
-	 * @param e
-	 * TODO Ensure that the Wither is properly balanced.
-	 */
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
 		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
@@ -436,7 +429,6 @@ public class RegicideGame implements Listener {
 					Player player = (Player)e.getDamager();
 					if(getPlayer(player) != null){
 						//alert other players
-						player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50,1));
 						getPlayer(player).alertPlayers();
 					}
 					e.setCancelled(true);
@@ -460,6 +452,13 @@ public class RegicideGame implements Listener {
 			//player gonna die!
 			getPlayer((Player) e.getDamager()).addKill();
 			e.setCancelled(true);
+			if(this.isRunning == false){
+				//means the player is waiting in the lobby
+				//so tp them back to the lobby and set health and hunger
+				rplay.teleport(lobbyLocation);
+				rplay.getPlayer().setHealth(rplay.getPlayer().getMaxHealth());
+				player.setExhaustion(20);
+			}
 			killPlayer(rplay);
 		}
 	}
