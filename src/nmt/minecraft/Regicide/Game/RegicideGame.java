@@ -406,6 +406,9 @@ public class RegicideGame implements Listener {
 		}
 	}
 	
+	/**
+	 * This method handles the exiting conditions of the game
+	 */
 	public void endGame() {
 		this.isRunning = false;
 		RegicidePlugin.regicidePlugin.getLogger().info("Game [" + name + "] now stopping!");
@@ -657,7 +660,7 @@ public class RegicideGame implements Listener {
 	}
 	
 	/**
-	 * When the geme ends end the game
+	 * When the game ends, end the game
 	 * @param e
 	 */
 	@EventHandler
