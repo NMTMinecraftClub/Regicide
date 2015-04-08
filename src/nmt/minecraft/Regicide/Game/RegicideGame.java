@@ -42,6 +42,8 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * A running instance of a regicide game.
@@ -431,6 +433,7 @@ public class RegicideGame implements Listener {
 					Player player = (Player)e.getDamager();
 					if(getPlayer(player) != null){
 						//alert other players
+						player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 1,5));
 						getPlayer(player).alertPlayers();
 					}
 					e.setCancelled(true);

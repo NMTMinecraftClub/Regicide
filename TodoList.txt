@@ -1,0 +1,13 @@
+-Players can kill each other outside of game
+-Players can break itemframes/get items
+-scoreboards aren't popping up right away 
+-steak in air 
+-killed means spawn not at lobby
+-No cohesion for players
+    -Less Villagers/More Spawn Locations/Bigger Map
+-No players got teleported to Others Location
+-Name Flash
+-Getting killed by mob causes misplaced spawn
+-Frame Lag for firework particles
+-Always set Day
+
