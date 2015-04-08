@@ -425,7 +425,8 @@ public class RegicideGame implements Listener {
 	public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
 		//if the player is being hurt and they are part of the game
 		if(e.getEntity() instanceof Player && getPlayer((Player)e.getEntity()) != null){
-			if(e.getDamager() instanceof Player && getPlayer((Player)e.getEntity()) != null){
+			//if theplayerif being attacked by a player in the game
+			if(e.getDamager() instanceof Player && getPlayer((Player)e.getDamager()) != null){
 				RPlayer attacker = getPlayer((Player)e.getDamager());
 				RPlayer player = getPlayer((Player)e.getEntity());
 				player.setHitBy(attacker);
