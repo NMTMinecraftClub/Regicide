@@ -28,6 +28,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -829,5 +830,53 @@ public class RegicideGame implements Listener {
 	
 	public void loadConfig(File configFile) {
 		configManager.loadConfig(configFile);
+		
+		spawnLocations = configManager.getSpawnLocations();
+		if (spawnLocations == null) {
+			tellOps("Unable to load " + ChatColor.RED + "spawn" + ChatColor.RESET + " location data for Regicide Game " + name);
+		}
+		
+		lobbyLocation = configManager.getLobby();
+		if (lobbyLocation == null) {
+			tellOps("Unable to load " + ChatColor.RED + "lobby" + ChatColor.RESET + " location data for Regicide Game " + name);
+		}
+		
+		exitLocation = configManager.getExit();
+		if (exitLocation == null) {
+			tellOps("Unable to load " + ChatColor.RED + "exit" + ChatColor.RESET + " location data for Regicide Game " + name);
+		}
+		
+		firstPlace = configManager.getFirst();
+		if (firstPlace == null) {
+			tellOps("Unable to load " + ChatColor.RED + "first place" + ChatColor.RESET + " location data for Regicide Game " + name);
+		}
+		
+		secondPlace = configManager.getSecond();
+		if (secondPlace == null) {
+			tellOps("Unable to load " + ChatColor.RED + "second place" + ChatColor.RESET + " location data for Regicide Game " + name);
+		}
+		
+		thirdPlace = configManager.getSecond();
+		if (thirdPlace == null) {
+			tellOps("Unable to load " + ChatColor.RED + "third place" + ChatColor.RESET + " location data for Regicide Game " + name);
+		}
+		
+		otherPlace = configManager.getOthers();
+		if (otherPlace == null) {
+			tellOps("Unable to load " + ChatColor.RED + "others" + ChatColor.RESET + " location data for Regicide Game " + name);
+		}
+		
+	}
+	
+	public void saveConfig(File configFile) {
+		configManager.save(configFile);
+	}
+	
+	private void tellOps(String message) {
+		for (OfflinePlayer op : Bukkit.getOperators()) {
+			if (op.isOnline()) {
+				((Player) op).sendMessage(ChatColor.BOLD + "Regicide: " + ChatColor.RESET + ChatColor.BLUE + message);
+			}
+		}
 	}
 }

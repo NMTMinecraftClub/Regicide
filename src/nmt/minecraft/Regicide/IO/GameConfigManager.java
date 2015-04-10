@@ -118,12 +118,24 @@ public class GameConfigManager {
 		return (Location) config.get("lobbyLocation", null);
 	}
 	
-	public Location getButton() {
-		if (config == null) {
-			return null;
+	
+	public void save(File configFile) {
+		if (configFile == null) {
+			RegicidePlugin.regicidePlugin.getLogger().warning("Unable to save config to file: " + configFile);
+			return;	
 		}
 		
-		return (Location) config.get("buttonLocation", null);
+		if (config == null) {
+			RegicidePlugin.regicidePlugin.getLogger().warning("Unable to save config, because the config is null!");
+			return;		
+		}
+		
+		try {
+			config.save(configFile);
+		} catch (IOException e) {
+			RegicidePlugin.regicidePlugin.getLogger().warning("Unable to save config to file: " + configFile);
+			e.printStackTrace();
+		}
 	}
 	
 	
