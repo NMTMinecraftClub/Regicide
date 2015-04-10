@@ -135,7 +135,7 @@ public class RegicideGame implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, RegicidePlugin.regicidePlugin);
 		isOpen = false;
 		
-		this.configManager = new GameConfigManager();
+		this.configManager = new GameConfigManager(this);
 	}
 	
 	public void open() {
@@ -830,37 +830,39 @@ public class RegicideGame implements Listener {
 		
 		spawnLocations = configManager.getSpawnLocations();
 		if (spawnLocations == null) {
-			tellOps("Unable to load " + ChatColor.RED + "spawn" + ChatColor.RESET + " location data for Regicide Game " + name);
+			spawnLocations = new LinkedList<Location>();
+			RegicidePlugin.regicidePlugin.getLogger().warning("Unable to fetch spawn data!");
+			tellOps("Unable to load " + ChatColor.RED + "spawn" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 		lobbyLocation = configManager.getLobby();
 		if (lobbyLocation == null) {
-			tellOps("Unable to load " + ChatColor.RED + "lobby" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "lobby" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 		exitLocation = configManager.getExit();
 		if (exitLocation == null) {
-			tellOps("Unable to load " + ChatColor.RED + "exit" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "exit" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 		firstPlace = configManager.getFirst();
 		if (firstPlace == null) {
-			tellOps("Unable to load " + ChatColor.RED + "first place" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "first place" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 		secondPlace = configManager.getSecond();
 		if (secondPlace == null) {
-			tellOps("Unable to load " + ChatColor.RED + "second place" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "second place" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
-		thirdPlace = configManager.getSecond();
+		thirdPlace = configManager.getThird();
 		if (thirdPlace == null) {
-			tellOps("Unable to load " + ChatColor.RED + "third place" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "third place" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 		otherPlace = configManager.getOthers();
 		if (otherPlace == null) {
-			tellOps("Unable to load " + ChatColor.RED + "others" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "others" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 	}
@@ -869,10 +871,77 @@ public class RegicideGame implements Listener {
 		configManager.save(configFile);
 	}
 	
+	public void printStatus() {
+		tellOps(ChatColor.GOLD + "Game Status for [" + name + "] :");
+		
+		//figure out how many spawn points
+		String msg = "";
+		if (spawnLocations == null) {
+			msg = "" + ChatColor.RED + ChatColor.BOLD + "NULL!";
+		} else {
+			if (spawnLocations.isEmpty()) {
+				msg = "" + ChatColor.YELLOW + "Empty!";
+			} else
+			{
+				//multiple points!
+				msg = "" + ChatColor.GREEN + spawnLocations.size() + " points!";
+			}
+		}
+		tellOps("Spawn Points:   " + msg);
+		
+		//report of lobby
+		if (lobbyLocation == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "" + ChatColor.GREEN + "Set!";
+		}
+		tellOps("Lobby:   " + msg);
+		
+		//report of exit
+		if (exitLocation == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "" + ChatColor.GREEN + "Set!";
+		}
+		tellOps("Exit:   " + msg);
+		
+		//report of first place
+		if (firstPlace == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "" + ChatColor.GREEN + "Set!";
+		}
+		tellOps("First Place:   " + msg);
+		
+		//report of second place
+		if (secondPlace == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "" + ChatColor.GREEN + "Set!";
+		}
+		tellOps("Second Place:   " + msg);
+		
+		//report of third place
+		if (thirdPlace == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "" + ChatColor.GREEN + "Set!";
+		}
+		tellOps("Third Place:   " + msg);
+		
+		//report of other place
+		if (otherPlace == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "" + ChatColor.GREEN + "Set!";
+		}
+		tellOps("Other's Place:   " + msg);
+	}
+	
 	private void tellOps(String message) {
-		for (OfflinePlayer op : Bukkit.getOperators()) {
-			if (op.isOnline()) {
-				((Player) op).sendMessage(ChatColor.BOLD + "Regicide: " + ChatColor.RESET + ChatColor.BLUE + message);
+		for (Player op : Bukkit.getOnlinePlayers()) {
+			if (op.isOp()) {
+				op.sendMessage(ChatColor.BOLD + "Regicide: " + ChatColor.RESET + ChatColor.BLUE + message);
 			}
 		}
 	}

@@ -25,7 +25,7 @@ import org.bukkit.entity.Player;
 public class RegicideCommands implements CommandExecutor{
 	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", 
 		"start", "leave", "open", "firstPlace", "secondPlace", "thirdPlace", "otherPlace",
-		"end","help", "kick", "loadconfig", "saveconfig"};
+		"end","help", "kick", "loadconfig", "saveconfig", "status"};
 
 	private String aquaChat = ChatColor.AQUA+"";
 	private String blueChat = ChatColor.BLUE+"";
@@ -170,20 +170,30 @@ public class RegicideCommands implements CommandExecutor{
 		else if (args[0].equalsIgnoreCase("kick")) {
 			if(args.length != 3) {
 				sender.sendMessage("Wrong number of arguments: /regicide kick [game] [player name]");
+				return false;
 			}
 			kickPlayer(sender, args);
 		}
 		else if (args[0].equalsIgnoreCase("loadconfig")) {
 			if (args.length != 3) {
 				sender.sendMessage("Wrong number of arguments: /regicide loadconfig [gamename] [filename]");
+				return false;
 			}
 			loadConfig(sender, args);
 		}
 		else if (args[0].equalsIgnoreCase("saveconfig")) {
 			if (args.length != 3) {
 				sender.sendMessage("Wrong number of arguments: /regicide savefongi [gamename] [filename]");
+				return false;
 			}
 			saveConfig(sender, args);
+		}
+		else if (args[0].equalsIgnoreCase("status")) {
+			if (args.length != 2) {
+				sender.sendMessage("Wrong number of arguments: /regicide status [game name]");
+				return false;
+			}
+			printStatus(sender, args[1]);
 		}
 		else {
 			sender.sendMessage("Something went wrong...");
@@ -703,5 +713,17 @@ public class RegicideCommands implements CommandExecutor{
 		}
 		gameInstance.saveConfig(fileConfig);
 		return true;
+	}
+	
+	public boolean printStatus(CommandSender sender, String gameName){
+		
+		for(RegicideGame game : RegicidePlugin.regicidePlugin.getGames()){
+			if (game.getName().equalsIgnoreCase(gameName)) {
+				game.printStatus();
+				return true;
+			}
+		}
+		sender.sendMessage(redChat+"ERROR: "+resetChat+"Could not find instance of "+ gameName);
+		return false;
 	}
 }
