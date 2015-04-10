@@ -1,5 +1,6 @@
 package nmt.minecraft.Regicide.IO;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -263,6 +264,7 @@ public class RegicideCommands implements CommandExecutor{
 					return false;
 				}
 				
+				//make sure all the places are set for the winners
 				if(g.getFirstPlace() == null || g.getSecondPlace() == null || g.getThirdPlace() == null || g.getOtherPlace() == null){
 					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + g.getName() + " is missing a winner location!" + resetChat);
 					return false;
@@ -413,6 +415,12 @@ public class RegicideCommands implements CommandExecutor{
 		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
 		for (RegicideGame game : games) {
 			if (game.getName().equalsIgnoreCase(args[1])) {
+				//check to see if we can end the game
+				if(game.getIsRunning() == false){
+					sender.sendMessage(redChat + "Error"+blueChat+" This game is not running"+resetChat);
+					return false;
+				}
+				
 				game.endGame();
 				sender.sendMessage(greenChat + "You ended the game: " + goldChat + game.getName() + resetChat);
 			}
@@ -435,6 +443,10 @@ public class RegicideCommands implements CommandExecutor{
 
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			if (game.getName().equalsIgnoreCase(args[1])) {
+				//check if game is running
+				if(game.getIsRunning() == true){
+					sender.sendMessage(redChat+"ERROR: "+ blueChat + "Game is already running!");
+				}
 				//do the stuff
 				Location loc = ((Player) sender).getLocation();
 				game.setExitLocation(loc);
@@ -464,6 +476,11 @@ public class RegicideCommands implements CommandExecutor{
 
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			if (game.getName().equalsIgnoreCase(args[1])) {
+				//check if game is running
+				if(game.getIsRunning() == true){
+					sender.sendMessage(redChat+"ERROR: "+ blueChat + "Game is already running!");
+				}
+				
 				//do the stuff
 				Location loc = ((Player) sender).getLocation();
 				game.setFirstPlace(loc);
@@ -493,6 +510,10 @@ public class RegicideCommands implements CommandExecutor{
 
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			if (game.getName().equalsIgnoreCase(args[1])) {
+				//check if game is running
+				if(game.getIsRunning() == true){
+					sender.sendMessage(redChat+"ERROR: "+ blueChat + "Game is already running!");
+				}
 				//do the stuff
 				Location loc = ((Player) sender).getLocation();
 				game.setSecondPlace(loc);
@@ -522,6 +543,10 @@ public class RegicideCommands implements CommandExecutor{
 
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			if (game.getName().equalsIgnoreCase(args[1])) {
+				//check if game is running
+				if(game.getIsRunning() == true){
+					sender.sendMessage(redChat+"ERROR: "+ blueChat + "Game is already running!");
+				}
 				//do the stuff
 				Location loc = ((Player) sender).getLocation();
 				game.setThirdPlace(loc);
@@ -551,6 +576,10 @@ public class RegicideCommands implements CommandExecutor{
 
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			if (game.getName().equalsIgnoreCase(args[1])) {
+				//check if game is running
+				if(game.getIsRunning() == true){
+					sender.sendMessage(redChat+"ERROR: "+ blueChat + "Game is already running!");
+				}
 				//do the stuff
 				Location loc = ((Player) sender).getLocation();
 				game.setOtherPlace(loc);
@@ -610,6 +639,13 @@ public class RegicideCommands implements CommandExecutor{
 		String fileName = args[1];
 		String gameName = args[2];
 		RegicideGame gameInstance = null;
+		File fileConfig = new File(fileName);
+		//Check to see if file exists
+		if (!fileConfig.exists()) {
+			sender.sendMessage(boldChat + redChat + "ERROR! " + resetChat + redChat + "File does not exist!");
+			return true;
+		}
+		//Find specified game instance
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			if(game.getName().equalsIgnoreCase(gameName)){
 				gameInstance = game;
@@ -628,8 +664,8 @@ public class RegicideCommands implements CommandExecutor{
 					gameName + redChat + " is already running!" + resetChat);
 			return true;
 		}
-		
-		//configfile
+		sender.sendMessage("Loading configuration file: " + goldChat + fileName + resetChat);
+		gameInstance.loadConfig(fileName);
 		return true;
 	}
 	
