@@ -48,9 +48,9 @@ public class GameTimer extends BukkitRunnable {
 		//Long term count down timer
 		if (timeRemaining > 10 && timeRemaining % 30 == 0) {
 			String Minutes = ChatColor.GOLD+"" + MinutesRemaining + ChatColor.RESET+"";
-			String Seconds = ChatColor.GREEN+"" + minSecondsRemaining + ChatColor.RESET+"";
 			for (RPlayer p : Players) {
-				p.getPlayer().sendMessage(Minutes + ":" + String.format("%02", Seconds) + ChatColor.AQUA+"" + " remaining" + ChatColor.RESET);
+				p.getPlayer().sendMessage(Minutes + ":" + ChatColor.GREEN + String.format("%02l", minSecondsRemaining) 
+						+ ChatColor.AQUA+"" + " remaining" + ChatColor.RESET);
 			}
 		}
 		//Count down Timer for Last 10 Seconds
