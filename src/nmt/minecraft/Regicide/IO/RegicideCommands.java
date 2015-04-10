@@ -643,7 +643,7 @@ public class RegicideCommands implements CommandExecutor{
 		File fileConfig = new File(tmp.getPath(), fileName);
 		//Check to see if file exists
 		if (!fileConfig.exists()) {
-			sender.sendMessage(boldChat + redChat + "ERROR! " + resetChat + redChat + "File does not exist!");
+			sender.sendMessage(boldChat + redChat + "ERROR! " + resetChat + redChat + "File does not exist!" + resetChat);
 			return true;
 		}
 		//Find specified game instance
