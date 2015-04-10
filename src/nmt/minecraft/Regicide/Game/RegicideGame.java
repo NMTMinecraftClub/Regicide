@@ -832,37 +832,37 @@ public class RegicideGame implements Listener {
 		if (spawnLocations == null) {
 			spawnLocations = new LinkedList<Location>();
 			RegicidePlugin.regicidePlugin.getLogger().warning("Unable to fetch spawn data!");
-			tellOps("Unable to load " + ChatColor.RED + "spawn" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "spawn" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 		lobbyLocation = configManager.getLobby();
 		if (lobbyLocation == null) {
-			tellOps("Unable to load " + ChatColor.RED + "lobby" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "lobby" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 		exitLocation = configManager.getExit();
 		if (exitLocation == null) {
-			tellOps("Unable to load " + ChatColor.RED + "exit" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "exit" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 		firstPlace = configManager.getFirst();
 		if (firstPlace == null) {
-			tellOps("Unable to load " + ChatColor.RED + "first place" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "first place" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 		secondPlace = configManager.getSecond();
 		if (secondPlace == null) {
-			tellOps("Unable to load " + ChatColor.RED + "second place" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "second place" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 		thirdPlace = configManager.getThird();
 		if (thirdPlace == null) {
-			tellOps("Unable to load " + ChatColor.RED + "third place" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "third place" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 		otherPlace = configManager.getOthers();
 		if (otherPlace == null) {
-			tellOps("Unable to load " + ChatColor.RED + "others" + ChatColor.RESET + " location data for Regicide Game " + name);
+			tellOps("Unable to load " + ChatColor.RED + "others" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
 		
 	}
@@ -884,7 +884,7 @@ public class RegicideGame implements Listener {
 			} else
 			{
 				//multiple points!
-				msg = "" + spawnLocations.size();
+				msg = "" + ChatColor.GREEN + spawnLocations.size() + " points!";
 			}
 		}
 		tellOps("Spawn Points:   " + msg);
@@ -893,7 +893,7 @@ public class RegicideGame implements Listener {
 		if (lobbyLocation == null) {
 			msg = "" + ChatColor.YELLOW + "Not Set!";
 		} else {
-			msg = "Set!";
+			msg = "" + ChatColor.GREEN + "Set!";
 		}
 		tellOps("Lobby:   " + msg);
 		
@@ -901,7 +901,7 @@ public class RegicideGame implements Listener {
 		if (exitLocation == null) {
 			msg = "" + ChatColor.YELLOW + "Not Set!";
 		} else {
-			msg = "Set!";
+			msg = "" + ChatColor.GREEN + "Set!";
 		}
 		tellOps("Exit:   " + msg);
 		
@@ -909,7 +909,7 @@ public class RegicideGame implements Listener {
 		if (firstPlace == null) {
 			msg = "" + ChatColor.YELLOW + "Not Set!";
 		} else {
-			msg = "Set!";
+			msg = "" + ChatColor.GREEN + "Set!";
 		}
 		tellOps("First Place:   " + msg);
 		
@@ -917,7 +917,7 @@ public class RegicideGame implements Listener {
 		if (secondPlace == null) {
 			msg = "" + ChatColor.YELLOW + "Not Set!";
 		} else {
-			msg = "Set!";
+			msg = "" + ChatColor.GREEN + "Set!";
 		}
 		tellOps("Second Place:   " + msg);
 		
@@ -925,7 +925,7 @@ public class RegicideGame implements Listener {
 		if (thirdPlace == null) {
 			msg = "" + ChatColor.YELLOW + "Not Set!";
 		} else {
-			msg = "Set!";
+			msg = "" + ChatColor.GREEN + "Set!";
 		}
 		tellOps("Third Place:   " + msg);
 		
@@ -933,7 +933,7 @@ public class RegicideGame implements Listener {
 		if (otherPlace == null) {
 			msg = "" + ChatColor.YELLOW + "Not Set!";
 		} else {
-			msg = "Set!";
+			msg = "" + ChatColor.GREEN + "Set!";
 		}
 		tellOps("Other's Place:   " + msg);
 	}
