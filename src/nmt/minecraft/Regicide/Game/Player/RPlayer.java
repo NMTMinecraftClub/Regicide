@@ -156,6 +156,7 @@ public class RPlayer{
 		player.getInventory().setArmorContents(null);
 		player.getInventory().addItem(new ItemStack(Material.WOOD_SWORD,1));
 		player.setExp(0);
+		player.setLevel(0);
 		player.getActivePotionEffects().clear();
 		player.setGameMode(GameMode.SURVIVAL);
 		this.disguise();
@@ -169,6 +170,7 @@ public class RPlayer{
 		player.closeInventory();
 		player.getInventory().clear();
 		player.setExp(0);
+		player.setLevel(0);
 		player.getActivePotionEffects().clear();
 		player.setGameMode(GameMode.SURVIVAL);
 		player.setFoodLevel(20);//set max food level
