@@ -198,6 +198,11 @@ public class GameConfigManager {
 		if (!(spawnPoints == null) && !spawnPoints.isEmpty()) {
 			for (Location loc : spawnPoints) {
 				locSec = pointsSec.getConfigurationSection("loc" + index);
+				
+				if (locSec == null) {
+					locSec = config.createSection("loc" + index);
+				}
+				
 				locSec.set("x", loc.getX());
 				locSec.set("y", loc.getY());
 				locSec.set("z", loc.getZ());
