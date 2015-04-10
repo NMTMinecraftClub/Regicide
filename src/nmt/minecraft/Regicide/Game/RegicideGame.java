@@ -20,6 +20,7 @@ import nmt.minecraft.Regicide.Game.Scheduling.EatParticleEffect;
 import nmt.minecraft.Regicide.Game.Scheduling.EndGameCinematic;
 import nmt.minecraft.Regicide.Game.Scheduling.GameTimer;
 import nmt.minecraft.Regicide.IO.GameAnnouncer;
+import nmt.minecraft.Regicide.IO.GameConfigManager;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
 import org.bukkit.Bukkit;
@@ -105,6 +106,8 @@ public class RegicideGame implements Listener {
 	
 	private Location firstPlace, secondPlace, thirdPlace, otherPlace;
 	
+	private GameConfigManager configManager;
+	
 	/**
 	 * Create a blank regicide game.
 	 */
@@ -129,6 +132,8 @@ public class RegicideGame implements Listener {
 		
 		Bukkit.getPluginManager().registerEvents(this, RegicidePlugin.regicidePlugin);
 		isOpen = false;
+		
+		this.configManager = new GameConfigManager();
 	}
 	
 	public void open() {
@@ -819,5 +824,9 @@ public class RegicideGame implements Listener {
 		if(getPlayer(e.getPlayer()) != null){
 			e.setCancelled(true);
 		}
+	}
+	
+	public void loadConfig(String yamlFileName) {
+		configManager.loadConfig(yamlFileName);
 	}
 }

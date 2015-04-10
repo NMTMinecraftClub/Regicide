@@ -637,6 +637,26 @@ public class RegicideCommands implements CommandExecutor{
 		//Implement
 		String fileName = args[1];
 		String gameName = args[2];
+		RegicideGame gameInstance = null;
+		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
+			if(game.getName().equalsIgnoreCase(gameName)){
+				gameInstance = game;
+				break;
+			}
+		}
+		//Check to see if the game exists
+		if (gameInstance == null) {
+			sender.sendMessage(boldChat + redChat + "ERROR!" + resetChat + redChat + 
+					"Could not find game instance: " + goldChat + gameName + resetChat);
+			return true;
+		}
+		//Check to see if game is already running
+		if (gameInstance.getIsRunning()) {
+			sender.sendMessage(boldChat + redChat + "ERROR! " + resetChat + goldChat + 
+					gameName + redChat + " is already running!" + resetChat);
+			return true;
+		}
+		
 		//configfile
 		return true;
 	}
@@ -652,6 +672,18 @@ public class RegicideCommands implements CommandExecutor{
 	public boolean saveConfig(CommandSender sender, String[] args) {
 		String fileName = args[1];
 		String gameName = args[2];
+		RegicideGame gameInstance = null;
+		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
+			if (game.getName().equalsIgnoreCase(gameName)) {
+				gameInstance = game;
+				break;
+			}
+		}
+		if (gameInstance == null) {
+			sender.sendMessage(boldChat + redChat +"ERROR! " + resetChat + redChat +
+					"Could not find game instance: " + goldChat + gameName + resetChat);
+			return true;
+		}
 		//Implement
 		return true;
 	}
