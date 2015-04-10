@@ -22,7 +22,9 @@ import org.bukkit.entity.Player;
  *
  */
 public class RegicideCommands implements CommandExecutor{
-	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", "start", "leave", "open", "help"};
+	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", 
+		"start", "leave", "open", "firstPlace", "secondPlace", "thirdPlace", "otherPlace",
+		"end","help", "kick", "loadconfig"};
 
 	private String aquaChat = ChatColor.AQUA+"";
 	private String blueChat = ChatColor.BLUE+"";
@@ -58,82 +60,131 @@ public class RegicideCommands implements CommandExecutor{
 			sender.sendMessage(blueChat + "setExit  " + goldChat + " [game name]" + resetChat + " sets the exit location of a game");
 			sender.sendMessage(blueChat + "open     " + goldChat + " [game name]" + resetChat + " opens a game for registration");
 			sender.sendMessage(blueChat + "leave    " + resetChat + " leave regicide");
-			return true;
 		}
 		
 		//Sender must now be a player
 		//Register buttons/games
-		if (args[0].equalsIgnoreCase("register")) {
+		else if (args[0].equalsIgnoreCase("register")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide register [name]");
 				return false;
 			}
 			registerGame(sender, args);
-			return true;
 		}
 		
 		//Start games
-		if (args[0].equalsIgnoreCase("start")) {
+		else if (args[0].equalsIgnoreCase("start")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide start [name]");
 				return false;
 			}
 			startGame(sender, args);
-			return true;
 		}
 		
 		//Set a Game Spawn
-		if (args[0].equalsIgnoreCase("setSpawn")) {
+		else if (args[0].equalsIgnoreCase("setSpawn")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide setSpawn [name]");
 				return false;
 			}
 			setSpawn(sender, args);
-			return true;
 		}
 		
 		//Set Lobby
-		if (args[0].equalsIgnoreCase("setLobby")) {
+		else if (args[0].equalsIgnoreCase("setLobby")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide setLobby [name]");
 				return false;
 			}
 			setLobby(sender, args);
-			return true;
 		}
 		
 		//Open Game
-		if (args[0].equalsIgnoreCase("open")) {
+		else if (args[0].equalsIgnoreCase("open")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide open [name]");
 				return false;
 			}
 			this.openGame(sender, args);
-			return true;
 		}
 		
 		//Leave Game
-		if (args[0].equalsIgnoreCase("leave")) {
+		else if (args[0].equalsIgnoreCase("leave")) {
 			if(args.length != 1){
 				sender.sendMessage("Wrong number of arguments: /regicide leave");
 				return false;
 			}
 			this.leaveGame(sender);
-			return true;
 		}
 		
 		//Set Game Exit
-		if (args[0].equalsIgnoreCase("setExit")) {
+		else if (args[0].equalsIgnoreCase("setExit")) {
 			if(args.length != 2){
 				sender.sendMessage("Wrong number of arguments: /regicide Exit [name]");
 				return false;
 			}
 			setExit(sender, args);
-			return true;
 		}
-		sender.sendMessage("Something went wrong...");
-		sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
-		return false;
+		
+		else if(args[0].equalsIgnoreCase("firstPlace")){
+			if(args.length != 2){
+				sender.sendMessage("Wrong number of arguments: /regicide firstPlace [name]");
+				return false;
+			}
+			
+			setFirstPlace(sender, args);
+		}
+		
+		else if(args[0].equalsIgnoreCase("secondPlace")){
+			if(args.length != 2){
+				sender.sendMessage("Wrong number of arguments: /regicide firstPlace [name]");
+				return false;
+			}
+			setSecondPlace(sender, args);
+		}
+		else if(args[0].equalsIgnoreCase("thirdPlace")){
+			if(args.length != 2){
+				sender.sendMessage("Wrong number of arguments: /regicide firstPlace [name]");
+				return false;
+			}
+			setThirdPlace(sender, args);
+		}
+		else if(args[0].equalsIgnoreCase("otherPlace")){
+			if(args.length != 2){
+				sender.sendMessage("Wrong number of arguments: /regicide firstPlace [name]");
+				return false;
+			}
+			
+			setOtherPlace(sender, args);
+		}
+		
+		//End Game
+		else if (args[0].equalsIgnoreCase("end")) {
+			if (args.length != 2) {
+				sender.sendMessage("Wrong number of arguments: /regicide end [name]");
+				return false;
+			}
+			closeGame(sender,args);
+		}
+		else if (args[0].equalsIgnoreCase("kick")) {
+			if(args.length != 3) {
+				sender.sendMessage("Wrong number of arguments: /regicide kick [game] [player name]");
+			}
+			kickPlayer(sender, args);
+		}
+		else if (args[0].equalsIgnoreCase("loadconfig")) {
+			if (args.length != 2) {
+				sender.sendMessage("Wrong number of arguments: /regicide loadconfig [configfile]");
+			}
+			//Load Config
+		}
+		else {
+			sender.sendMessage("Something went wrong...");
+			sender.sendMessage("Valid commands are register, start, setSpawn, or setLobby");
+			return false;
+		}
+
+		return true;
 	}
 	
 	public static List<String> getCommandList(){
@@ -205,6 +256,12 @@ public class RegicideCommands implements CommandExecutor{
 					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + g.getName() + " has no exit location!" + resetChat);
 					return false;
 				}
+				
+				if(g.getFirstPlace() == null || g.getSecondPlace() == null || g.getThirdPlace() == null || g.getOtherPlace() == null){
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + redChat + "Game: " + g.getName() + " is missing a winner location!" + resetChat);
+					return false;
+				}
+				
 				//Check to see if game actually has players in it.
 				if(g.getPlayers().isEmpty()) {
 					//Game is Empty!
@@ -337,6 +394,27 @@ public class RegicideCommands implements CommandExecutor{
 	}
 	
 	/**
+	 * Force the conclusion of a Regicide Game
+	 * @param sender The sender of the command
+	 * @param args The arguments
+	 * @return
+	 */
+	public boolean closeGame(CommandSender sender, String[] args) {
+		if (args.length < 2) {
+			sender.sendMessage("Please supply the name of the instance that you wish to end!");
+			return false;
+		}
+		List<RegicideGame> games = RegicidePlugin.regicidePlugin.getGames();
+		for (RegicideGame game : games) {
+			if (game.getName().equalsIgnoreCase(args[1])) {
+				game.endGame();
+				sender.sendMessage(greenChat + "You ended the game: " + goldChat + game.getName() + resetChat);
+			}
+		}
+		return true;
+	}
+	
+	/**
 	 * This method sets a Game Exit location.
 	 * @param sender The command sender.
 	 * @param args The command arguments.
@@ -363,5 +441,166 @@ public class RegicideCommands implements CommandExecutor{
 		sender.sendMessage(redChat + "Unable to locate instance: " + goldChat + args[1] + resetChat);		
 		return false;
 		
+	}
+	
+	/**
+	 * This method sets a First Place Winner location.
+	 * @param sender The command sender.
+	 * @param args The command arguments.
+	 * @return
+	 */
+	public boolean setFirstPlace(CommandSender sender, String[] args) {
+		if (args.length < 2) {
+			sender.sendMessage("Please supply the name of the instance to add this exit point to!");
+			return false;
+		}
+		
+
+		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
+			if (game.getName().equalsIgnoreCase(args[1])) {
+				//do the stuff
+				Location loc = ((Player) sender).getLocation();
+				game.setFirstPlace(loc);
+				
+				sender.sendMessage(greenChat + "Successfully registered first place position!" + resetChat);
+				return true;
+			}
+		}
+		
+		sender.sendMessage(redChat + "Unable to locate instance: " + goldChat + args[1] + resetChat);		
+		return false;
+		
+	}
+	
+	/**
+	 * This method sets a First Place Winner location.
+	 * @param sender The command sender.
+	 * @param args The command arguments.
+	 * @return
+	 */
+	public boolean setSecondPlace(CommandSender sender, String[] args) {
+		if (args.length < 2) {
+			sender.sendMessage("Please supply the name of the instance to add this exit point to!");
+			return false;
+		}
+		
+
+		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
+			if (game.getName().equalsIgnoreCase(args[1])) {
+				//do the stuff
+				Location loc = ((Player) sender).getLocation();
+				game.setSecondPlace(loc);
+				
+				sender.sendMessage(greenChat + "Successfully registered second place position!" + resetChat);
+				return true;
+			}
+		}
+		
+		sender.sendMessage(redChat + "Unable to locate instance: " + goldChat + args[1] + resetChat);		
+		return false;
+		
+	}
+	
+	/**
+	 * This method sets a First Place Winner location.
+	 * @param sender The command sender.
+	 * @param args The command arguments.
+	 * @return
+	 */
+	public boolean setThirdPlace(CommandSender sender, String[] args) {
+		if (args.length < 2) {
+			sender.sendMessage("Please supply the name of the instance to add this exit point to!");
+			return false;
+		}
+		
+
+		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
+			if (game.getName().equalsIgnoreCase(args[1])) {
+				//do the stuff
+				Location loc = ((Player) sender).getLocation();
+				game.setThirdPlace(loc);
+				
+				sender.sendMessage(greenChat + "Successfully registered third place position!" + resetChat);
+				return true;
+			}
+		}
+		
+		sender.sendMessage(redChat + "Unable to locate instance: " + goldChat + args[1] + resetChat);		
+		return false;
+		
+	}
+	
+	/**
+	 * This method sets a First Place Winner location.
+	 * @param sender The command sender.
+	 * @param args The command arguments.
+	 * @return
+	 */
+	public boolean setOtherPlace(CommandSender sender, String[] args) {
+		if (args.length < 2) {
+			sender.sendMessage("Please supply the name of the instance to add this exit point to!");
+			return false;
+		}
+		
+
+		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
+			if (game.getName().equalsIgnoreCase(args[1])) {
+				//do the stuff
+				Location loc = ((Player) sender).getLocation();
+				game.setOtherPlace(loc);
+				
+				sender.sendMessage(greenChat + "Successfully registered non-winners position!" + resetChat);
+				return true;
+			}
+		}
+		
+		sender.sendMessage(redChat + "Unable to locate instance: " + goldChat + args[1] + resetChat);		
+		return false;
+		
+	}
+	
+	/**
+	 * This method kicks a player from a game.
+	 * @param sender The sender of the argument.
+	 * @param args The command arguments.
+	 * @return
+	 */
+	public boolean kickPlayer(CommandSender sender, String[] args) {
+		String gameName = args[1];
+		String playerName = args[2];
+		if (!sender.isOp()) {
+			sender.sendMessage("You are not authorized for this command!");
+			return true;
+		}
+		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
+			//Find Game Specified
+			if (game.getName().equalsIgnoreCase(gameName)) {
+				//Find Player
+				List<RPlayer> players = game.getPlayers();
+				for (RPlayer player : players) {
+					//Remove player
+					if (player.getPlayer().getName().equals(playerName)) {
+						sender.sendMessage("Successfully removed: " + goldChat + playerName + 
+								resetChat + " from: " + aquaChat + gameName + resetChat);
+						game.removePlayer(player);
+						player.getPlayer().sendMessage("You have been kicked from: " + goldChat + gameName + resetChat);
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * This method loads a configuration file for a game.
+	 * This method will alert the sender if information is missing that must
+	 * be set before a game starts.
+	 * @param sender
+	 * @param args
+	 * @return
+	 */
+	public boolean loadConfig(CommandSender sender, String[] args) {
+		//Implement
+		return true;
 	}
 }

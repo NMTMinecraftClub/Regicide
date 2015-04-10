@@ -58,8 +58,6 @@ public class RPlayer{
 		this.killCount = 0;
 		this.upgradeLevel = 0;
 		this.player = Bukkit.getPlayer(player);
-		
-		//disguise = new MobDisguise(DisguiseType.VILLAGER, true);
 	}
 	
 	public void teleport(Location loc) {
@@ -107,6 +105,9 @@ public class RPlayer{
 	public void addPoint() {
 		this.points++;
 		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
+		if(this.points % 3 == 0 ){
+			this.alertPlayers();
+		}
 	}
 	
 	public int getPoints() {
@@ -240,6 +241,10 @@ public class RPlayer{
         fm.setPower(1);
         firework.setFireworkMeta(fm);
         //put in a waiting period between fireworks
+	}
+	
+	public void doVillagerConcequence(){
+		this.player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 0));
 	}
 	
 }

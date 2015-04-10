@@ -16,9 +16,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  * but doesn't create an instance of a game or anything else.</p>
  * @author Skyler, ADD YOUR NAME HERE
  *
- * TODO add villagers! npcs!
- * TODO players can die by  lava, falling, etc
  * TODO eating particles!
+ * TODO efficient event handling! remove events from Game instances! make global event handling thing!
  */
 public class RegicidePlugin extends JavaPlugin {
 	

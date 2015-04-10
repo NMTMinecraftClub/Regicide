@@ -2,19 +2,13 @@ package nmt.minecraft.Regicide.IO;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
-import nmt.minecraft.Regicide.Game.RegicideGameEndEvent;
-import nmt.minecraft.Regicide.Game.Player.RPlayer;
+import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
-import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles.ParticleEffect;
 
 /**
  * This class listens to a button and adds them to a game.

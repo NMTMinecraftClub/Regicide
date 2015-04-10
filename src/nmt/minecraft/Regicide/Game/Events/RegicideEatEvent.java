@@ -1,9 +1,11 @@
-package nmt.minecraft.Regicide.Game;
+package nmt.minecraft.Regicide.Game.Events;
+
+import nmt.minecraft.Regicide.Game.RegicideGame;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class RegicideGameEndEvent extends Event {
+public class RegicideEatEvent extends Event {
 
 	private static final HandlerList handlers = new HandlerList();
 	
@@ -19,7 +21,7 @@ public class RegicideGameEndEvent extends Event {
 		return handlers;
 	}
 	
-	public RegicideGameEndEvent(RegicideGame game) {
+	public RegicideEatEvent(RegicideGame game) {
 		this.game = game;
 	}
 	

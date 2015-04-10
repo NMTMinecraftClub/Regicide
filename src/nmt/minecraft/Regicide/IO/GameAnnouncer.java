@@ -61,6 +61,32 @@ public class GameAnnouncer {
 	}
 	
 	/**
+	 * This method sends endgame stats to all players in that game instance. 
+	 * @param gameInstance The Game Instance that is ending
+	 */
+	public static void EndGame(RegicideGame gameInstance) {
+		ArrayList<RPlayer> TopScorePlayers;
+		int maxPadding = 12;
+		TopScorePlayers = gameInstance.calculateWinners();
+		StringBuilder endScore = new StringBuilder();
+		endScore.append(greenChat + "End Game Results:" + resetChat + "\n");
+		endScore.append("Top Scoring Players!\n");
+		for (int i = 0; i < 3 && i < TopScorePlayers.size(); i++) {
+			int PlayerScore = TopScorePlayers.get(i).getPoints();
+			String PlayerName = TopScorePlayers.get(i).getPlayer().getName();
+			
+			endScore.append(goldChat + PlayerName + resetChat);
+			//Add padding for name-score alignment
+			for (int j = 0; j < maxPadding - PlayerName.length(); j++) {
+				endScore.append(".");
+			}
+			//Add score
+			endScore.append(aquaChat + " " + PlayerScore + resetChat + "\n");
+		}
+		MessageGamePlayers(gameInstance,endScore.toString());
+	}
+	
+	/**
 	 * This method sends a string message to all players in a Game Instance
 	 * @param gameInstance The game instance for announcements
 	 * @param message The message to be sent

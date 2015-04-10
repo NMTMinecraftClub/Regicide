@@ -1,7 +1,9 @@
-package nmt.minecraft.Regicide.Game;
+package nmt.minecraft.Regicide.Game.Scheduling;
 
 import java.util.List;
 
+import nmt.minecraft.Regicide.Game.RegicideGame;
+import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
 import org.bukkit.Bukkit;
@@ -42,7 +44,7 @@ public class GameTimer extends BukkitRunnable {
 			String Minutes = ChatColor.GOLD+"" + MinutesRemaining + ChatColor.RESET+"";
 			String Seconds = ChatColor.GREEN+"" + minSecondsRemaining + ChatColor.RESET+"";
 			for (RPlayer p : Players) {
-				p.getPlayer().sendMessage(Minutes + ":" + Seconds + ChatColor.BLUE+"" + " remaining" + ChatColor.RESET);
+				p.getPlayer().sendMessage(Minutes + ":" + Seconds + ChatColor.AQUA+"" + " remaining" + ChatColor.RESET);
 			}
 		}
 		//Count down Timer for Last 10 Seconds

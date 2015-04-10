@@ -1,7 +1,11 @@
 package nmt.minecraft.Regicide.Game;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -9,8 +13,12 @@ import java.util.Set;
 import java.util.UUID;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
+import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
 import nmt.minecraft.Regicide.Game.Player.RegicideVillager;
+import nmt.minecraft.Regicide.Game.Scheduling.EatParticleEffect;
+import nmt.minecraft.Regicide.Game.Scheduling.EndGameCinematic;
+import nmt.minecraft.Regicide.Game.Scheduling.GameTimer;
 import nmt.minecraft.Regicide.IO.GameAnnouncer;
 import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
@@ -33,6 +41,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -86,7 +95,7 @@ public class RegicideGame implements Listener {
 	
 	private GameTimer timer;
 	
-	private static final long endTime = 6000;
+	private static final long endTime = 600;
 	
 	private static final long scoreInterval = 10;
 	
@@ -95,6 +104,8 @@ public class RegicideGame implements Listener {
 	private boolean isOpen;
 	
 	private Location exitLocation;
+	
+	private Location firstPlace, secondPlace, thirdPlace, otherPlace;
 	
 	/**
 	 * Create a blank regicide game.
@@ -110,6 +121,11 @@ public class RegicideGame implements Listener {
 		spawnLocations = new LinkedList<Location>();
 		lobbyLocation = null;
 		exitLocation = null;
+		
+		firstPlace = null; 
+		secondPlace = null; 
+		thirdPlace = null; 
+		otherPlace = null;
 		
 		board = new ScoreBoard();
 		
@@ -176,6 +192,12 @@ public class RegicideGame implements Listener {
 		board.updateKing(king);
 		
 		spawnVillagers(Math.min(players.size() * 5, 100));
+		
+		//set the time to day
+		Iterator<RPlayer> it = players.values().iterator();
+		if(it.hasNext()){
+			it.next().getPlayer().getLocation().getWorld().setTime(0);
+		}
 	}
 	
 	private void makeRandomKing(){
@@ -389,18 +411,21 @@ public class RegicideGame implements Listener {
 		}
 	}
 	
+	/**
+	 * This method handles the exiting conditions of the game
+	 */
 	public void endGame() {
 		this.isRunning = false;
 		RegicidePlugin.regicidePlugin.getLogger().info("Game [" + name + "] now stopping!");
-		
+		GameAnnouncer.EndGame(this);
 		makePlayersVisable();
-		for (RPlayer player : players.values()) {
-			player.getPlayer().sendMessage("Game now ending. This is lame put more fancy ending!");
-		}
+		timer.cancel();
+
+		//TODO PUT FINISHING STUFF
+		EndGameCinematic cine = new EndGameCinematic(this, this.calculateWinners());
+		cine.run();
 		
 		LinkedList<RPlayer> newList = new LinkedList<RPlayer>(players.values());
-		
-		
 		for (RPlayer player : newList) {
 			removePlayer(player);
 		}
@@ -409,20 +434,59 @@ public class RegicideGame implements Listener {
 		
 		removeVillagers();
 		
-		//TODO PUT FINISHING STUFF
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
+		//if the player is being hurt and they are part of the game
+		if(e.getEntity() instanceof Player && getPlayer((Player)e.getEntity()) != null){
+			//if theplayerif being attacked by a player in the game
+			if(e.getDamager() instanceof Player && getPlayer((Player)e.getDamager()) != null){
+				RPlayer attacker = getPlayer((Player)e.getDamager());
+				RPlayer player = getPlayer((Player)e.getEntity());
+				player.setHitBy(attacker);
+				
+				//if the player is going to die, kill them
+				if(e.getDamage() >= player.getPlayer().getHealth()){
+					e.setCancelled(true);
+					attacker.addKill();
+					
+					//if the game is not running they are waiting in the lobby
+					if(this.isRunning == false){
+						//TODO add a location to kill player
+						player.teleport(lobbyLocation);
+						player.getPlayer().setHealth(player.getPlayer().getMaxHealth());
+						player.getPlayer().setExhaustion(20);
+					}else{
+						killPlayer(player);
+					}
+					
+				}
+				
+			}else{
+				e.setCancelled(true);//prevent the players from being killed by anything other than other players in the game
+			}
+		}//if a villager who is part of the game is being hurt
+		else if(e.getEntity() instanceof Villager && getVillager((Villager)e.getEntity()) != null){
+			
+			//if they are being hurt by a player in the game, give them wither
+			if(e.getDamager() instanceof Player && getPlayer((Player)e.getDamager()) != null){
+				RPlayer rplay = getPlayer((Player)e.getDamager());
+				rplay.doVillagerConcequence();
+			}
+			
+			//prevent the villager from being hurt no matter what
+			e.setCancelled(true);
+		}
+		/*
 		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
+		 
 			if(e.getEntity() instanceof Villager && e.getDamager() instanceof Player){
 				if(getVillager((Villager)e.getEntity()) != null){
-					//TODO check if villager, if so nauseua
 					Player player = (Player)e.getDamager();
 					if(getPlayer(player) != null){
 						//alert other players
 						getPlayer(player).alertPlayers();
-						//player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,  200, 1));//find nauseua
 					}
 					e.setCancelled(true);
 				}
@@ -438,15 +502,24 @@ public class RegicideGame implements Listener {
 			//not part of this game!!!!!!
 		}
 		
-		
-		rplay.setHitBy(getPlayer((Player) e.getDamager()));
+		if(e.getDamager() instanceof Player){
+			rplay.setHitBy(getPlayer((Player) e.getDamager()));
+		}
 		
 		if (e.getDamage() >= player.getHealth()) {
 			//player gonna die!
 			getPlayer((Player) e.getDamager()).addKill();
 			e.setCancelled(true);
+			if(this.isRunning == false && getPlayer(player) != null){
+				//means the player is waiting in the lobby
+				//so tp them back to the lobby and set health and hunger
+				rplay.teleport(lobbyLocation);
+				player.setHealth(player.getMaxHealth());
+				player.setExhaustion(20);
+			}
 			killPlayer(rplay);
 		}
+		//*/
 	}
 	
 	/**
@@ -458,6 +531,9 @@ public class RegicideGame implements Listener {
 		RPlayer rplayer = getPlayer(player);
 		if(rplayer != null && rplayer.isKing()){
 			player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 1));
+			
+			//display eat food particles
+			EatParticleEffect eff = new EatParticleEffect(this, rplayer, 1, 20);
 		}
 		
 	}
@@ -488,6 +564,7 @@ public class RegicideGame implements Listener {
 				System.out.println("Sending to player...");
 				particle.sendPacket(p.getPlayer());
 			}
+
 	}
 	
 	@EventHandler
@@ -554,6 +631,10 @@ public class RegicideGame implements Listener {
 		this.exitLocation = exit;
 	}
 	
+	/**
+	 * kills a player by clearing effects, downgrading their weapons, and teleporting them to a spawnpoint 
+	 * @param player The player to be killed
+	 */
 	public void killPlayer(RPlayer player) {
 		if (!players.containsValue(player)) {
 			//player not in this game!
@@ -564,12 +645,10 @@ public class RegicideGame implements Listener {
 		getPlayer(play).downgrade();
 		play.setHealth(play.getMaxHealth());
 		
-		//player.die();
 		//check if they were the king
 		if (player.isKing()) {
-			//register new king!
 			player.die();
-			//give king to last who hit
+			//give king to last who hit, or make a random one
 			if (player.getLastHitBy() == null) {
 				makeRandomKing();
 			}
@@ -588,7 +667,7 @@ public class RegicideGame implements Listener {
 		play.setFireTicks(1);
 		play.setFoodLevel(20);
 		play.setExhaustion(0);
-		player.disguise(); //change disguise
+		player.disguise();
 		
 	}
 	
@@ -596,6 +675,10 @@ public class RegicideGame implements Listener {
 		return this.exitLocation;
 	}
 	
+	/**
+	 * When the game ends, end the game
+	 * @param e
+	 */
 	@EventHandler
 	public void onGameEnd(RegicideGameEndEvent e) {
 		if (e.getGame().name.equals(name)) {
@@ -604,7 +687,7 @@ public class RegicideGame implements Listener {
 	}
 	
 	/**
-	 * When the player attempts to drop an item, stop 
+	 * When the player attempts to drop an item, stop them 
 	 * @param e
 	 */
 	@EventHandler
@@ -613,33 +696,22 @@ public class RegicideGame implements Listener {
 		if(getPlayer(player)!= null){
 			player.sendMessage(ChatColor.BOLD+""+ChatColor.BLUE+"Naughty Naughty... don't throw away items people give you!!!!"+ChatColor.RESET);
 			e.setCancelled(true);
-			//TODO: we will need to update the inventory here to prevent disappearing items, example code below
-			//ItemStack thrown = e.getItemDrop().getItemStack().clone();
-			//player.getInventory().addItem(thrown);
-			//delete the dropped item
-			//e.getItemDrop().remove();
 		}
 	}
-	/*
-	public static void doInventoryUpdate(final Player player, Plugin plugin) {
-		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
- 
-			@SuppressWarnings("deprecation")
-			@Override
-			public void run() {
-				player.updateInventory();
-			}
- 
-		}, 1L);
-	}*/
 	
-	
+	/**
+	 * Spawns the given number of villagers into the game
+	 * @param count The number of villagers to spawn
+	 */
 	private void spawnVillagers(int count) {
 		for (int i = 0; i < count; i++) {
 			villagers.add(new RegicideVillager(this));
 		}
 	}
 	
+	/**
+	 * removes all villagers from the game
+	 */
 	private void removeVillagers() {
 		for (RegicideVillager vil : villagers) {
 			vil.remove();
@@ -660,6 +732,94 @@ public class RegicideGame implements Listener {
 		
 		return null;
 	}
+
+	/**
+	 * @return the firstPlace
+	 */
+	public Location getFirstPlace() {
+		return firstPlace;
+	}
+
+	/**
+	 * @param firstPlace the firstPlace to set
+	 */
+	public void setFirstPlace(Location firstPlace) {
+		this.firstPlace = firstPlace;
+	}
+
+	/**
+	 * @return the secondPlace
+	 */
+	public Location getSecondPlace() {
+		return secondPlace;
+	}
+
+	/**
+	 * @param secondPlace the secondPlace to set
+	 */
+	public void setSecondPlace(Location secondPlace) {
+		this.secondPlace = secondPlace;
+	}
+
+	/**
+	 * @return the thirdPlace
+	 */
+	public Location getThirdPlace() {
+		return thirdPlace;
+	}
+
+	/**
+	 * @param thirdPlace the thirdPlace to set
+	 */
+	public void setThirdPlace(Location thirdPlace) {
+		this.thirdPlace = thirdPlace;
+	}
+
+	/**
+	 * @return the otherPlace
+	 */
+	public Location getOtherPlace() {
+		return otherPlace;
+	}
+
+	/**
+	 * @param otherPlace the otherPlace to set
+	 */
+	public void setOtherPlace(Location otherPlace) {
+		this.otherPlace = otherPlace;
+	}
 	
+	/**
+	 * calculates the player rankings
+	 * @return a sorted list of players based on their points
+	 */
+	public ArrayList<RPlayer> calculateWinners(){
+		ArrayList<RPlayer> list = new ArrayList<RPlayer>(players.values());
+		
+		if(list.isEmpty()){
+			return null;
+		}
+		
+		//used to compare things in the list
+		Comparator<RPlayer> comparator = new Comparator<RPlayer>() {
+		    public int compare(RPlayer c1, RPlayer c2) {
+		        return c2.getPoints() - c1.getPoints();
+		    }
+		};
+
+		Collections.sort(list, comparator); // use the comparator to sort the list
+		
+		return list;
+	}
 	
+	/**
+	 * prevent players int the game from picking up items
+	 * @param e the event
+	 */
+	@EventHandler
+	public void onPlayerPickupItem(PlayerPickupItemEvent e){
+		if(getPlayer(e.getPlayer()) != null){
+			e.setCancelled(true);
+		}
+	}
 }
