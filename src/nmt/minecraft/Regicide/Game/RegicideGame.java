@@ -135,7 +135,7 @@ public class RegicideGame implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, RegicidePlugin.regicidePlugin);
 		isOpen = false;
 		
-		this.configManager = new GameConfigManager();
+		this.configManager = new GameConfigManager(this);
 	}
 	
 	public void open() {
@@ -830,6 +830,8 @@ public class RegicideGame implements Listener {
 		
 		spawnLocations = configManager.getSpawnLocations();
 		if (spawnLocations == null) {
+			spawnLocations = new LinkedList<Location>();
+			RegicidePlugin.regicidePlugin.getLogger().warning("Unable to fetch spawn data!");
 			tellOps("Unable to load " + ChatColor.RED + "spawn" + ChatColor.RESET + " location data for Regicide Game " + name);
 		}
 		
@@ -870,9 +872,9 @@ public class RegicideGame implements Listener {
 	}
 	
 	private void tellOps(String message) {
-		for (OfflinePlayer op : Bukkit.getOperators()) {
-			if (op.isOnline()) {
-				((Player) op).sendMessage(ChatColor.BOLD + "Regicide: " + ChatColor.RESET + ChatColor.BLUE + message);
+		for (Player op : Bukkit.getOnlinePlayers()) {
+			if (op.isOp()) {
+				op.sendMessage(ChatColor.BOLD + "Regicide: " + ChatColor.RESET + ChatColor.BLUE + message);
 			}
 		}
 	}
