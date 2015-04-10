@@ -24,7 +24,7 @@ import org.bukkit.entity.Player;
 public class RegicideCommands implements CommandExecutor{
 	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", 
 		"start", "leave", "open", "firstPlace", "secondPlace", "thirdPlace", "otherPlace",
-		"end","help", "kick"};
+		"end","help", "kick", "loadconfig"};
 
 	private String aquaChat = ChatColor.AQUA+"";
 	private String blueChat = ChatColor.BLUE+"";
@@ -170,7 +170,13 @@ public class RegicideCommands implements CommandExecutor{
 			if(args.length != 3) {
 				sender.sendMessage("Wrong number of arguments: /regicide kick [game] [player name]");
 			}
-			
+			kickPlayer(sender, args);
+		}
+		else if (args[0].equalsIgnoreCase("loadconfig")) {
+			if (args.length != 2) {
+				sender.sendMessage("Wrong number of arguments: /regicide loadconfig [configfile]");
+			}
+			//Load Config
 		}
 		else {
 			sender.sendMessage("Something went wrong...");
@@ -582,6 +588,11 @@ public class RegicideCommands implements CommandExecutor{
 				}
 			}
 		}
+		return true;
+	}
+	
+	public boolean loadConfig(CommandSender sender, String[] args) {
+		//Implement
 		return true;
 	}
 }
