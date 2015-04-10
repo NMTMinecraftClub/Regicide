@@ -630,8 +630,8 @@ public class RegicideCommands implements CommandExecutor{
 	 * This method loads a configuration file for a game.
 	 * This method will alert the sender if information is missing that must
 	 * be set before a game starts.
-	 * @param sender
-	 * @param args
+	 * @param sender The sender of the command.
+	 * @param args The arguments of the command.
 	 * @return
 	 */
 	public boolean loadConfig(CommandSender sender, String[] args) {
@@ -673,14 +673,15 @@ public class RegicideCommands implements CommandExecutor{
 	 * This method saves a configuration file for a game.
 	 * This method will alert the sender if the information being saved is
 	 * missing vital information for a game to start.
-	 * @param sender
-	 * @param args
+	 * @param sender The sender of the command.
+	 * @param args The arguments of the command.
 	 * @return
 	 */
 	public boolean saveConfig(CommandSender sender, String[] args) {
 		String fileName = args[1];
 		String gameName = args[2];
 		RegicideGame gameInstance = null;
+		File fileConfig = new File(fileName);
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			if (game.getName().equalsIgnoreCase(gameName)) {
 				gameInstance = game;
@@ -692,7 +693,7 @@ public class RegicideCommands implements CommandExecutor{
 					"Could not find game instance: " + goldChat + gameName + resetChat);
 			return true;
 		}
-		//Implement
+		gameInstance.saveConfig(fileConfig);
 		return true;
 	}
 }
