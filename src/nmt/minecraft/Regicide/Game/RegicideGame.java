@@ -194,7 +194,7 @@ public class RegicideGame implements Listener {
 		//set the time to day
 		Iterator<RPlayer> it = players.values().iterator();
 		if(it.hasNext()){
-			it.next().getPlayer().getLocation().getWorld().setTime(0);
+			it.next().getPlayer().getLocation().getWorld().setTime(600);
 		}
 	}
 	
