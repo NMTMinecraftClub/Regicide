@@ -855,7 +855,7 @@ public class RegicideGame implements Listener {
 			tellOps("Unable to load " + ChatColor.RED + "second place" + ChatColor.RESET + " location data for Regicide Game " + name);
 		}
 		
-		thirdPlace = configManager.getSecond();
+		thirdPlace = configManager.getThird();
 		if (thirdPlace == null) {
 			tellOps("Unable to load " + ChatColor.RED + "third place" + ChatColor.RESET + " location data for Regicide Game " + name);
 		}
@@ -869,6 +869,73 @@ public class RegicideGame implements Listener {
 	
 	public void saveConfig(File configFile) {
 		configManager.save(configFile);
+	}
+	
+	public void printStatus() {
+		tellOps(ChatColor.GOLD + "Game Status for [" + name + "] :");
+		
+		//figure out how many spawn points
+		String msg = "";
+		if (spawnLocations == null) {
+			msg = "" + ChatColor.RED + ChatColor.BOLD + "NULL!";
+		} else {
+			if (spawnLocations.isEmpty()) {
+				msg = "" + ChatColor.YELLOW + "Empty!";
+			} else
+			{
+				//multiple points!
+				msg = "" + spawnLocations.size();
+			}
+		}
+		tellOps("Spawn Points:   " + msg);
+		
+		//report of lobby
+		if (lobbyLocation == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "Set!";
+		}
+		tellOps("Lobby:   " + msg);
+		
+		//report of exit
+		if (exitLocation == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "Set!";
+		}
+		tellOps("Exit:   " + msg);
+		
+		//report of first place
+		if (firstPlace == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "Set!";
+		}
+		tellOps("First Place:   " + msg);
+		
+		//report of second place
+		if (secondPlace == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "Set!";
+		}
+		tellOps("Second Place:   " + msg);
+		
+		//report of third place
+		if (thirdPlace == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "Set!";
+		}
+		tellOps("Third Place:   " + msg);
+		
+		//report of other place
+		if (otherPlace == null) {
+			msg = "" + ChatColor.YELLOW + "Not Set!";
+		} else {
+			msg = "Set!";
+		}
+		tellOps("Other's Place:   " + msg);
 	}
 	
 	private void tellOps(String message) {
