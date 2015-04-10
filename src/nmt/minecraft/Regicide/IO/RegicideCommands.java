@@ -503,7 +503,7 @@ public class RegicideCommands implements CommandExecutor{
 	 */
 	public boolean setSecondPlace(CommandSender sender, String[] args) {
 		if (args.length < 2) {
-			sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!");
+			sender.sendMessage("Please supply the name of the instance to add this exit point to!");
 			return false;
 		}
 		
@@ -512,7 +512,7 @@ public class RegicideCommands implements CommandExecutor{
 			if (game.getName().equalsIgnoreCase(args[1])) {
 				//check if game is running
 				if(game.getIsRunning() == true){
-					sender.sendMessage(redChat+"ERROR: "+ blueChat + "Game is already running!");
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!");
 				}
 				//do the stuff
 				Location loc = ((Player) sender).getLocation();
