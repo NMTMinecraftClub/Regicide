@@ -18,11 +18,11 @@ import nmt.minecraft.Regicide.Game.Player.RPlayer;
  */
 public class GameAnnouncer {
 	private static String aquaChat = ChatColor.AQUA+"";
-	private static String blueChat = ChatColor.BLUE+"";
+	//private static String blueChat = ChatColor.BLUE+"";
 	private static String goldChat = ChatColor.GOLD+"";
 	private static String greenChat = ChatColor.GREEN+"";
-	private static String redChat = ChatColor.RED+"";
-	private static String boldChat = ChatColor.BOLD+"";
+	//private static String redChat = ChatColor.RED+"";
+	//private static String boldChat = ChatColor.BOLD+"";
 	private static String resetChat = ChatColor.RESET+"";
 	/**
 	 * This method handles announcing a player join event.

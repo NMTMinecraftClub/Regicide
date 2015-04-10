@@ -47,11 +47,6 @@ public class EndGameCinematic extends BukkitRunnable {
 				
 			}
 			
-			//Teleport everyone else to the otherPlace
-			for(int i=3; i<players.size(); i++){
-				players.get(i).teleport(game.getOtherPlace());
-			}
-			
 			this.index++;
 			if (index >= heldTime) {
 				
@@ -65,15 +60,12 @@ public class EndGameCinematic extends BukkitRunnable {
 	
 	private class FinalPositions extends BukkitRunnable {
 		
-		
-		
 		public void run() {
-		if (players.isEmpty()) {
-			return;
-		}
-		for (Player player : players) {
+			if (players.isEmpty()) {
+				return;
+			}
+			for (Player player : players) {
 				player.teleport(game.getExitLocation());
-				//player.teleport(game.getOtherPlace());
 			}
  		}
 	}
