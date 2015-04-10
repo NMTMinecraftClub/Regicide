@@ -135,7 +135,7 @@ public class RegicideGame implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, RegicidePlugin.regicidePlugin);
 		isOpen = false;
 		
-		this.configManager = new GameConfigManager();
+		this.configManager = new GameConfigManager(this);
 	}
 	
 	public void open() {

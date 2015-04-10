@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
+import nmt.minecraft.Regicide.Game.RegicideGame;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -17,10 +18,13 @@ public class GameConfigManager {
 	
 	
 	private YamlConfiguration config;
+	
+	private RegicideGame game;
 
 	
-	public GameConfigManager() {
+	public GameConfigManager(RegicideGame game) {
 		config = null;
+		this.game = game;
 	}
 	
 	
@@ -130,12 +134,41 @@ public class GameConfigManager {
 			return;		
 		}
 		
+		update();
+		
 		try {
 			config.save(configFile);
 		} catch (IOException e) {
 			RegicidePlugin.regicidePlugin.getLogger().warning("Unable to save config to file: " + configFile);
 			e.printStackTrace();
 		}
+	}
+	
+	//Sync config with game
+	private void update() {
+		if (config == null) {
+			config = new YamlConfiguration();
+		}
+		
+		config.set("exitLocation", game.getExitLocation());
+		config.set("otherLocation", game.getOtherPlace());
+		config.set("firstLocation", game.getFirstPlace());
+		config.set("secondLocation", game.getSecondPlace());
+		config.set("thirdLocation", game.getThirdPlace());
+		config.set("lobbyLocation", game.getLobbyLocation());
+		
+		List<Location> spawnPoints = game.getSpawnLocations();
+		//reset spawn points
+		config.set("spawnPoints", null);
+		
+		int index = 0;
+		ConfigurationSection pointsSec = config.getConfigurationSection("spawnPoints");
+		if (!(spawnPoints == null) && !spawnPoints.isEmpty()) {
+			for (Location loc : spawnPoints) {
+				pointsSec.set("loc" + index, loc);
+			}
+		}
+		
 	}
 	
 	
