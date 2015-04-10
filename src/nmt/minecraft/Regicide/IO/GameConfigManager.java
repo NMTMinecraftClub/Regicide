@@ -9,6 +9,7 @@ import java.util.List;
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -49,6 +50,7 @@ public class GameConfigManager {
 			e.printStackTrace();
 		} catch (InvalidConfigurationException e) {
 			RegicidePlugin.regicidePlugin.getLogger().warning("Error when loading yaml! Invalid Configuration from file: " + configFile);
+			RegicidePlugin.regicidePlugin.getLogger().warning(e.getLocalizedMessage());
 			return;
 		}
 		
@@ -59,17 +61,33 @@ public class GameConfigManager {
 		if (config == null) {
 			return null;
 		}
+		if (!config.contains("spawnPoints")) {
+			return null;
+		}
 		
 		List<Location> locs = new LinkedList<Location>();
-		Location loc;
+		ConfigurationSection loc;
+		Location tmpLoc;
 		
 		ConfigurationSection spawnPoints = config.getConfigurationSection("spawnPoints");
+		
+		
 		for (String key : spawnPoints.getKeys(false)) {
-			loc = (Location) spawnPoints.get(key, null);
+			loc = spawnPoints.getConfigurationSection(key);
 			if (loc != null) {
-				locs.add(loc);
+				tmpLoc = new Location(Bukkit.getWorld(loc.getString("world", "world")), loc.getDouble("x", 0.0),  loc.getDouble("y", 0.0), loc.getDouble("z", 0.0), (float) loc.getDouble("yaw", 0.0), (float) loc.getDouble("pitch", 0.0));
+				locs.add(tmpLoc);
 			}
 		}
+
+		/**
+		 * x
+		 * y
+		 * z
+		 * world
+		 * pitch
+		 * yaw
+		 */
 		
 		return locs;
 	}
@@ -79,7 +97,8 @@ public class GameConfigManager {
 			return null;
 		}
 		
-		return (Location) config.get("exitLocation", null);
+		//return (Location) config.get("exitLocation", null);\
+		return getLocation("exitLocation");
 	}
 	
 	public Location getOthers() {
@@ -87,7 +106,8 @@ public class GameConfigManager {
 			return null;
 		}
 		
-		return (Location) config.get("otherLocation", null);
+		//return (Location) config.get("otherLocation", null);
+		return getLocation("otherLocation");
 	}
 	
 	public Location getFirst() {
@@ -95,7 +115,8 @@ public class GameConfigManager {
 			return null;
 		}
 		
-		return (Location) config.get("firstLocation", null);
+		//return (Location) config.get("firstLocation", null);
+		return getLocation("firstLocation");
 	}
 	
 	public Location getSecond() {
@@ -103,7 +124,8 @@ public class GameConfigManager {
 			return null;
 		}
 		
-		return (Location) config.get("secondLocation", null);
+		//return (Location) config.get("secondLocation", null);
+		return getLocation("secondLocation");
 	}
 	
 	public Location getThird() {
@@ -111,7 +133,8 @@ public class GameConfigManager {
 			return null;
 		}
 		
-		return (Location) config.get("thirdLocation", null);
+		//return (Location) config.get("thirdLocation", null);
+		return getLocation("thirdLocation");
 	}
 	
 	public Location getLobby() {
@@ -119,7 +142,8 @@ public class GameConfigManager {
 			return null;
 		}
 		
-		return (Location) config.get("lobbyLocation", null);
+		//return (Location) config.get("lobbyLocation", null);
+		return getLocation("lobbyLocation");
 	}
 	
 	
@@ -129,12 +153,12 @@ public class GameConfigManager {
 			return;	
 		}
 		
+		update();
+		
 		if (config == null) {
 			RegicidePlugin.regicidePlugin.getLogger().warning("Unable to save config, because the config is null!");
 			return;		
 		}
-		
-		update();
 		
 		try {
 			config.save(configFile);
@@ -142,6 +166,7 @@ public class GameConfigManager {
 			RegicidePlugin.regicidePlugin.getLogger().warning("Unable to save config to file: " + configFile);
 			e.printStackTrace();
 		}
+		
 	}
 	
 	//Sync config with game
@@ -150,12 +175,18 @@ public class GameConfigManager {
 			config = new YamlConfiguration();
 		}
 		
-		config.set("exitLocation", game.getExitLocation());
-		config.set("otherLocation", game.getOtherPlace());
-		config.set("firstLocation", game.getFirstPlace());
-		config.set("secondLocation", game.getSecondPlace());
-		config.set("thirdLocation", game.getThirdPlace());
-		config.set("lobbyLocation", game.getLobbyLocation());
+		//config.set("exitLocation", game.getExitLocation());
+		setLocation("exitLocation", game.getExitLocation());
+		//config.set("otherLocation", game.getOtherPlace());
+		setLocation("otherLocation", game.getOtherPlace());
+		//config.set("firstLocation", game.getFirstPlace());
+		setLocation("firstLocation", game.getFirstPlace());
+		//config.set("secondLocation", game.getSecondPlace());
+		setLocation("secondLocation", game.getSecondPlace());
+		//config.set("thirdLocation", game.getThirdPlace());
+		setLocation("thirdLocation", game.getThirdPlace());
+		//config.set("lobbyLocation", game.getLobbyLocation());
+		setLocation("lobbyLocation", game.getLobbyLocation());
 		
 		List<Location> spawnPoints = game.getSpawnLocations();
 		//reset spawn points
@@ -163,13 +194,61 @@ public class GameConfigManager {
 		
 		int index = 0;
 		ConfigurationSection pointsSec = config.getConfigurationSection("spawnPoints");
+		ConfigurationSection locSec;
 		if (!(spawnPoints == null) && !spawnPoints.isEmpty()) {
 			for (Location loc : spawnPoints) {
-				pointsSec.set("loc" + index, loc);
+				locSec = pointsSec.getConfigurationSection("loc" + index);
+				locSec.set("x", loc.getX());
+				locSec.set("y", loc.getY());
+				locSec.set("z", loc.getZ());
+				locSec.set("world", loc.getWorld().getName());
+				locSec.set("pitch", loc.getPitch());
+				locSec.set("yaw", loc.getYaw());
 			}
 		}
 		
 	}
 	
+	private void setLocation(String path, Location loc) {
+		
+		if (loc == null || path == null) {
+			return;
+		}
+		
+		ConfigurationSection configSect = config.getConfigurationSection(path);
+		if (configSect == null) {
+			configSect = config.createSection(path);
+		}
+		
+		configSect.set("x", loc.getX());
+		configSect.set("y", loc.getY());
+		configSect.set("z", loc.getZ());
+		configSect.set("world", loc.getWorld().getName());
+		configSect.set("pitch", loc.getPitch());
+		configSect.set("yaw", loc.getYaw());
+	}
+	
+	private Location getLocation(String path) {
+		Location loc;
+		ConfigurationSection configSect = config.getConfigurationSection(path);
+		
+		if (configSect == null) {
+			return null;
+		}
+		
+		loc = new Location(
+				Bukkit.getWorld(configSect.getString("world", "world")),
+				
+				configSect.getDouble("x", 0.0),
+				configSect.getDouble("y", 0.0),
+				configSect.getDouble("z", 0.0),
+				
+				(float) configSect.getDouble("yaw", 0.0),
+				(float) configSect.getDouble("pitch", 0.0)
+				
+				);
+		
+		return loc;
+	}
 	
 }
