@@ -717,7 +717,6 @@ public class RegicideCommands implements CommandExecutor{
 			if (game.getName().equalsIgnoreCase(args[1])) {
 				game.printStatus();
 				return true;
-				break;
 			}
 		}
 		sender.sendMessage(redChat+"ERROR: "+resetChat+"Could not find instance of "+ args[1]);
