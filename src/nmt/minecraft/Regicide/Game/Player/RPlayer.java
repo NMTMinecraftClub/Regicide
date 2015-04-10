@@ -81,27 +81,51 @@ public class RPlayer{
 		disguise = null;
 	}
 	
+	/**
+	 * Returns the Bukkit Player Object within RPlayer
+	 * @return The Bukkit Player Object.
+	 */
 	public Player getPlayer() {
 		return this.player;
 	}
 	
+	/**
+	 * This returns the RPlayer that caused damage to this RPlayer Instance last.
+	 * @return The RPlayer that last hit this RPlayer instance. Is null if entity <br>
+	 * has not been damaged.
+	 */
 	public RPlayer getLastHitBy() {
 		return this.lastHitBy;
 	}
 	
+	/**
+	 * This sets the RPlayer who last hit this RPlayer instance.
+	 * @param play The RPlayer that last hit this instance.
+	 */
 	public void setHitBy(RPlayer play) {
 		this.lastHitBy = play;
 	}
 	
-	
+	/**
+	 * This sets the RPlayer as the King in Regicide.
+	 * @param isKing Set True or False.
+	 */
 	public void setIsKing(boolean isKing) {
 		this.isKing = isKing;
 	}
 	
+	/**
+	 * Returns true if this RPlayer is the King in a Regicide game instance.<br>
+	 * False if otherwise.
+	 * @return A boolean.
+	 */
 	public boolean isKing() {
 		return isKing;
 	}
 	
+	/**
+	 * This method adds a score point to the RPlayer instance in a Regicide game.
+	 */
 	public void addPoint() {
 		this.points++;
 		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
@@ -110,10 +134,18 @@ public class RPlayer{
 		}
 	}
 	
+	/**
+	 * This method returns the points this RPlayer currently has.
+	 * @return The RPlayer's score.
+	 */
 	public int getPoints() {
 		return this.points;
 	}
 	
+	/**
+	 * This method handles a Regicide Death.<br>
+	 * Please note that in a Regicide Game, players cannot truly 'die'.
+	 */
 	public void die(){
 		Firework firework = this.player.getWorld().spawn(this.player.getLocation(), Firework.class);
 		FireworkMeta fm = firework.getFireworkMeta();
@@ -139,6 +171,9 @@ public class RPlayer{
         this.isKing = false;
 	}
 	
+	/**
+	 * This method makes this RPlayer instance the King.
+	 */
 	public void makeKing(){
 		this.isKing = true;
 		if(isKing == true){
@@ -147,6 +182,9 @@ public class RPlayer{
 		this.player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 5));
 	}
 	
+	/**
+	 * This method sets the initial state of an RPlayer.
+	 */
 	public void setInitialState() {
 		this.isKing=false;
 		this.killCount = 0;
@@ -163,6 +201,9 @@ public class RPlayer{
 		this.clearPotionEffects();
 	}
 	
+	/**
+	 * This method sets the end state of an RPlayer.
+	 */
 	public void setEndState() {
 		this.isKing=false;
 		this.killCount = 0;
@@ -178,11 +219,17 @@ public class RPlayer{
 		this.clearPotionEffects();
 	}
 	
+	/**
+	 * This method increments of an RPlayer's kill count.
+	 */
 	public void addKill(){
 		this.killCount++;
 		this.upgrade();
 	}
 	
+	/**
+	 * This method upgrades the weapon of an RPlayer.
+	 */
 	private void upgrade(){
 		//TODO change this to use kill count to judge if the player should upgrade
 		if(this.upgradeLevel != levels.length-1 && this.isKing == false){
@@ -192,6 +239,9 @@ public class RPlayer{
 		}
 	}
 	
+	/**
+	 * This method downgrades the weapon of an RPlayer.
+	 */
 	public void downgrade(){
 		this.killCount = 0;
 		this.upgradeLevel = 0;
