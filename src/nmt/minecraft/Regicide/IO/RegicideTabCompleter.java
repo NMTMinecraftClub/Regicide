@@ -30,6 +30,8 @@ public class RegicideTabCompleter implements TabCompleter{
 						 list.add(tmpString);
 					 }
 				 }
+			}else if(){
+				
 			}else if(args.length == 2 && !args[0].equalsIgnoreCase("register")){
 				list = new ArrayList<String>();
 				for(RegicideGame game : RegicidePlugin.regicidePlugin.getGames()){
