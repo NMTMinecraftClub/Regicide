@@ -182,7 +182,7 @@ public class RegicideCommands implements CommandExecutor{
 			if (args.length != 3) {
 				sender.sendMessage("Wrong number of arguments: /regicide savefongi [configfile] [game to save]");
 			}
-			//saveConfig(sender, args);
+			saveConfig(sender, args);
 		}
 		else {
 			sender.sendMessage("Something went wrong...");
@@ -607,6 +607,9 @@ public class RegicideCommands implements CommandExecutor{
 	 */
 	public boolean loadConfig(CommandSender sender, String[] args) {
 		//Implement
+		String fileName = args[1];
+		String gameName = args[2];
+		//configfile
 		return true;
 	}
 	
@@ -619,6 +622,8 @@ public class RegicideCommands implements CommandExecutor{
 	 * @return
 	 */
 	public boolean saveConfig(CommandSender sender, String[] args) {
+		String fileName = args[1];
+		String gameName = args[2];
 		//Implement
 		return true;
 	}
