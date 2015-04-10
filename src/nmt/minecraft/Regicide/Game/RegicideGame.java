@@ -545,9 +545,6 @@ public class RegicideGame implements Listener {
 	
 	@EventHandler
 	public void onEatFood(PlayerInteractEvent e) {
-			
-
-			System.out.println("start parts checks!");
 			if (e.getItem() != null)
 			if (e.getItem().getType() != Material.COOKED_BEEF || e.getPlayer().getFoodLevel() >= 19.9f) {
 				//not eating OR already full

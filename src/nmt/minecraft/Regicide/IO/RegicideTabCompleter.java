@@ -5,6 +5,7 @@ import java.util.List;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
+import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -33,7 +34,22 @@ public class RegicideTabCompleter implements TabCompleter{
 			}else if(args.length == 2 && !args[0].equalsIgnoreCase("register")){
 				list = new ArrayList<String>();
 				for(RegicideGame game : RegicidePlugin.regicidePlugin.getGames()){
-					list.add(game.getName());
+					//should only match games started with what's already been typed in
+					if(startsWithIgnoreCase(game.getName(),args[0])){
+						list.add(game.getName());
+					}
+				}
+			}else if(args.length == 3 && args[0].equalsIgnoreCase("kick")){
+				//regicide kick [game] [player]
+				for(RegicideGame game : RegicidePlugin.regicidePlugin.getGames()){
+					if(game.getName().equalsIgnoreCase(args[0])){
+						//get a list of the players in the game
+						for(RPlayer player : game.getPlayers()){
+							if(startsWithIgnoreCase(player.getPlayer().getName(), args[1])){
+								list.add(player.getPlayer().getName());
+							}
+						}
+					}
 				}
 			}
 			return list;
