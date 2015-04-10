@@ -591,6 +591,14 @@ public class RegicideCommands implements CommandExecutor{
 		return true;
 	}
 	
+	/**
+	 * This method loads a configuration file for a game.
+	 * This method will alert the sender if information is missing that must
+	 * be set before a game starts.
+	 * @param sender
+	 * @param args
+	 * @return
+	 */
 	public boolean loadConfig(CommandSender sender, String[] args) {
 		//Implement
 		return true;
