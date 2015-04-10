@@ -96,7 +96,7 @@ public class RegicideGame implements Listener {
 	
 	private GameTimer timer;
 	
-	private static final long endTime = 600;
+	private static final long endTime = 900;
 	
 	private static final long scoreInterval = 10;
 	

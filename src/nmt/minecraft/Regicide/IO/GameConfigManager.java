@@ -194,13 +194,18 @@ public class GameConfigManager {
 		
 		int index = 0;
 		ConfigurationSection pointsSec = config.getConfigurationSection("spawnPoints");
+		
+		if (pointsSec == null) {
+			pointsSec = config.createSection("spawnPoints");
+		}
+		
 		ConfigurationSection locSec;
 		if (!(spawnPoints == null) && !spawnPoints.isEmpty()) {
 			for (Location loc : spawnPoints) {
 				locSec = pointsSec.getConfigurationSection("loc" + index);
 				
 				if (locSec == null) {
-					locSec = config.createSection("loc" + index);
+					locSec = pointsSec.createSection("loc" + index);
 				}
 				
 				locSec.set("x", loc.getX());
@@ -209,6 +214,8 @@ public class GameConfigManager {
 				locSec.set("world", loc.getWorld().getName());
 				locSec.set("pitch", loc.getPitch());
 				locSec.set("yaw", loc.getYaw());
+				
+				index++;
 			}
 		}
 		
