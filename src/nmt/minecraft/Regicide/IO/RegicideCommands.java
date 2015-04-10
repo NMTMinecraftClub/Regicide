@@ -637,8 +637,8 @@ public class RegicideCommands implements CommandExecutor{
 	public boolean loadConfig(CommandSender sender, String[] args) {
 		String dataPath = RegicidePlugin.regicidePlugin.getDataFolder().getPath();
 		File tmp = new File(dataPath, "configs");
-		String fileName = args[1];
-		String gameName = args[2];
+		String fileName = args[2];
+		String gameName = args[1];
 		RegicideGame gameInstance = null;
 		File fileConfig = new File(tmp.getPath(), fileName);
 		//Check to see if file exists
@@ -681,8 +681,8 @@ public class RegicideCommands implements CommandExecutor{
 	public boolean saveConfig(CommandSender sender, String[] args) {
 		String dataPath = RegicidePlugin.regicidePlugin.getDataFolder().getPath();
 		File tmp = new File(dataPath, "configs");
-		String fileName = args[1];
-		String gameName = args[2];
+		String fileName = args[2];
+		String gameName = args[1];
 		RegicideGame gameInstance = null;
 		File fileConfig = new File(tmp.getPath(), fileName);
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
