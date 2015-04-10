@@ -39,6 +39,12 @@ public class GameTimer extends BukkitRunnable {
 		List<RPlayer> Players = game.getPlayers();
 		long MinutesRemaining = (long) Math.floor((timeRemaining / 60));
 		long minSecondsRemaining = timeRemaining % 60;
+		
+		//set time to day periodically
+		if(timeRemaining % 30 == 0){
+			Players.get(0).getPlayer().getLocation().getWorld().setTime(600);
+		}
+		
 		//Long term count down timer
 		if (timeRemaining > 10 && timeRemaining % 30 == 0) {
 			String Minutes = ChatColor.GOLD+"" + MinutesRemaining + ChatColor.RESET+"";
