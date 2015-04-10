@@ -543,31 +543,6 @@ public class RegicideGame implements Listener {
 		
 	}
 	
-	@EventHandler
-	public void onEatFood(PlayerInteractEvent e) {
-			if (e.getItem() != null)
-			if (e.getItem().getType() != Material.COOKED_BEEF || e.getPlayer().getFoodLevel() >= 19.9f) {
-				//not eating OR already full
-				return;
-			}
-			if (getPlayer(e.getPlayer()) == null) {
-				return;
-			}
-			
-			//display food particles
-			WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
-			particle.setLocation(e.getPlayer().getEyeLocation().add(e.getPlayer().getLocation().getDirection()));
-			particle.setNumberOfParticles(20);
-			particle.setParticleName("iconcrack_" + Material.COOKED_BEEF.getId());
-
-			System.out.println("about to do parts");
-			
-			for (RPlayer p : getPlayers()) {
-				System.out.println("Sending to player...");
-				particle.sendPacket(p.getPlayer());
-			}
-
-	}
 	
 	@EventHandler
 	public void EntityInteract(PlayerInteractEntityEvent e) {
