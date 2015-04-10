@@ -24,7 +24,7 @@ import org.bukkit.entity.Player;
 public class RegicideCommands implements CommandExecutor{
 	private static String[] commandList = {"register", "setLobby", "setSpawn", "setExit", 
 		"start", "leave", "open", "firstPlace", "secondPlace", "thirdPlace", "otherPlace",
-		"end","help", "kick", "loadconfig"};
+		"end","help", "kick", "loadconfig", "saveconfig"};
 
 	private String aquaChat = ChatColor.AQUA+"";
 	private String blueChat = ChatColor.BLUE+"";
@@ -173,10 +173,16 @@ public class RegicideCommands implements CommandExecutor{
 			kickPlayer(sender, args);
 		}
 		else if (args[0].equalsIgnoreCase("loadconfig")) {
-			if (args.length != 2) {
-				sender.sendMessage("Wrong number of arguments: /regicide loadconfig [configfile]");
+			if (args.length != 3) {
+				sender.sendMessage("Wrong number of arguments: /regicide loadconfig [configfile] [game to apply]");
 			}
-			//Load Config
+			loadConfig(sender, args);
+		}
+		else if (args[0].equalsIgnoreCase("saveconfig")) {
+			if (args.length != 3) {
+				sender.sendMessage("Wrong number of arguments: /regicide savefongi [configfile] [game to save]");
+			}
+			//saveConfig(sender, args);
 		}
 		else {
 			sender.sendMessage("Something went wrong...");
@@ -600,6 +606,19 @@ public class RegicideCommands implements CommandExecutor{
 	 * @return
 	 */
 	public boolean loadConfig(CommandSender sender, String[] args) {
+		//Implement
+		return true;
+	}
+	
+	/**
+	 * This method saves a configuration file for a game.
+	 * This method will alert the sender if the information being saved is
+	 * missing vital information for a game to start.
+	 * @param sender
+	 * @param args
+	 * @return
+	 */
+	public boolean saveConfig(CommandSender sender, String[] args) {
 		//Implement
 		return true;
 	}
