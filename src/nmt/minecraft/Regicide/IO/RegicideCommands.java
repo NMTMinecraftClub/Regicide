@@ -635,11 +635,12 @@ public class RegicideCommands implements CommandExecutor{
 	 * @return
 	 */
 	public boolean loadConfig(CommandSender sender, String[] args) {
-		String dataPath = RegicidePlugin.regicidePlugin.getDataFolder().getPath() + "/configs";
+		String dataPath = RegicidePlugin.regicidePlugin.getDataFolder().getPath();
+		File tmp = new File(dataPath, "configs");
 		String fileName = args[1];
 		String gameName = args[2];
 		RegicideGame gameInstance = null;
-		File fileConfig = new File(dataPath + fileName);
+		File fileConfig = new File(tmp.getPath(), fileName);
 		//Check to see if file exists
 		if (!fileConfig.exists()) {
 			sender.sendMessage(boldChat + redChat + "ERROR! " + resetChat + redChat + "File does not exist!");
@@ -678,11 +679,12 @@ public class RegicideCommands implements CommandExecutor{
 	 * @return
 	 */
 	public boolean saveConfig(CommandSender sender, String[] args) {
-		String dataPath = RegicidePlugin.regicidePlugin.getDataFolder().getPath() + "/configs/";
+		String dataPath = RegicidePlugin.regicidePlugin.getDataFolder().getPath();
+		File tmp = new File(dataPath, "configs");
 		String fileName = args[1];
 		String gameName = args[2];
 		RegicideGame gameInstance = null;
-		File fileConfig = new File(dataPath + fileName);
+		File fileConfig = new File(tmp.getPath(), fileName);
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			if (game.getName().equalsIgnoreCase(gameName)) {
 				gameInstance = game;
