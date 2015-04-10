@@ -34,8 +34,8 @@ public class RegicideTabCompleter implements TabCompleter{
 			}else if(args.length == 2 && !args[0].equalsIgnoreCase("register")){
 				list = new ArrayList<String>();
 				for(RegicideGame game : RegicidePlugin.regicidePlugin.getGames()){
-					//should only match games started with what's already been typed in
-					if(startsWithIgnoreCase(game.getName(),args[0])){
+					//should only match games started with what's already been typed in					
+					if(args[0].isEmpty() || startsWithIgnoreCase(game.getName(),args[0])){
 						list.add(game.getName());
 					}
 				}
@@ -45,7 +45,7 @@ public class RegicideTabCompleter implements TabCompleter{
 					if(game.getName().equalsIgnoreCase(args[0])){
 						//get a list of the players in the game
 						for(RPlayer player : game.getPlayers()){
-							if(startsWithIgnoreCase(player.getPlayer().getName(), args[1])){
+							if(args[1].isEmpty() || startsWithIgnoreCase(player.getPlayer().getName(), args[1])){
 								list.add(player.getPlayer().getName());
 							}
 						}
