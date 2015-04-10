@@ -244,7 +244,7 @@ public class RPlayer{
 	}
 	
 	public void doVillagerConcequence(){
-		this.player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 0));
+		this.player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 1));
 	}
 	
 }
