@@ -1,5 +1,6 @@
 package nmt.minecraft.Regicide.IO;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -610,6 +611,13 @@ public class RegicideCommands implements CommandExecutor{
 		String fileName = args[1];
 		String gameName = args[2];
 		RegicideGame gameInstance = null;
+		File fileConfig = new File(fileName);
+		//Check to see if file exists
+		if (!fileConfig.exists()) {
+			sender.sendMessage(boldChat + redChat + "ERROR! " + resetChat + redChat + "File does not exist!");
+			return true;
+		}
+		//Find specified game instance
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			if(game.getName().equalsIgnoreCase(gameName)){
 				gameInstance = game;
@@ -628,8 +636,8 @@ public class RegicideCommands implements CommandExecutor{
 					gameName + redChat + " is already running!" + resetChat);
 			return true;
 		}
-		
-		//configfile
+		sender.sendMessage("Loading configuration file: " + goldChat + fileName + resetChat);
+		gameInstance.loadConfig(fileName);
 		return true;
 	}
 	
