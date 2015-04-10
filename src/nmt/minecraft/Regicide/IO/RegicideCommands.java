@@ -665,7 +665,7 @@ public class RegicideCommands implements CommandExecutor{
 			return true;
 		}
 		sender.sendMessage("Loading configuration file: " + goldChat + fileName + resetChat);
-		gameInstance.loadConfig(fileName);
+		gameInstance.loadConfig(fileConfig);
 		return true;
 	}
 	
