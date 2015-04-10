@@ -229,7 +229,7 @@ public class RPlayer{
 		//set off firework
 		Firework firework = this.player.getWorld().spawn(this.player.getLocation(), Firework.class);
 		FireworkMeta fm = firework.getFireworkMeta();
-		this.player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100,1));
+		//this.player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100,1));
         fm.addEffect(FireworkEffect.builder()
             .flicker(false)
             .trail(true)
@@ -244,7 +244,7 @@ public class RPlayer{
 	}
 	
 	public void doVillagerConcequence(){
-		this.player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 1));
+		this.player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1));
 	}
 	
 }
