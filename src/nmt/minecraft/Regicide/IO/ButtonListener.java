@@ -3,13 +3,18 @@ package nmt.minecraft.Regicide.IO;
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
 import nmt.minecraft.Regicide.Game.RegicideGameEndEvent;
+import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
+import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles.ParticleEffect;
 
 /**
  * This class listens to a button and adds them to a game.
@@ -40,6 +45,38 @@ public class ButtonListener implements Listener{
 		if (gameInstance == null) {
 			return;
 		}
+		
+//		if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+//			System.out.println("parts!");
+//			if (e.isCancelled()) {
+//				return;
+//			}
+//			
+//
+//			System.out.println("parts!");
+//			if (e.getItem() != null)
+//			if (e.getItem().getType() != Material.COOKED_BEEF || e.getPlayer().getFoodLevel() >= 19.9f) {
+//				//not eating OR already full
+//				return;
+//			}
+//
+//			System.out.println("parts!");
+//			if (gameInstance.getPlayer(e.getPlayer()) == null) {
+//				return;
+//			}
+//			
+//			//display food particles
+//			WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
+//			particle.setLocation(e.getPlayer().getEyeLocation());
+//			particle.setNumberOfParticles(5);
+//			particle.setParticleEffect(ParticleEffect.ICONCRACK);
+//
+//			System.out.println("parts!");
+//			
+//			for (RPlayer p : gameInstance.getPlayers()) {
+//				particle.sendPacket(p.getPlayer());
+//			}
+//		}
 		if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			return;
 		}

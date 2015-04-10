@@ -24,6 +24,7 @@ import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -37,6 +38,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
 import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles.ParticleEffect;
+
 
 /**
  * A running instance of a regicide game.
@@ -462,28 +464,30 @@ public class RegicideGame implements Listener {
 	
 	@EventHandler
 	public void onEatFood(PlayerInteractEvent e) {
-		if (e.isCancelled()) {
-			return;
-		}
-		
-		
-		if (e.getItem() != null)
-		if (e.getItem().getType() != Material.COOKED_BEEF || e.getPlayer().getFoodLevel() >= 19.9f) {
-			//not eating OR already full
-			return;
-		}
-		
-		if (getPlayer(e.getPlayer()) == null) {
-			return;
-		}
-		
-		//display food particles
-		WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
-		particle.setLocation(e.getPlayer().getEyeLocation());
-		particle.setNumberOfParticles(5);
-		particle.setParticleEffect(ParticleEffect.ICONCRACK);		
-		
-		
+			
+
+			System.out.println("start parts checks!");
+			if (e.getItem() != null)
+			if (e.getItem().getType() != Material.COOKED_BEEF || e.getPlayer().getFoodLevel() >= 19.9f) {
+				//not eating OR already full
+				return;
+			}
+			if (getPlayer(e.getPlayer()) == null) {
+				return;
+			}
+			
+			//display food particles
+			WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
+			particle.setLocation(e.getPlayer().getEyeLocation().add(e.getPlayer().getLocation().getDirection()));
+			particle.setNumberOfParticles(20);
+			particle.setParticleName("iconcrack_" + Material.COOKED_BEEF.getId());
+
+			System.out.println("about to do parts");
+			
+			for (RPlayer p : getPlayers()) {
+				System.out.println("Sending to player...");
+				particle.sendPacket(p.getPlayer());
+			}
 	}
 	
 	@EventHandler
