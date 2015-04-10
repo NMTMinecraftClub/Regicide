@@ -1,5 +1,6 @@
 package nmt.minecraft.Regicide.IO;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,18 @@ public class RegicideTabCompleter implements TabCompleter{
 							if(args[2].isEmpty() || startsWithIgnoreCase(player.getPlayer().getName(), args[2])){
 								list.add(player.getPlayer().getName());
 							}
+						}
+					}
+				}
+			}else if(args.length == 3 && (args[0].equalsIgnoreCase("loadconfig") || args[0].equalsIgnoreCase("saveconfig"))){
+				//regicide loadconfig [game] [file]
+				//get a list of files
+				File tmp = RegicidePlugin.regicidePlugin.getDataFolder();
+				if(tmp.exists()){
+					File[] fileList= tmp.listFiles();
+					for(int i=0; i<fileList.length; i++){
+						if(args[2].isEmpty() || startsWithIgnoreCase(fileList[i].getName(),args[2])){
+							list.add(fileList[i].getName());
 						}
 					}
 				}
