@@ -175,13 +175,13 @@ public class RegicideCommands implements CommandExecutor{
 		}
 		else if (args[0].equalsIgnoreCase("loadconfig")) {
 			if (args.length != 3) {
-				sender.sendMessage("Wrong number of arguments: /regicide loadconfig [configfile] [game to apply]");
+				sender.sendMessage("Wrong number of arguments: /regicide loadconfig [gamename] [filename]");
 			}
 			loadConfig(sender, args);
 		}
 		else if (args[0].equalsIgnoreCase("saveconfig")) {
 			if (args.length != 3) {
-				sender.sendMessage("Wrong number of arguments: /regicide savefongi [configfile] [game to save]");
+				sender.sendMessage("Wrong number of arguments: /regicide savefongi [gamename] [filename]");
 			}
 			saveConfig(sender, args);
 		}
