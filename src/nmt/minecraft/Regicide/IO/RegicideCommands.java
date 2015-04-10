@@ -416,7 +416,7 @@ public class RegicideCommands implements CommandExecutor{
 			if (game.getName().equalsIgnoreCase(args[1])) {
 				//check to see if we can end the game
 				if(game.getIsRunning() == false){
-					sender.sendMessage(redChat + "Error"+blueChat+" This game is not running"+resetChat);
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!");
 					return false;
 				}
 				
@@ -444,7 +444,7 @@ public class RegicideCommands implements CommandExecutor{
 			if (game.getName().equalsIgnoreCase(args[1])) {
 				//check if game is running
 				if(game.getIsRunning() == true){
-					sender.sendMessage(redChat+"ERROR: "+ blueChat + "Game is already running!");
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!");
 				}
 				//do the stuff
 				Location loc = ((Player) sender).getLocation();
@@ -477,7 +477,7 @@ public class RegicideCommands implements CommandExecutor{
 			if (game.getName().equalsIgnoreCase(args[1])) {
 				//check if game is running
 				if(game.getIsRunning() == true){
-					sender.sendMessage(redChat+"ERROR: "+ blueChat + "Game is already running!");
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!");
 				}
 				
 				//do the stuff
@@ -502,7 +502,7 @@ public class RegicideCommands implements CommandExecutor{
 	 */
 	public boolean setSecondPlace(CommandSender sender, String[] args) {
 		if (args.length < 2) {
-			sender.sendMessage("Please supply the name of the instance to add this exit point to!");
+			sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!");
 			return false;
 		}
 		
@@ -544,7 +544,7 @@ public class RegicideCommands implements CommandExecutor{
 			if (game.getName().equalsIgnoreCase(args[1])) {
 				//check if game is running
 				if(game.getIsRunning() == true){
-					sender.sendMessage(redChat+"ERROR: "+ blueChat + "Game is already running!");
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!");
 				}
 				//do the stuff
 				Location loc = ((Player) sender).getLocation();
@@ -577,7 +577,7 @@ public class RegicideCommands implements CommandExecutor{
 			if (game.getName().equalsIgnoreCase(args[1])) {
 				//check if game is running
 				if(game.getIsRunning() == true){
-					sender.sendMessage(redChat+"ERROR: "+ blueChat + "Game is already running!");
+					sender.sendMessage(redChat + boldChat + "ERROR! " + resetChat + "Game: " + game.getName() + " is already running!");
 				}
 				//do the stuff
 				Location loc = ((Player) sender).getLocation();
