@@ -1,5 +1,6 @@
 package nmt.minecraft.Regicide.Game;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -826,7 +827,7 @@ public class RegicideGame implements Listener {
 		}
 	}
 	
-	public void loadConfig(String yamlFileName) {
-		configManager.loadConfig(yamlFileName);
+	public void loadConfig(File configFile) {
+		configManager.loadConfig(configFile);
 	}
 }
