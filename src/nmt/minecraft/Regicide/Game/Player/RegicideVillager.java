@@ -1,5 +1,6 @@
 package nmt.minecraft.Regicide.Game.Player;
 
+import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
 
 import org.bukkit.Location;
@@ -17,8 +18,9 @@ public class RegicideVillager {
 		this.game = game;
 		
 		//Create villager entity this RegVil will follow and manipulate
-		Location spawnLoc = game.getSpawnLocation();
+		Location spawnLoc = game.getSpawnLocation().getBlock().getLocation();
 		villager = (Villager) spawnLoc.getWorld().spawnEntity(spawnLoc, EntityType.VILLAGER);
+		RegicidePlugin.regicidePlugin.getLogger().info("Spawning Villager!");
 	}
 	
 	public Villager getVillager() {
