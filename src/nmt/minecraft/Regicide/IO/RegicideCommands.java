@@ -630,16 +630,17 @@ public class RegicideCommands implements CommandExecutor{
 	 * This method loads a configuration file for a game.
 	 * This method will alert the sender if information is missing that must
 	 * be set before a game starts.
-	 * @param sender
-	 * @param args
+	 * @param sender The sender of the command.
+	 * @param args The arguments of the command.
 	 * @return
 	 */
 	public boolean loadConfig(CommandSender sender, String[] args) {
-		//Implement
-		String fileName = args[1];
-		String gameName = args[2];
+		String dataPath = RegicidePlugin.regicidePlugin.getDataFolder().getPath();
+		File tmp = new File(dataPath, "configs");
+		String fileName = args[2];
+		String gameName = args[1];
 		RegicideGame gameInstance = null;
-		File fileConfig = new File(fileName);
+		File fileConfig = new File(tmp.getPath(), fileName);
 		//Check to see if file exists
 		if (!fileConfig.exists()) {
 			sender.sendMessage(boldChat + redChat + "ERROR! " + resetChat + redChat + "File does not exist!");
@@ -673,14 +674,17 @@ public class RegicideCommands implements CommandExecutor{
 	 * This method saves a configuration file for a game.
 	 * This method will alert the sender if the information being saved is
 	 * missing vital information for a game to start.
-	 * @param sender
-	 * @param args
+	 * @param sender The sender of the command.
+	 * @param args The arguments of the command.
 	 * @return
 	 */
 	public boolean saveConfig(CommandSender sender, String[] args) {
-		String fileName = args[1];
-		String gameName = args[2];
+		String dataPath = RegicidePlugin.regicidePlugin.getDataFolder().getPath();
+		File tmp = new File(dataPath, "configs");
+		String fileName = args[2];
+		String gameName = args[1];
 		RegicideGame gameInstance = null;
+		File fileConfig = new File(tmp.getPath(), fileName);
 		for (RegicideGame game : RegicidePlugin.regicidePlugin.getGames()) {
 			if (game.getName().equalsIgnoreCase(gameName)) {
 				gameInstance = game;
@@ -692,7 +696,7 @@ public class RegicideCommands implements CommandExecutor{
 					"Could not find game instance: " + goldChat + gameName + resetChat);
 			return true;
 		}
-		//Implement
+		gameInstance.saveConfig(fileConfig);
 		return true;
 	}
 }

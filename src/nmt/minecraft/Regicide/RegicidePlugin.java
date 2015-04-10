@@ -1,5 +1,6 @@
 package nmt.minecraft.Regicide;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,7 +29,14 @@ public class RegicidePlugin extends JavaPlugin {
 	 */
 	@Override
 	public void onLoad() {
+		if (!getDataFolder().exists()) {
+			getDataFolder().mkdir();
+		}
 		
+		File configDir = new File(getDataFolder(), "configs");
+		if (!configDir.exists()) {
+			configDir.mkdir();
+		}
 	}
 	
 	@Override
