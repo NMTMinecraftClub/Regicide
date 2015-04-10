@@ -170,26 +170,30 @@ public class RegicideCommands implements CommandExecutor{
 		else if (args[0].equalsIgnoreCase("kick")) {
 			if(args.length != 3) {
 				sender.sendMessage("Wrong number of arguments: /regicide kick [game] [player name]");
+				return false;
 			}
 			kickPlayer(sender, args);
 		}
 		else if (args[0].equalsIgnoreCase("loadconfig")) {
 			if (args.length != 3) {
 				sender.sendMessage("Wrong number of arguments: /regicide loadconfig [configfile] [game to apply]");
+				return false;
 			}
 			loadConfig(sender, args);
 		}
 		else if (args[0].equalsIgnoreCase("saveconfig")) {
 			if (args.length != 3) {
 				sender.sendMessage("Wrong number of arguments: /regicide savefongi [configfile] [game to save]");
+				return false;
 			}
 			saveConfig(sender, args);
 		}
 		else if (args[0].equalsIgnoreCase("status")) {
 			if (args.length != 2) {
 				sender.sendMessage("Wrong number of arguments: /regicide status [game name]");
+				return false;
 			}
-			printStatus(sender, args);
+			printStatus(sender, args[1]);
 		}
 		else {
 			sender.sendMessage("Something went wrong...");
@@ -711,15 +715,15 @@ public class RegicideCommands implements CommandExecutor{
 		return true;
 	}
 	
-	public boolean printStatus(CommandSender sender, String[] args){
+	public boolean printStatus(CommandSender sender, String gameName){
 		
 		for(RegicideGame game : RegicidePlugin.regicidePlugin.getGames()){
-			if (game.getName().equalsIgnoreCase(args[1])) {
+			if (game.getName().equalsIgnoreCase(gameName)) {
 				game.printStatus();
 				return true;
 			}
 		}
-		sender.sendMessage(redChat+"ERROR: "+resetChat+"Could not find instance of "+ args[1]);
+		sender.sendMessage(redChat+"ERROR: "+resetChat+"Could not find instance of "+ gameName);
 		return false;
 	}
 }
