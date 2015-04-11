@@ -58,6 +58,7 @@ public class RegicideTabCompleter implements TabCompleter{
 				File tmp = RegicidePlugin.regicidePlugin.getDataFolder();
 				if(tmp.exists()){
 					File[] fileList= tmp.listFiles();
+					fileList = fileList[0].listFiles();//TODO really should change this to be better 
 					for(int i=0; i<fileList.length; i++){
 						if(args[2].isEmpty() || startsWithIgnoreCase(fileList[i].getName(),args[2])){
 							list.add(fileList[i].getName());
