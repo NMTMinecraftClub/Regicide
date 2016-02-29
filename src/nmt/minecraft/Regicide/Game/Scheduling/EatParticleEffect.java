@@ -2,15 +2,15 @@ package nmt.minecraft.Regicide.Game.Scheduling;
 
 import java.util.Random;
 
-import nmt.minecraft.Regicide.RegicidePlugin;
-import nmt.minecraft.Regicide.Game.RegicideGame;
-import nmt.minecraft.Regicide.Game.Player.RPlayer;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
+
+import nmt.minecraft.Regicide.RegicidePlugin;
+import nmt.minecraft.Regicide.Game.RegicideGame;
+import nmt.minecraft.Regicide.Game.Player.RPlayer;
 
 /**
  * Creates eating particle effects for the provided player each time it is run.
@@ -53,9 +53,14 @@ public class EatParticleEffect extends BukkitRunnable {
 		//display food particlesg
 		WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
 		particle.setNumberOfParticles(10);
-		particle.setParticleSpeed(rand.nextFloat() * .05f);
-		particle.setLocation(loc);
-		particle.setParticleName("iconcrack_" + Material.COOKED_BEEF.getId());
+		particle.setParticleData(rand.nextFloat() * .05f);
+		particle.setX((float) loc.getX());
+		particle.setY((float) loc.getY());
+		particle.setZ((float) loc.getZ());
+		int[] data = new int[2];
+		data[0] = Material.COOKED_BEEF.getId();
+		data[1] = 0;
+		particle.setData(data);
 		
 		for (RPlayer player : game.getPlayers()) {
 			if (player.getPlayer().getUniqueId().equals(targetPlayer.getPlayer().getUniqueId())) {
