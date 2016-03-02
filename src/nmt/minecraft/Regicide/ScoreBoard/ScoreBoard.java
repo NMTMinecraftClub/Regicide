@@ -46,7 +46,7 @@ public class ScoreBoard {
 		for (RPlayer play : players) {
 			updateScore(play, 0);
 			play.getPlayer().setScoreboard(board);
-			playerTeam.addPlayer(play.getPlayer());
+			playerTeam.addEntry(play.getPlayer().getDisplayName());
 		}
 	}
 	
@@ -56,12 +56,12 @@ public class ScoreBoard {
 		
 		//update names on scoreboard
 		if (currentKing != null) {
-			kingTeam.removePlayer(currentKing.getPlayer());
-			playerTeam.addPlayer(currentKing.getPlayer());
+			kingTeam.removeEntry(currentKing.getPlayer().getDisplayName());
+			playerTeam.addEntry(currentKing.getPlayer().getDisplayName());
 			
 		}
-		playerTeam.removePlayer(king.getPlayer());
-		kingTeam.addPlayer(king.getPlayer());
+		playerTeam.removeEntry(king.getPlayer().getDisplayName());
+		kingTeam.addEntry(king.getPlayer().getDisplayName());
 		
 		currentKing = king;
 		

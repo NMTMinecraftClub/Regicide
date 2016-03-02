@@ -228,6 +228,14 @@ public class RPlayer{
 	}
 	
 	/**
+	 * Returns the number of kills this player has achieved
+	 * @return
+	 */
+	public int getKillCount() {
+		return this.killCount;
+	}
+	
+	/**
 	 * This method upgrades the weapon of an RPlayer.
 	 */
 	private void upgrade(){

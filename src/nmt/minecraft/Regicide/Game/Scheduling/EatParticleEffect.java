@@ -23,8 +23,6 @@ public class EatParticleEffect extends BukkitRunnable {
 	
 	private RegicideGame game;
 	
-	private long delay;
-	
 	private long loopTimes;
 	
 	private long index;
@@ -36,7 +34,6 @@ public class EatParticleEffect extends BukkitRunnable {
 		this.game = game;
 		this.index = 0;
 		
-		this.delay = delay;
 		this.loopTimes = loopTimes;
 		
 		rand = new Random();

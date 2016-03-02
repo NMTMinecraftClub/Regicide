@@ -34,7 +34,6 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
@@ -537,7 +536,7 @@ public class RegicideGame implements Listener {
 			player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 1));
 			
 			//display eat food particles
-			EatParticleEffect eff = new EatParticleEffect(this, rplayer, 1, 20);
+			new EatParticleEffect(this, rplayer, 1, 20);
 		}
 		
 	}
@@ -622,7 +621,7 @@ public class RegicideGame implements Listener {
 		play.setHealth(play.getMaxHealth());
 		
 		//display blood effects
-		play.getWorld().spigot().playEffect(play.getEyeLocation(), Effect.TILE_BREAK, Material.REDSTONE_BLOCK.getId(), 0, rand.nextFloat() * .5f, rand.nextFloat() * .25f, rand.nextFloat() * .5f, 0, 50, 20);
+		play.getWorld().spigot().playEffect(play.getEyeLocation(), Effect.TILE_BREAK, 152, 0, rand.nextFloat() * .5f, rand.nextFloat() * .25f, rand.nextFloat() * .5f, 0, 50, 20);
 		
 		//check if they were the king
 		if (player.isKing()) {
