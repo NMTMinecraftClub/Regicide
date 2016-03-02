@@ -661,7 +661,7 @@ public class RegicideGame implements Listener {
 		play.playSound(play.getLocation(), Sound.VILLAGER_DEATH, 1f, 1f);
 		if (player.getLastHitBy() != null) {
 			player.getLastHitBy().getPlayer().playSound(player.getLastHitBy().getPlayer().getLocation(), Sound.VILLAGER_DEATH, 1f, 1f);
-			play.sendMessage(ChatColor.RED + "You were killed " + player.getLastHitBy().getPlayer().getDisplayName() + "!");
+			play.sendMessage(ChatColor.RED + "You were killed by " + player.getLastHitBy().getPlayer().getDisplayName() + "!");
 		} else {
 			play.sendMessage(ChatColor.RED + "You have died!");
 		}
