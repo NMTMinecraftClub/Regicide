@@ -35,6 +35,9 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
@@ -465,6 +468,27 @@ public class RegicideGame implements Listener {
 						killPlayer(player);
 					}
 					
+				} else {
+					//check for king effects and add them, but only on not death
+					if (attacker.isKing()) {
+						if (rand.nextBoolean()) {
+							//sikkness
+							player.getPlayer().addPotionEffect(
+									new PotionEffect(PotionEffectType.CONFUSION, 200, 2), true);
+														//confusion for 100 ticks, level 2 and FORCE IT
+							
+						} else {
+							//knockback
+							Vector v = 
+									player.getPlayer().getLocation().toVector().subtract(attacker.getPlayer().getLocation().toVector());
+							
+							v.multiply(2.0 + (rand.nextDouble()));
+							
+							v.add(player.getPlayer().getVelocity());
+							
+							player.getPlayer().setVelocity(v);
+						}
+					}
 				}
 				
 			}else{
