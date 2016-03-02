@@ -482,7 +482,7 @@ public class RegicideGame implements Listener {
 							Vector v = 
 									player.getPlayer().getLocation().toVector().subtract(attacker.getPlayer().getLocation().toVector());
 							
-							v.multiply(2.0 + (rand.nextDouble()));
+							v.multiply(1.0 + (.5 * rand.nextDouble()));
 							
 							v.add(player.getPlayer().getVelocity());
 							
