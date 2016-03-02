@@ -2,11 +2,12 @@ package nmt.minecraft.Regicide.Game.Scheduling;
 
 import java.util.Random;
 
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
+//import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
 
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
@@ -42,31 +43,34 @@ public class EatParticleEffect extends BukkitRunnable {
 	}
 	
 	
-	@SuppressWarnings("deprecation")
 	public void run() {
 		
 		Location loc = targetPlayer.getPlayer().getEyeLocation().add(targetPlayer.getPlayer().getLocation().getDirection().multiply(.3));
 		
-		//display food particlesg
-		WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
-		particle.setNumberOfParticles(10);
-		particle.setParticleData(rand.nextFloat() * .05f);
-		particle.setX((float) loc.getX());
-		particle.setY((float) loc.getY());
-		particle.setZ((float) loc.getZ());
-		int[] data = new int[2];
-		data[0] = Material.COOKED_BEEF.getId();
-		data[1] = 0;
-		particle.setData(data);
+		loc.getWorld().spigot().playEffect(loc, Effect.TILE_BREAK, 364, 0, rand.nextFloat() * 0.5f, 
+											rand.nextFloat() * 0.25f, rand.nextFloat() * 0.5f, 0, 
+											20, 20);
 		
-		for (RPlayer player : game.getPlayers()) {
-			if (player.getPlayer().getUniqueId().equals(targetPlayer.getPlayer().getUniqueId())) {
-				continue;
-			}
-			
-			//else display the particles
-			particle.sendPacket(player.getPlayer());
-		}
+		//display food particlesg
+		//WrapperPlayServerWorldParticles particle = new WrapperPlayServerWorldParticles();
+//		particle.setNumberOfParticles(10);
+//		particle.setParticleData(rand.nextFloat() * .05f);
+//		particle.setX((float) loc.getX());
+//		particle.setY((float) loc.getY());
+//		particle.setZ((float) loc.getZ());
+//		int[] data = new int[2];
+//		data[0] = Material.COOKED_BEEF.getId();
+//		data[1] = 0;
+//		particle.setData(data);
+//		
+//		for (RPlayer player : game.getPlayers()) {
+//			if (player.getPlayer().getUniqueId().equals(targetPlayer.getPlayer().getUniqueId())) {
+//				continue;
+//			}
+//			
+//			//else display the particles
+//			particle.sendPacket(player.getPlayer());
+//		}
 		
 		
 		index++;
