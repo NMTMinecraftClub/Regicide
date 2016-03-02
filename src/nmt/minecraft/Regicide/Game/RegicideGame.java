@@ -622,7 +622,7 @@ public class RegicideGame implements Listener {
 		play.setHealth(play.getMaxHealth());
 		
 		//display blood effects
-		play.getWorld().spigot().playEffect(play.getLocation(), Effect.TILE_BREAK, Material.RED_ROSE.getId(), 0, 0, 0, 0, 0, 20, 20);
+		play.getWorld().spigot().playEffect(play.getEyeLocation(), Effect.TILE_BREAK, Material.REDSTONE_BLOCK.getId(), 0, rand.nextFloat() * .5f, rand.nextFloat() * .25f, rand.nextFloat() * .5f, 0, 50, 20);
 		
 		//check if they were the king
 		if (player.isKing()) {
