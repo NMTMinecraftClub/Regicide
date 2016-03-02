@@ -13,22 +13,11 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
-import nmt.minecraft.Regicide.RegicidePlugin;
-import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
-import nmt.minecraft.Regicide.Game.Player.RPlayer;
-import nmt.minecraft.Regicide.Game.Player.RegicideVillager;
-import nmt.minecraft.Regicide.Game.Scheduling.EatParticleEffect;
-import nmt.minecraft.Regicide.Game.Scheduling.EndGameCinematic;
-import nmt.minecraft.Regicide.Game.Scheduling.GameTimer;
-import nmt.minecraft.Regicide.IO.GameAnnouncer;
-import nmt.minecraft.Regicide.IO.GameConfigManager;
-import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -41,13 +30,22 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
-import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
+import nmt.minecraft.Regicide.RegicidePlugin;
+import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
+import nmt.minecraft.Regicide.Game.Player.RPlayer;
+import nmt.minecraft.Regicide.Game.Player.RegicideVillager;
+import nmt.minecraft.Regicide.Game.Scheduling.EatParticleEffect;
+import nmt.minecraft.Regicide.Game.Scheduling.EndGameCinematic;
+import nmt.minecraft.Regicide.Game.Scheduling.GameTimer;
+import nmt.minecraft.Regicide.IO.GameAnnouncer;
+import nmt.minecraft.Regicide.IO.GameConfigManager;
+import nmt.minecraft.Regicide.ScoreBoard.ScoreBoard;
 
 
 /**
@@ -622,6 +620,9 @@ public class RegicideGame implements Listener {
 		Player play = player.getPlayer();
 		player.downgrade();
 		play.setHealth(play.getMaxHealth());
+		
+		//display blood effects
+		play.getWorld().spigot().playEffect(play.getLocation(), Effect.TILE_BREAK, Material.RED_ROSE.getId(), 0, 0, 0, 0, 0, 20, 20);
 		
 		//check if they were the king
 		if (player.isKing()) {
