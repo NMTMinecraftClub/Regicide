@@ -620,7 +620,7 @@ public class RegicideGame implements Listener {
 		}
 		
 		Player play = player.getPlayer();
-		getPlayer(play).downgrade();
+		player.downgrade();
 		play.setHealth(play.getMaxHealth());
 		
 		//check if they were the king
