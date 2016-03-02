@@ -3,12 +3,18 @@ package nmt.minecraft.Regicide.Game.Scheduling;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Type;
+import org.bukkit.Location;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
-
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class EndGameCinematic extends BukkitRunnable {
 	
@@ -21,10 +27,25 @@ public class EndGameCinematic extends BukkitRunnable {
 		
 		private long index;
 		
-		private static final long heldTime = 50;
+		private static final long heldTime = 200;
+		
+		private static final int fireworkInterval = 30;
 		
 		public KeepStill() {
 			index = 0;
+			
+			if (players.size() > 3)
+			for (int i = 3; i < players.size(); i++) {
+				int j = 3;
+				for (; j < players.size(); j++) {
+					if (i == j) {
+						continue;
+					}
+					players.get(i).hidePlayer(players.get(j));
+				}
+				
+			}
+			
 			this.runTaskTimer(RegicidePlugin.regicidePlugin, 0, 1);
 		}
 		
@@ -54,7 +75,33 @@ public class EndGameCinematic extends BukkitRunnable {
 				new FinalPositions().run();
 				
 				this.cancel();
+				return;
 			}
+			
+			if (index % fireworkInterval == 0) {
+				launchFireworks(game.getFirstPlace());
+				launchFireworks(game.getSecondPlace());
+				launchFireworks(game.getThirdPlace());
+			}
+		}
+		
+		private void launchFireworks(Location locPoint) {
+			
+			Firework firework = locPoint.getWorld().spawn(locPoint, Firework.class);
+			FireworkMeta fm = firework.getFireworkMeta();
+	        fm.addEffect(FireworkEffect.builder()
+	            .flicker(false)
+	            .trail(true)
+	            .with(Type.BALL)
+	            .with(Type.BALL_LARGE)
+	            .with(Type.STAR)
+	            .withColor(Color.YELLOW)
+	            .withColor(Color.ORANGE)
+	            .withFade(Color.RED)
+	            .withFade(Color.PURPLE)
+	            .build());
+	        fm.setPower(1);
+	        firework.setFireworkMeta(fm);
 		}
 	}
 	
@@ -64,6 +111,19 @@ public class EndGameCinematic extends BukkitRunnable {
 			if (players.isEmpty()) {
 				return;
 			}
+			
+			if (players.size() > 3)
+			for (int i = 3; i < players.size(); i++) {
+					int j = 3;
+					for (; j < players.size(); j++) {
+						if (i == j) {
+							continue;
+						}
+						players.get(i).showPlayer(players.get(j));
+					}
+					
+				}
+			
 			for (Player player : players) {
 				player.teleport(game.getExitLocation());
 			}
