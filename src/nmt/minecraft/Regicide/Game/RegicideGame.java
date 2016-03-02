@@ -18,6 +18,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -623,6 +624,25 @@ public class RegicideGame implements Listener {
 		//display blood effects
 		play.getWorld().spigot().playEffect(play.getEyeLocation(), Effect.TILE_BREAK, 152, 0, rand.nextFloat() * .5f, rand.nextFloat() * .25f, rand.nextFloat() * .5f, 0, 50, 20);
 		
+		//teleport needs to come after the fireworks in the die call
+		player.teleport(getSpawnLocation());
+		player.clearPotionEffects();
+		
+		play.setFireTicks(1);
+		play.setFoodLevel(20);
+		play.setExhaustion(0);
+		player.disguise();
+		
+		//display death message
+		play.playSound(play.getLocation(), Sound.VILLAGER_DEATH, 1f, 1f);
+		if (player.getLastHitBy() != null) {
+			player.getLastHitBy().getPlayer().playSound(player.getLastHitBy().getPlayer().getLocation(), Sound.VILLAGER_DEATH, 1f, 1f);
+			play.sendMessage(ChatColor.RED + "You were killed " + player.getLastHitBy().getPlayer().getDisplayName() + "!");
+		} else {
+			play.sendMessage(ChatColor.RED + "You have died!");
+		}
+		
+		
 		//check if they were the king
 		if (player.isKing()) {
 			player.die();
@@ -657,15 +677,6 @@ public class RegicideGame implements Listener {
 				
 			board.updateKing(king);
 		}
-		
-		//teleport needs to come after the fireworks in the die call
-		player.teleport(getSpawnLocation());
-		player.clearPotionEffects();
-		
-		play.setFireTicks(1);
-		play.setFoodLevel(20);
-		play.setExhaustion(0);
-		player.disguise();
 		
 	}
 	
