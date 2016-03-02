@@ -354,7 +354,7 @@ public class RegicideGame implements Listener {
 		}
 		
 		if (isRunning) {
-			if (players.isEmpty()) {
+			if (players.isEmpty() || players.size() < 2) {
 				
 				Bukkit.getPluginManager().callEvent(new RegicideGameEndEvent(this));
 				
