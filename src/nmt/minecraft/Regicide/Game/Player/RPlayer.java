@@ -252,7 +252,7 @@ public class RPlayer{
 	 */
 	public void downgrade(){
 		this.killCount = 0;
-		this.upgradeLevel = 0;
+		this.upgradeLevel = upgradeLevel > 0 ? upgradeLevel - 1 : upgradeLevel;
 		this.switchSword(levels[this.upgradeLevel]);
 	}
 	
