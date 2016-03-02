@@ -768,7 +768,7 @@ public class RegicideGame implements Listener {
 	
 	/**
 	 * calculates the player rankings
-	 * @return a sorted list of players based on their points
+	 * @return a sorted list of players based on their points, or <i>null</i> if there are no winners.
 	 */
 	public ArrayList<RPlayer> calculateWinners(){
 		ArrayList<RPlayer> list = new ArrayList<RPlayer>(players.values());

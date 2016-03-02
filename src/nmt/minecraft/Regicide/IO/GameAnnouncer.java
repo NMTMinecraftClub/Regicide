@@ -68,6 +68,13 @@ public class GameAnnouncer {
 		ArrayList<RPlayer> TopScorePlayers;
 		int maxPadding = 12;
 		TopScorePlayers = gameInstance.calculateWinners();
+		
+		if (TopScorePlayers == null) {
+			//There were no players!
+			RegicidePlugin.regicidePlugin.getLogger().warning("Game terminating with no players.");
+			return;
+		}
+		
 		StringBuilder endScore = new StringBuilder();
 		endScore.append(greenChat + "End Game Results:" + resetChat + "\n");
 		endScore.append("Top Scoring Players!\n");
