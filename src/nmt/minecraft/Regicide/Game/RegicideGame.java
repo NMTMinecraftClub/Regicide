@@ -110,6 +110,8 @@ public class RegicideGame implements Listener {
 	
 	private GameConfigManager configManager;
 	
+	private static Random rand = new Random();
+	
 	/**
 	 * Create a blank regicide game.
 	 */
@@ -256,7 +258,6 @@ public class RegicideGame implements Listener {
 			return null;
 		}
 		
-		Random rand = new Random();
 		int rando = rand.nextInt(spawnLocations.size());
 		return spawnLocations.get(rando);
 	}
@@ -454,7 +455,6 @@ public class RegicideGame implements Listener {
 				//if the player is going to die, kill them
 				if(e.getDamage() >= player.getPlayer().getHealth()){
 					e.setCancelled(true);
-					attacker.addKill();
 					
 					//if the game is not running they are waiting in the lobby
 					if(this.isRunning == false){
@@ -463,6 +463,7 @@ public class RegicideGame implements Listener {
 						player.getPlayer().setHealth(player.getPlayer().getMaxHealth());
 						player.getPlayer().setExhaustion(20);
 					}else{
+						attacker.addKill();
 						killPlayer(player);
 					}
 					
@@ -632,6 +633,26 @@ public class RegicideGame implements Listener {
 			else {
 				this.king = player.getLastHitBy();
 				king.makeKing();
+				
+				if (villagers.isEmpty()) {
+					//if we have no other villagers, for any reason
+					king.teleport(getSpawnLocation());
+				} else {
+					//grab a random villager, and swap the two
+					int pos = rand.nextInt(villagers.size());
+					Iterator<RegicideVillager> it = villagers.iterator();
+					RegicideVillager vil = null;
+					for (; pos >= 0; pos--) { //grab 'next' pos+1 times (0 means we grab first, etc)
+						vil = it.next();
+					}
+					
+					//swap location
+					Location oldLoc = king.getPlayer().getLocation();
+					king.teleport(vil.getVillager().getLocation());
+					vil.getVillager().teleport(oldLoc);
+					
+					
+				}
 			}
 				
 			board.updateKing(king);
