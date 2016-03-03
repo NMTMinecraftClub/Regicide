@@ -21,8 +21,6 @@ public class EatParticleEffect extends BukkitRunnable {
 	
 	private RPlayer targetPlayer;
 	
-	private RegicideGame game;
-	
 	private long loopTimes;
 	
 	private long index;
@@ -31,7 +29,6 @@ public class EatParticleEffect extends BukkitRunnable {
 	
 	public EatParticleEffect(RegicideGame game, RPlayer player, long delay, long loopTimes) {
 		targetPlayer = player;
-		this.game = game;
 		this.index = 0;
 		
 		this.loopTimes = loopTimes;
@@ -46,7 +43,7 @@ public class EatParticleEffect extends BukkitRunnable {
 		
 		Location loc = targetPlayer.getPlayer().getEyeLocation().add(targetPlayer.getPlayer().getLocation().getDirection().multiply(.3));
 		
-		loc.getWorld().spigot().playEffect(loc, Effect.TILE_BREAK, 364, 0, rand.nextFloat() * 0.5f, 
+		loc.getWorld().spigot().playEffect(loc, Effect.ITEM_BREAK, 364, 0, rand.nextFloat() * 0.5f, 
 											rand.nextFloat() * 0.25f, rand.nextFloat() * 0.5f, 0, 
 											20, 20);
 		
