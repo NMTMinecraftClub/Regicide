@@ -175,10 +175,10 @@ public class RPlayer{
 	 * This method makes this RPlayer instance the King.
 	 */
 	public void makeKing(){
-		this.isKing = true;
-		if(isKing == true){
-			this.switchSword(Material.GOLD_SWORD);
-		}
+		player.setHealth(player.getMaxHealth());
+		
+		this.switchSword(Material.GOLD_SWORD);
+		
 		this.player.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 5));
 	}
 	
