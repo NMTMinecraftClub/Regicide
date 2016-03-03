@@ -54,17 +54,22 @@ public class EndGameCinematic extends BukkitRunnable {
 			if (players.isEmpty()) {
 				return;
 			}
+			Player cache;
+			
 			//Teleport 1st Place winner
-			players.get(0).teleport(game.getFirstPlace());
+			cache = players.get(0);
+			cache.teleport(game.getFirstPlace().setDirection(cache.getLocation().getDirection()));
 			
 			//If there is a second place winner, teleport the player.
 			if (players.size() >= 2) {
-				players.get(1).teleport(game.getSecondPlace());
+				cache = players.get(1);
+				cache.teleport(game.getSecondPlace().setDirection(cache.getLocation().getDirection()));
 			}
 			//If there is a third place winner, teleport the player.
 			if (players.size() >= 3)
 			{
-				players.get(2).teleport(game.getThirdPlace());
+				cache = players.get(2);
+				cache.teleport(game.getThirdPlace().setDirection(cache.getLocation().getDirection()));
 				
 			}
 			

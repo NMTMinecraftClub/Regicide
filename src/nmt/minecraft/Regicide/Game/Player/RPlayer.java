@@ -175,6 +175,7 @@ public class RPlayer{
 	 * This method makes this RPlayer instance the King.
 	 */
 	public void makeKing(){
+		this.isKing = true;
 		player.setHealth(player.getMaxHealth());
 		
 		this.switchSword(Material.GOLD_SWORD);
