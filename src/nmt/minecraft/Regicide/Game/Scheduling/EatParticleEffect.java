@@ -43,7 +43,7 @@ public class EatParticleEffect extends BukkitRunnable {
 		
 		Location loc = targetPlayer.getPlayer().getEyeLocation().add(targetPlayer.getPlayer().getLocation().getDirection().multiply(.3));
 		
-		loc.getWorld().spigot().playEffect(loc, Effect.TILE_BREAK, 363, 0, rand.nextFloat() * 0.5f, 
+		loc.getWorld().spigot().playEffect(loc, Effect.TILE_BREAK, 170, 0, rand.nextFloat() * 0.5f, 
 											rand.nextFloat() * 0.25f, rand.nextFloat() * 0.5f, 0, 
 											20, 20);
 		

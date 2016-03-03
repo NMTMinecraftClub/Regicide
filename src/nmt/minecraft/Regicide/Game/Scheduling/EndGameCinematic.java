@@ -54,22 +54,43 @@ public class EndGameCinematic extends BukkitRunnable {
 			if (players.isEmpty()) {
 				return;
 			}
+			
+//			PotionEffect inst = new PotionEffect(PotionEffectType.SLOW, 10, 100);
+//			players.get(0).addPotionEffect(inst);
+//			if (players.size() > 1)
+//				players.get(1).addPotionEffect(inst);
+//			if (players.size() > 2)
+//				players.get(2).addPotionEffect(inst);
+			
 			Player cache;
+			Location locc;
 			
 			//Teleport 1st Place winner
 			cache = players.get(0);
-			cache.teleport(game.getFirstPlace().setDirection(cache.getLocation().getDirection()));
+			locc = cache.getLocation().clone();
+			locc.setX(game.getFirstPlace().getX());
+			locc.setY(game.getFirstPlace().getY());
+			locc.setZ(game.getFirstPlace().getZ());
+			cache.teleport(locc);
 			
 			//If there is a second place winner, teleport the player.
 			if (players.size() >= 2) {
 				cache = players.get(1);
-				cache.teleport(game.getSecondPlace().setDirection(cache.getLocation().getDirection()));
+				locc = cache.getLocation().clone();
+				locc.setX(game.getSecondPlace().getX());
+				locc.setY(game.getSecondPlace().getY());
+				locc.setZ(game.getSecondPlace().getZ());
+				cache.teleport(locc);
 			}
 			//If there is a third place winner, teleport the player.
 			if (players.size() >= 3)
 			{
 				cache = players.get(2);
-				cache.teleport(game.getThirdPlace().setDirection(cache.getLocation().getDirection()));
+				locc = cache.getLocation().clone();
+				locc.setX(game.getThirdPlace().getX());
+				locc.setY(game.getThirdPlace().getY());
+				locc.setZ(game.getThirdPlace().getZ());
+				cache.teleport(locc);
 				
 			}
 			
@@ -127,10 +148,11 @@ public class EndGameCinematic extends BukkitRunnable {
 						players.get(i).showPlayer(players.get(j));
 					}
 					
-				}
+			}
 			
 			for (Player player : players) {
 				player.teleport(game.getExitLocation());
+				player.getPlayer().getActivePotionEffects().clear();
 			}
  		}
 	}
