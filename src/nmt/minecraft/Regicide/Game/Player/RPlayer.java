@@ -196,7 +196,7 @@ public class RPlayer{
 		player.setExp(0);
 		player.setLevel(0);
 		player.getActivePotionEffects().clear();
-		player.setGameMode(GameMode.SURVIVAL);
+		player.setGameMode(GameMode.ADVENTURE);
 		this.disguise();
 		this.clearPotionEffects();
 	}
