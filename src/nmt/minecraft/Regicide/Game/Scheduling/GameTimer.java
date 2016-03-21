@@ -61,7 +61,7 @@ public class GameTimer extends BukkitRunnable {
 				else
 					p.getPlayer().sendMessage((ChatColor.GOLD+"") + timeRemaining + (ChatColor.AQUA+"") + " second remaining!" + ChatColor.RESET+"");
 
-				p.getPlayer().playSound(p.getPlayer().getLocation(), Sound.CLICK, 1,0);
+				p.getPlayer().playSound(p.getPlayer().getLocation(), Sound.UI_BUTTON_CLICK, 1,0);
 			}
 		}
 		if (time == endTime) {

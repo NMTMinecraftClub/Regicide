@@ -1,6 +1,6 @@
 name: Regicide Game 
 main: nmt.minecraft.Regicide.RegicidePlugin
-version: 0.65
+version: 0.70
 softdepend: 
 permissions:
     RegicideAdmin:
