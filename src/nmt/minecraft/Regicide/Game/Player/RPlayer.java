@@ -128,7 +128,7 @@ public class RPlayer{
 	 */
 	public void addPoint() {
 		this.points++;
-		player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
+		player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP , 1.0f, 1.0f);
 		if(this.points % 3 == 0 ){
 			this.alertPlayers();
 		}

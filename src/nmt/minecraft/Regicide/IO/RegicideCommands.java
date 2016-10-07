@@ -297,7 +297,7 @@ public class RegicideCommands implements CommandExecutor{
 				for (RPlayer player : gamePlayers) {
 					Player p = player.getPlayer();
 					p.sendMessage(goldChat + "The Game Has Begun!" + resetChat);
-					p.playSound(p.getLocation(), Sound.AMBIENCE_THUNDER, 1, 0);
+					p.playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1, 0);
 				}
 				g.startGame();
 				return true;
