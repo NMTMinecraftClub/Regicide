@@ -4,26 +4,29 @@ import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.RegicideGame;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Villager;
 
-public class RegicideVillager {
+public class RMob {
 	
-	private Villager villager;
+	private Entity villager;
+	
 	
 	private RegicideGame game;
+	private EntityType mob;
 	
-	public RegicideVillager(RegicideGame game) {
+	public RMob(RegicideGame game, EntityType mob) {
 		
 		this.game = game;
+		this.mob = mob;
 		
 		//Create villager entity this RegVil will follow and manipulate
 		Location spawnLoc = game.getSpawnLocation().getBlock().getLocation();
-		villager = (Villager) spawnLoc.getWorld().spawnEntity(spawnLoc, EntityType.VILLAGER);
+		villager = spawnLoc.getWorld().spawnEntity(spawnLoc, mob);
 		RegicidePlugin.regicidePlugin.getLogger().info("Spawning Villager!");
 	}
 	
-	public Villager getVillager() {
+	public Entity getVillager() {
 		return villager;
 	}
 	
@@ -39,7 +42,7 @@ public class RegicideVillager {
 			villager.remove();
 		}
 
-		villager = (Villager) spawnLoc.getWorld().spawnEntity(spawnLoc, EntityType.VILLAGER); 
+		villager = spawnLoc.getWorld().spawnEntity(spawnLoc, this.mob); 
 	}
 	
 	public void remove() {

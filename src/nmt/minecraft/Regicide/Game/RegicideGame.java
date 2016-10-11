@@ -19,9 +19,11 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -39,10 +41,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import nmt.minecraft.Regicide.RegicidePlugin;
 import nmt.minecraft.Regicide.Game.Events.RegicideGameEndEvent;
 import nmt.minecraft.Regicide.Game.Player.RPlayer;
-import nmt.minecraft.Regicide.Game.Player.RegicideVillager;
+import nmt.minecraft.Regicide.Game.Player.RMob;
 import nmt.minecraft.Regicide.Game.Scheduling.EatParticleEffect;
 import nmt.minecraft.Regicide.Game.Scheduling.EndGameCinematic;
 import nmt.minecraft.Regicide.Game.Scheduling.GameTimer;
@@ -74,7 +77,7 @@ public class RegicideGame implements Listener {
 	/**
 	 * Keep track of all villagers related to this game instance
 	 */
-	private Set<RegicideVillager> villagers;
+	private Set<RMob> villagers;
 	
 	/**
 	 * Is this game running? find out by querying the isRunning variable!<br /.
@@ -94,6 +97,10 @@ public class RegicideGame implements Listener {
 	private String name;
 	
 	private RPlayer king;
+	
+	private DisguiseType disguise;
+	
+	private EntityType mob;
 	
 	private GameTimer timer;
 	
@@ -116,12 +123,14 @@ public class RegicideGame implements Listener {
 	/**
 	 * Create a blank regicide game.
 	 */
-	public RegicideGame(String name) {
+	public RegicideGame(String name, String disguise, String mob) {
 		this.name = name;
 		this.isRunning = false;
+		this.disguise = DisguiseType.valueOf(disguise);
+		this.mob = EntityType.valueOf(mob);
 		
 		players = new HashMap<UUID, RPlayer>();
-		villagers = new HashSet<RegicideVillager>();
+		villagers = new HashSet<RMob>();
 		
 		
 		spawnLocations = new LinkedList<Location>();
@@ -188,7 +197,7 @@ public class RegicideGame implements Listener {
 		//get all players and teleport them to a spawn location, and set them to an initial state
 		for (RPlayer player : players.values()) {
 			player.teleport(getSpawnLocation());
-			player.setInitialState();
+			player.setInitialState(this.disguise);
 		}
 		
 		makeRandomKing();//make someone the king
@@ -264,7 +273,7 @@ public class RegicideGame implements Listener {
 	}
 	
 	/**
-	 * Simply returns the whole list of spawn locatiosn associated with this game instance
+	 * Simply returns the whole list of spawn location associated with this game instance
 	 * @return The list of spawn locations
 	 */
 	public List<Location> getSpawnLocations() {
@@ -305,7 +314,7 @@ public class RegicideGame implements Listener {
 		if (players.containsKey(player)) {
 			return;
 		}
-		
+		Bukkit.getLogger().info("attempting to add player");
 		players.put(player, new RPlayer(player));
 		getPlayer(player).teleport(getLobbyLocation());
 		GameAnnouncer.GameJoin(this, getPlayer(player));
@@ -317,7 +326,10 @@ public class RegicideGame implements Listener {
 	 */
 	private void makePlayersInvisible(){
 		for(RPlayer player : players.values()){
-			player.disguise();
+			/*
+			 * TODO: change to this session's disguise type 
+			 */
+			player.disguise(DisguiseType.PIG);
 		}
 	}
 	
@@ -442,7 +454,29 @@ public class RegicideGame implements Listener {
 		removeVillagers();
 		
 	}
-	
+	@EventHandler
+	public void onEntityDamageByEntity(EntityDamageByEntityEvent e){
+		//If a villager was harmed by Player by arrow, kill player
+		//if the player is being hurt and they are part of the game, do nothing here.
+		if(e.getDamager() instanceof Arrow){
+			Arrow arrow = (Arrow)e.getDamager();
+			if(arrow.getShooter() instanceof Player && getPlayer((Player)arrow.getShooter()) != null){
+				RPlayer attacker = getPlayer((Player)arrow.getShooter());
+				Bukkit.getLogger().info("attempting insta-kill");
+				if(e.getEntity() instanceof Player){
+					//instantly kill that player
+					attacker.addKill();
+					killPlayer(getPlayer((Player)e.getEntity()));
+				}else{
+					//kill the player that shot the arrow since they didn't hit a player
+					attacker.getPlayer().sendMessage(ChatColor.RED+"Your insta-kill attempt on a non-player back-fired :(");
+					killPlayer(attacker);
+					
+				}
+				return;
+			}
+		}
+	}
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
 		//if the player is being hurt and they are part of the game
@@ -495,7 +529,7 @@ public class RegicideGame implements Listener {
 				e.setCancelled(true);//prevent the players from being killed by anything other than other players in the game
 			}
 		}//if a villager who is part of the game is being hurt
-		else if(e.getEntity() instanceof Villager && getVillager((Villager)e.getEntity()) != null){
+		else if(e.getEntity() instanceof LivingEntity && getVillager(e.getEntity()) != null){
 			
 			//if they are being hurt by a player in the game, give them wither
 			if(e.getDamager() instanceof Player && getPlayer((Player)e.getDamager()) != null){
@@ -573,7 +607,7 @@ public class RegicideGame implements Listener {
 			return;
 		}
 		
-		if (e.getRightClicked().getType() == EntityType.VILLAGER)
+		if (e.getRightClicked().getType() == this.mob)
 		if (getPlayer(e.getPlayer()) != null) {
 			e.setCancelled(true);
 		}
@@ -591,9 +625,10 @@ public class RegicideGame implements Listener {
 
 				this.killPlayer(getPlayer(player));
 			}
-		}else if(e.getEntity() instanceof Villager){
-			Villager villager = (Villager) e.getEntity();
-			RegicideVillager vill = getVillager(villager);
+			
+		}else{
+			LivingEntity villager = (LivingEntity) e.getEntity();
+			RMob vill = getVillager(villager);
 			if(vill != null && villager.getHealth() - e.getDamage() <= 0){
 				vill.rebirth();
 			}
@@ -610,7 +645,7 @@ public class RegicideGame implements Listener {
 				e.setCancelled(true);
 				player.setFireTicks(1);
 			}
-		}else if(e.getEntity() instanceof Villager){
+		}else if(e.getEntity() instanceof LivingEntity){
 			e.setCancelled(true);
 		}
 	}
@@ -655,7 +690,10 @@ public class RegicideGame implements Listener {
 		play.setFireTicks(1);
 		play.setFoodLevel(20);
 		play.setExhaustion(0);
-		player.disguise();
+		/*
+		 * TODO: change to this session's disguise type 
+		 */
+		player.disguise(this.disguise);
 		
 		//display death message
 		play.playSound(play.getLocation(), Sound.ENTITY_VILLAGER_DEATH, 1f, 1f);
@@ -684,8 +722,8 @@ public class RegicideGame implements Listener {
 				} else {
 					//grab a random villager, and swap the two
 					int pos = rand.nextInt(villagers.size());
-					Iterator<RegicideVillager> it = villagers.iterator();
-					RegicideVillager vil = null;
+					Iterator<RMob> it = villagers.iterator();
+					RMob vil = null;
 					for (; pos >= 0; pos--) { //grab 'next' pos+1 times (0 means we grab first, etc)
 						vil = it.next();
 					}
@@ -738,7 +776,7 @@ public class RegicideGame implements Listener {
 	 */
 	private void spawnVillagers(int count) {
 		for (int i = 0; i < count; i++) {
-			villagers.add(new RegicideVillager(this));
+			villagers.add(new RMob(this, this.mob));
 		}
 	}
 	
@@ -746,7 +784,7 @@ public class RegicideGame implements Listener {
 	 * removes all villagers from the game
 	 */
 	private void removeVillagers() {
-		for (RegicideVillager vil : villagers) {
+		for (RMob vil : villagers) {
 			vil.remove();
 		}
 	}
@@ -756,8 +794,8 @@ public class RegicideGame implements Listener {
 	 * @param v
 	 * @return the REgicideVillager wrapper or null if none exist
 	 */
-	public RegicideVillager getVillager(Villager v) {
-		for (RegicideVillager vil : villagers) {
+	public RMob getVillager(Entity v) {
+		for (RMob vil : villagers) {
 			if (vil.getVillager().equals(v)) {
 				return vil;
 			}
@@ -820,6 +858,22 @@ public class RegicideGame implements Listener {
 	 */
 	public void setOtherPlace(Location otherPlace) {
 		this.otherPlace = otherPlace;
+	}
+	
+	public DisguiseType getDisguise() {
+		return disguise;
+	}
+
+	public void setDisguise(DisguiseType disguise) {
+		this.disguise = disguise;
+	}
+
+	public EntityType getMob() {
+		return mob;
+	}
+
+	public void setMob(EntityType mob) {
+		this.mob = mob;
 	}
 	
 	/**
@@ -895,9 +949,10 @@ public class RegicideGame implements Listener {
 		if (otherPlace == null) {
 			tellOps("Unable to load " + ChatColor.RED + "others" + ChatColor.BLUE + " location data for Regicide Game " + name);
 		}
-		
 	}
 	
+	
+
 	public void saveConfig(File configFile) {
 		configManager.save(configFile);
 	}

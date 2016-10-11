@@ -66,8 +66,8 @@ public class RegicideCommands implements CommandExecutor{
 		//Sender must now be a player
 		//Register buttons/games
 		else if (args[0].equalsIgnoreCase("register")) {
-			if(args.length != 2){
-				sender.sendMessage("Wrong number of arguments: /regicide register [name]");
+			if(args.length != 3){
+				sender.sendMessage("Wrong number of arguments: /regicide register [name] [mob type]");
 				return false;
 			}
 			registerGame(sender, args);
@@ -216,11 +216,11 @@ public class RegicideCommands implements CommandExecutor{
 	 */
 	public boolean registerGame(CommandSender sender, String[] args) {
 		
-		if (args.length != 2) {
+		if (args.length != 3) {
 			sender.sendMessage(redChat + "Error! " + resetChat);
 			sender.sendMessage("Incorrect number of arguments: " + redChat + 
 								"/regicide " + blueChat + "register " + goldChat + 
-								" [game name]" + resetChat);
+								" [game name] [mob type]" + resetChat);
 			return false;
 		}
 		
@@ -233,10 +233,10 @@ public class RegicideCommands implements CommandExecutor{
 				return false;
 			}
 		}
-		//Add new Game to lissssst
+		//Add new Game to list
 		//@Debug
 		RegicidePlugin.regicidePlugin.getLogger().info("Adding game: " + args[1]);
-		RegicideGame game = new RegicideGame(args[1]);
+		RegicideGame game = new RegicideGame(args[1],args[2],args[2]);
 		Games.add(game);
 		//Register Button
 		ButtonListener listen = new ButtonListener(((Player) sender).getLocation(), game);

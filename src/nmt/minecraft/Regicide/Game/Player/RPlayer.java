@@ -58,6 +58,7 @@ public class RPlayer{
 		this.killCount = 0;
 		this.upgradeLevel = 0;
 		this.player = Bukkit.getPlayer(player);
+		Bukkit.getLogger().info("added player to game");
 	}
 	
 	public void teleport(Location loc) {
@@ -67,9 +68,13 @@ public class RPlayer{
 	/**
 	 * Disguises the underlying player as his registered disguise -- a villager
 	 */
-	public void disguise() {
+	/*
+	 * TODO: change to this session's disguise type 
+	 */
+	public void disguise(DisguiseType type) {
 		DisguiseAPI.undisguiseToAll(this.player);
-		disguise = new MobDisguise(DisguiseType.VILLAGER, true);
+		disguise = new MobDisguise(type, true);
+		
 		DisguiseAPI.disguiseToAll(this.player, disguise);
 	}
 	
@@ -186,7 +191,7 @@ public class RPlayer{
 	/**
 	 * This method sets the initial state of an RPlayer.
 	 */
-	public void setInitialState() {
+	public void setInitialState(DisguiseType disguise) {
 		this.isKing=false;
 		this.killCount = 0;
 		player.setHealth(player.getMaxHealth());
@@ -198,7 +203,8 @@ public class RPlayer{
 		player.setLevel(0);
 		player.getActivePotionEffects().clear();
 		player.setGameMode(GameMode.ADVENTURE);
-		this.disguise();
+		this.getBow();
+		this.disguise(disguise);
 		this.clearPotionEffects();
 	}
 	
@@ -226,6 +232,7 @@ public class RPlayer{
 	public void addKill(){
 		this.killCount++;
 		this.upgrade();
+		this.getBow();
 	}
 	
 	/**
@@ -247,7 +254,14 @@ public class RPlayer{
 				this.switchSword(levels[this.upgradeLevel]);
 		}
 	}
-	
+	/**
+	 * Gives the player a bow every two people they kill this life. 
+	 */
+	private void getBow(){
+		if(this.killCount % 2 == 0){
+			
+		}
+	}
 	/**
 	 * This method downgrades the weapon of an RPlayer.
 	 */
