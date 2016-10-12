@@ -25,6 +25,7 @@ import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import nmt.minecraft.Regicide.RegicidePlugin;
 
 public class RPlayer{
 	
@@ -47,6 +48,14 @@ public class RPlayer{
 	private RPlayer lastHitBy;
 	
 	private int killCount;
+	
+	private int killStreakCount;
+	
+	private int arrowsThisLife;
+	
+	private int timeAlive;
+	
+	private int villagerHits;
 	
 	private int upgradeLevel;
 	
@@ -193,17 +202,34 @@ public class RPlayer{
 	 */
 	public void setInitialState(DisguiseType disguise) {
 		this.isKing=false;
+		this.arrowsThisLife = 1;
+		this.killStreakCount = 0;
 		this.killCount = 0;
 		player.setHealth(player.getMaxHealth());
 		player.closeInventory();
 		player.getInventory().clear();
 		player.getInventory().setArmorContents(null);
 		player.getInventory().addItem(new ItemStack(Material.WOOD_SWORD,1));
+		
+		ItemStack bowItem = new ItemStack(Material.BOW,1);
+		ItemMeta bowMeta = bowItem.getItemMeta();
+		bowMeta.setDisplayName(ChatColor.DARK_RED+ "Death's " + ChatColor.GOLD +"Bow");
+		bowItem.setDurability((short)0);
+		bowItem.setItemMeta(bowMeta);
+		
+		player.getInventory().addItem(bowItem);
+		ItemStack arrow = new ItemStack(Material.ARROW,1);
+		ItemMeta arrowMeta = arrow.getItemMeta();
+		arrowMeta.setDisplayName(ChatColor.DARK_RED + "Death's " + ChatColor.GOLD + "Arrow");
+		arrow.setItemMeta(arrowMeta);
+		this.player.getInventory().addItem(arrow);
+		
 		player.setExp(0);
 		player.setLevel(0);
 		player.getActivePotionEffects().clear();
 		player.setGameMode(GameMode.ADVENTURE);
-		this.getBow();
+		
+		this.getArrow();
 		this.disguise(disguise);
 		this.clearPotionEffects();
 	}
@@ -231,8 +257,9 @@ public class RPlayer{
 	 */
 	public void addKill(){
 		this.killCount++;
+		this.killStreakCount++;
 		this.upgrade();
-		this.getBow();
+		this.getArrow();
 	}
 	
 	/**
@@ -242,7 +269,14 @@ public class RPlayer{
 	public int getKillCount() {
 		return this.killCount;
 	}
-	
+	public void resetKillStreak(){
+		this.killStreakCount = 0;
+		this.arrowsThisLife = 0;
+		for(ItemStack arrow : this.player.getInventory().all(Material.ARROW).values()){
+			this.arrowsThisLife+= arrow.getAmount();
+		}
+		Bukkit.getLogger().info("Had arrows:" + this.arrowsThisLife);
+	}
 	/**
 	 * This method upgrades the weapon of an RPlayer.
 	 */
@@ -254,19 +288,44 @@ public class RPlayer{
 				this.switchSword(levels[this.upgradeLevel]);
 		}
 	}
+	
 	/**
-	 * Gives the player a bow every two people they kill this life. 
+	 * This method upgrades the weapon of an RPlayer over time.
 	 */
-	private void getBow(){
-		if(this.killCount % 2 == 0){
+	public void timeAliveUpgrade(){
+		this.timeAlive++;
+		if(this.timeAlive == 2 ){
+			upgrade();
+			this.timeAlive = 0;
+		}
+	}
+	/**
+	 * Gives the player an arrow. 
+	 * the rate at which they get an arrow is determined by 2^(number of arrows they have gotten this life)
+	 */
+	private void getArrow(){
+		int killsNeededForNextArrow = (int)Math.pow(2,this.arrowsThisLife);
+		Bukkit.getLogger().info("needs: " +killsNeededForNextArrow);
+		if(this.killStreakCount >= killsNeededForNextArrow){
+			RegicidePlugin.regicidePlugin.getLogger().info("Giving arrow to: " + this.player.getDisplayName());
+			this.arrowsThisLife++;
+			this.player.sendMessage("You got another " + ChatColor.DARK_RED + "Death's " + ChatColor.GOLD+ "Arrow!");
+			this.player.sendMessage("You need "+ChatColor.RED +(int)Math.pow(2, this.arrowsThisLife)+" total kills for the next one!");
+			ItemStack arrow = new ItemStack(Material.ARROW,1);
+			ItemMeta arrowMeta = arrow.getItemMeta();
+			arrowMeta.setDisplayName(ChatColor.DARK_RED + "Death's " + ChatColor.GOLD + "Arrow");
+			arrow.setItemMeta(arrowMeta);
+			this.player.getInventory().addItem(arrow);
 			
 		}
 	}
+
 	/**
 	 * This method downgrades the weapon of an RPlayer.
 	 */
 	public void downgrade(){
 		this.killCount = 0;
+		this.villagerHits = 0;
 		this.upgradeLevel = upgradeLevel > 0 ? upgradeLevel - 1 : upgradeLevel;
 		this.switchSword(levels[this.upgradeLevel]);
 	}
@@ -318,8 +377,17 @@ public class RPlayer{
         //put in a waiting period between fireworks
 	}
 	
+	
 	public void doVillagerConcequence(){
 		this.player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 100, 1));
+		this.villagerHits++;
+		if(!this.isKing){ //The king is allowed to bully his citizens apparently...
+			this.player.sendMessage(ChatColor.RED +"Hitting non-players has consequences!");
+			if(villagerHits == 3){
+				this.player.sendMessage(ChatColor.RED +"you hit too many non-players!");
+				downgrade();
+			}
+		}
 	}
 	
 }

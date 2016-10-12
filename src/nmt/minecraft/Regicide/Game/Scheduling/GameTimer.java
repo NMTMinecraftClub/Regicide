@@ -49,6 +49,7 @@ public class GameTimer extends BukkitRunnable {
 		if (timeRemaining > 10 && timeRemaining % 30 == 0) {
 			String Minutes = ChatColor.GOLD+"" + MinutesRemaining + ChatColor.RESET+"";
 			for (RPlayer p : Players) {
+				p.timeAliveUpgrade();
 				p.getPlayer().sendMessage(Minutes + ":" + ChatColor.GREEN + String.format("%02d", minSecondsRemaining) 
 						+ ChatColor.AQUA+"" + " remaining" + ChatColor.RESET);
 			}

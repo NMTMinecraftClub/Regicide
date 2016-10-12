@@ -326,10 +326,7 @@ public class RegicideGame implements Listener {
 	 */
 	private void makePlayersInvisible(){
 		for(RPlayer player : players.values()){
-			/*
-			 * TODO: change to this session's disguise type 
-			 */
-			player.disguise(DisguiseType.PIG);
+			player.disguise(this.disguise);
 		}
 	}
 	
@@ -440,7 +437,6 @@ public class RegicideGame implements Listener {
 		makePlayersVisable();
 		timer.cancel();
 
-		//TODO PUT FINISHING STUFF
 		EndGameCinematic cine = new EndGameCinematic(this, this.calculateWinners());
 		cine.run();
 		
@@ -493,7 +489,6 @@ public class RegicideGame implements Listener {
 					
 					//if the game is not running they are waiting in the lobby
 					if(this.isRunning == false){
-						//TODO add a location to kill player
 						player.teleport(lobbyLocation);
 						player.getPlayer().setHealth(player.getPlayer().getMaxHealth());
 						player.getPlayer().setExhaustion(20);
@@ -672,12 +667,13 @@ public class RegicideGame implements Listener {
 	 */
 	public void killPlayer(RPlayer player) {
 		if (!players.containsValue(player)) {
-			//player not in this game!
+			//player not in this game!s
 			return;
 		}
 		
 		Player play = player.getPlayer();
 		player.downgrade();
+		player.resetKillStreak();
 		play.setHealth(play.getMaxHealth());
 		
 		//display blood effects
@@ -690,9 +686,6 @@ public class RegicideGame implements Listener {
 		play.setFireTicks(1);
 		play.setFoodLevel(20);
 		play.setExhaustion(0);
-		/*
-		 * TODO: change to this session's disguise type 
-		 */
 		player.disguise(this.disguise);
 		
 		//display death message
