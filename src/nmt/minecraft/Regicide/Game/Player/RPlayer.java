@@ -304,7 +304,7 @@ public class RPlayer{
 	 * the rate at which they get an arrow is determined by 2^(number of arrows they have gotten this life)
 	 */
 	private void getArrow(){
-		int killsNeededForNextArrow = (int)Math.pow(2,this.arrowsThisLife);
+		int killsNeededForNextArrow = (int)Math.pow(2,this.arrowsThisLife+1);
 		Bukkit.getLogger().info("needs: " +killsNeededForNextArrow);
 		if(this.killStreakCount >= killsNeededForNextArrow){
 			RegicidePlugin.regicidePlugin.getLogger().info("Giving arrow to: " + this.player.getDisplayName());
